@@ -1,0 +1,75 @@
+  .animate-marquee {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 35s linear infinite;
+  }
+.red-scroll{
+    color:red;
+}
+.hori-white{
+    color:black;
+}
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
+/* hori-slider css */
+/* Make slider full width & fix height */
+
+body{
+  overflow-x: hidden;
+}
+.slide.active {
+  opacity: 1;
+}
+
+/* Dots styling */
+.dots {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  background: #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dot.active {
+  background: #333;
+}
+
+/* responsiveness for hori-slider */
+@media (max-width: 768px) {
+  .slider {
+    height: 40vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider {
+    height: 30vh;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 3px;
+  }
+}
+/* end-responsiveness hori-slider */
+
+html{
+  scroll-behavior: smooth;
+}
+.scroll-red{
+  color:red;
+}

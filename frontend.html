@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Front End Development - GK Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Fade Up Animation */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+
+    /* Accordion Animation */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .accordion-content.open {
+      max-height: 500px; /* enough space */
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Banner -->
+  <div class="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
+    <!-- Background Image -->
+    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c"
+         alt="Frontend Development Banner"
+         class="absolute inset-0 w-full h-full object-cover">
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+    <!-- Banner Text -->
+    <div class="relative z-10 max-w-3xl px-6 fade-up">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+        Front End Development
+      </h1>
+      <p class="text-lg md:text-xl mb-6">
+        Learn HTML, CSS, JavaScript, and React.js to build modern, responsive websites with hands-on projects.
+      </p>
+      <a href="enroll.html?course=frontend" 
+         class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition">
+        Enroll Now
+      </a>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <section class="max-w-5xl mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold mb-6 text-center">Course Overview</h2>
+    <p class="text-lg text-gray-700 text-center mb-10 leading-relaxed">
+      This course takes you from the basics of web development to advanced front-end concepts. 
+      Build projects, learn frameworks, and master responsive design to become job-ready.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white shadow-md rounded-xl p-6 text-center">
+        <h3 class="text-xl font-semibold">📅 Duration</h3>
+        <p>5 Months</p>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-6 text-center">
+        <h3 class="text-xl font-semibold">📈 Level</h3>
+        <p>Beginner → Advanced</p>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-6 text-center">
+        <h3 class="text-xl font-semibold">💻 Projects</h3>
+        <p>3+ Hands-on Projects</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Syllabus -->
+    <!-- Syllabus -->
+  <section class="bg-white py-12 shadow-inner">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-6 text-center">Syllabus</h2>
+
+      <div class="space-y-4">
+
+        <!-- Module 1 -->
+        <div class="border rounded-xl">
+          <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-lg bg-gray-100 accordion-btn">
+            Module 1: HTML & CSS
+            <span class="arrow transition-transform">▼</span>
+          </button>
+          <div class="px-5 accordion-content text-gray-700">
+            <ul class="list-disc list-inside space-y-2">
+              <li>Introduction to Web & Browsers</li>
+              <li>HTML5: Structure, Elements, Attributes</li>
+              <li>Forms, Input Types, Validation</li>
+              <li>Semantic Tags (header, nav, article, footer)</li>
+              <li>Multimedia: Audio, Video, iframes</li>
+              <li>CSS3 Selectors & Specificity</li>
+              <li>Colors, Fonts, Borders, Shadows</li>
+              <li>Box Model, Display, Positioning</li>
+              <li>Flexbox & CSS Grid Layouts</li>
+              <li>Responsive Design & Media Queries</li>
+              <li>Animations, Transitions, Transforms</li>
+              <li>Best Practices & Accessibility (a11y)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Module 2 -->
+        <div class="border rounded-xl">
+          <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-lg bg-gray-100 accordion-btn">
+            Module 2: JavaScript
+            <span class="arrow transition-transform">▼</span>
+          </button>
+          <div class="px-5 accordion-content text-gray-700">
+            <ul class="list-disc list-inside space-y-2">
+              <li>Intro to JavaScript & Execution Flow</li>
+              <li>Variables (var, let, const)</li>
+              <li>Data Types & Operators</li>
+              <li>Functions & Arrow Functions</li>
+              <li>Conditional Statements & Loops</li>
+              <li>Objects & Arrays</li>
+              <li>DOM Manipulation & Events</li>
+              <li>Form Handling & Validation</li>
+              <li>ES6+ Features (Spread, Destructuring, Template Literals)</li>
+              <li>Async JS (Promises, Async/Await, Fetch API)</li>
+              <li>Modules & Imports/Exports</li>
+              <li>Error Handling & Debugging</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="border rounded-xl">
+          <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-lg bg-gray-100 accordion-btn">
+            Module 3: React.js
+            <span class="arrow transition-transform">▼</span>
+          </button>
+          <div class="px-5 accordion-content text-gray-700">
+            <ul class="list-disc list-inside space-y-2">
+              <li>Introduction to React & Virtual DOM</li>
+              <li>JSX Syntax</li>
+              <li>Components (Functional & Class)</li>
+              <li>Props & State Management</li>
+              <li>Hooks (useState, useEffect, useRef, useReducer)</li>
+              <li>Event Handling & Forms in React</li>
+              <li>Conditional Rendering & Lists</li>
+              <li>React Router for Navigation</li>
+              <li>Context API & Global State</li>
+              <li>API Calls with Axios/Fetch</li>
+              <li>Styling (CSS Modules, Styled Components, Tailwind)</li>
+              <li>Performance Optimization & Debugging</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Module 4 -->
+        <div class="border rounded-xl">
+          <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-lg bg-gray-100 accordion-btn">
+            Module 4: Tools & Deployment
+            <span class="arrow transition-transform">▼</span>
+          </button>
+          <div class="px-5 accordion-content text-gray-700">
+            <ul class="list-disc list-inside space-y-2">
+              <li>Git & GitHub Basics</li>
+              <li>VS Code Setup & Extensions</li>
+              <li>Package Managers (npm, yarn)</li>
+              <li>Working with APIs</li>
+              <li>Build Tools (Webpack, Vite)</li>
+              <li>Environment Variables & Config</li>
+              <li>Hosting Websites on Netlify, Vercel</li>
+              <li>Final Project: Deploy a Portfolio Website</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Course Details Card -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-10">Course Details</h2>
+      
+      <div class="relative bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl shadow-2xl p-10 md:flex md:items-center md:justify-between hover:scale-[1.02] transition-transform duration-300 ease-in-out">
+        
+        <!-- Left Content -->
+        <div class="space-y-4 md:w-2/3">
+  <ul class="list-disc list-inside text-xl space-y-2">
+    <li><span class="font-semibold">Course Type:</span> Live</li>
+    <li><span class="font-semibold">Mode:</span> Online</li>
+    <li><span class="font-semibold">Course Timings:</span> 1 Hour</li>
+    <li><span class="font-semibold">Class Days:</span>Monday,Wednesday & Friday</li>
+    <li><span class="font-semibold">Teaching Languages:</span> English, Tamil</li>
+    <li class="text-2xl font-semibold ">Price: ₹4,999</li>
+  </ul>
+</div>
+
+
+        <!-- Right Illustration -->
+        <div class="mt-6 md:mt-0 md:w-1/3 flex justify-center">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" 
+               alt="Course Illustration" 
+               class="w-40 drop-shadow-lg animate-bounce-slow">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Smooth bounce effect */
+    @keyframes bounceSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-bounce-slow {
+      animation: bounceSlow 3s infinite;
+    }
+  </style>
+
+  <!-- Final CTA -->
+  <section class="text-center py-12">
+    <h2 class="text-3xl font-bold mb-4">Ready to Become a Frontend Developer?</h2>
+    <p class="text-lg text-gray-600 mb-6">Learn step-by-step with practical projects and job-ready skills.</p>
+    <a href="enroll.html?course=frontend" 
+       class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg transition">
+      Enroll Now
+    </a>
+  </section>
+
+  <!-- Accordion Script -->
+  <script>
+    const buttons = document.querySelectorAll(".accordion-btn");
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        content.classList.toggle("open");
+        btn.querySelector(".arrow").textContent =
+          content.classList.contains("open") ? "▲" : "▼";
+      });
+    });
+  </script>
+
+</body>
+</html>

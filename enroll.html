@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enroll - AGS Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+  <style>
+    input:focus, select:focus {
+      outline: none;
+      border-color: #9f7aea;
+      box-shadow: 0 0 5px #9f7aea33;
+      background-color: #1f2937;
+      color: white;
+    }
+    input, select {
+      background-color: #1f2937;
+      color: white;
+    }
+    ::placeholder { color: #9ca3af; }
+    .fade { transition: all 0.3s ease-in-out; }
+  </style>
+</head>
+<body class="bg-gray-800 text-white flex justify-center p-6 overflow-y-auto">
+
+
+<div class="max-w-5xl w-full flex flex-col md:flex-row shadow-2xl rounded-2xl overflow-hidden my-10 bg-gray-900">
+
+
+    <!-- Left Info -->
+    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-black text-white space-y-4">
+      <h1 class="text-3xl md:text-5xl font-extrabold">Join AGS Academy!</h1>
+      <p>Learn Frontend, Backend, Python, and Java with live classes and projects.</p>
+      <span class="text-xl font-bold">Only ₹4499</span>
+    </div>
+
+    <!-- Right Form -->
+    <div class="md:w-1/2 p-6 md:p-12 bg-gray-900 flex flex-col justify-center">
+      <h2 class="text-2xl font-bold mb-4 text-center">Enroll Now</h2>
+
+      <form class="space-y-4 max-w-md mx-auto" id="enrollForm">
+        <input type="text" id="name" placeholder="Full Name" class="w-full p-3 rounded-lg border-2 border-gray-700" required>
+        <input type="email" id="email" placeholder="Email" class="w-full p-3 rounded-lg border-2 border-gray-700" required>
+
+        <!-- Email OTP Section -->
+        <div id="emailOtpContainer" class="fade">
+          <button type="button" id="sendEmailOTP" class="w-full bg-indigo-600 hover:bg-indigo-700 py-2 rounded-lg font-bold mt-2">
+            Send Email OTP
+          </button>
+
+          <div id="emailOtpSection" class="mt-2 opacity-50 pointer-events-none">
+
+            <div class="flex space-x-2">
+              <input type="text" id="emailOtp" placeholder="Enter Email OTP" class="flex-1 p-3 rounded-lg border-2 border-gray-700">
+              <button type="button" id="verifyEmailOTP" class="px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold">Verify</button>
+            </div>
+            <p id="emailStatus" class="text-sm text-gray-400"></p>
+          </div>
+        </div>
+
+        <!-- Phone + OTP -->
+        <div id="phoneOtpContainer" class="fade">
+          <div class="flex space-x-2">
+            <select id="countryCode" class="w-1/4 p-3 rounded-lg border-2 border-gray-700">
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+61">🇦🇺 +61</option>
+            </select>
+            <input type="tel" id="phone" placeholder="Mobile number" class="w-3/4 p-3 rounded-lg border-2 border-gray-700" required>
+          </div>
+
+          <button type="button" id="sendOTP" class="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-lg font-bold mt-2">Send Mobile OTP</button>
+          <div id="recaptcha-container"></div>
+
+          <div id="otpSection" class="opacity-50 pointer-events-none">
+
+            <div class="flex space-x-2">
+              <input type="text" id="otp" placeholder="Enter Mobile OTP" class="flex-1 p-3 rounded-lg border-2 border-gray-700">
+              <button type="button" id="verifyOTP" class="px-4 bg-green-600 hover:bg-green-700 rounded-lg font-bold">Verify</button>
+            </div>
+            <p id="mobileStatus" class="text-sm text-gray-400"></p>
+          </div>
+        </div>
+
+        <!-- Course -->
+        <select id="course" class="w-full p-3 rounded-lg border-2 border-gray-700" required>
+          <option value="" disabled selected>Select Course</option>
+          <option value="frontend">Frontend Development</option>
+          <option value="backend">Backend Development</option>
+          <option value="python">Python Programming</option>
+          <option value="java">Java Programming</option>
+        </select>
+
+        <!-- Terms -->
+        <label class="inline-flex items-center space-x-2 text-sm">
+          <input type="checkbox" required>
+          <span class="text-gray-300">
+            I agree to the 
+            <a href="terms.html" class="text-blue-500 border-b-2 border-blue-500 hover:border-blue-700 hover:text-blue-700 transition-all">
+              Terms & Conditions
+            </a>
+          </span>
+        </label>
+
+        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 py-3 rounded-lg font-bold disabled:opacity-50" disabled>
+          Enroll for ₹4499
+        </button>
+      </form>
+    </div>
+  </div>
+
+<script>
+  // ===== Firebase Config =====
+  const firebaseConfig = {
+    apiKey: "AIzaSyDtJRqxcKEUO09aL4JYeu0UcTmi4hpRDSQ",
+    authDomain: "gk-academy-e3a24.firebaseapp.com",
+    projectId: "gk-academy-e3a24",
+    storageBucket: "gk-academy-e3a24.appspot.com",
+    messagingSenderId: "959954255783",
+    appId: "1:959954255783:web:dceaf5f9043641f433c082",
+    measurementId: "G-36KYM000V8"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  let recaptchaVerifier, confirmationResult;
+  let mobileOtpVerified = false;
+  let emailOtpVerified = false;
+
+  window.onload = function () {
+    recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+    recaptchaVerifier.render();
+  };
+
+  const sendBtn = document.getElementById('sendOTP');
+  const verifyBtn = document.getElementById('verifyOTP');
+  const otpSection = document.getElementById('otpSection');
+  const submitBtn = document.getElementById('submitBtn');
+  const phoneInput = document.getElementById('phone');
+  const countryCodeInput = document.getElementById('countryCode');
+
+  const sendEmailOtpBtn = document.getElementById("sendEmailOTP");
+  const emailOtpSection = document.getElementById("emailOtpSection");
+  const verifyEmailOtpBtn = document.getElementById("verifyEmailOTP");
+  const emailInput = document.getElementById("email");
+
+  const emailStatus = document.getElementById("emailStatus");
+  const mobileStatus = document.getElementById("mobileStatus");
+
+  // ===== Toast Helper =====
+  function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.textContent = message;
+    toast.className = `fixed top-6 right-6 px-4 py-2 rounded-lg text-white shadow-lg z-50 ${
+      type === "success" ? "bg-green-500" : "bg-red-500"
+    }`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+
+  // ===== Mobile OTP =====
+  sendBtn.addEventListener('click', async () => {
+    const fullPhone = countryCodeInput.value + phoneInput.value;
+    if (phoneInput.value.length < 6) return alert("Enter a valid number");
+    try {
+      confirmationResult = await auth.signInWithPhoneNumber(fullPhone, recaptchaVerifier);
+      otpSection.classList.remove('opacity-50', 'pointer-events-none');
+      sendBtn.textContent = "OTP Sent ✅";
+      sendBtn.disabled = true;
+      mobileStatus.textContent = "OTP sent successfully!";
+      mobileStatus.classList.add("text-green-400");
+    } catch (err) {
+      console.error(err);
+      alert("❌ " + err.message);
+    }
+  });
+
+  verifyBtn.addEventListener('click', async () => {
+    const otp = document.getElementById('otp').value;
+    if (!otp) return alert("Enter OTP");
+    try {
+      await confirmationResult.confirm(otp);
+      mobileOtpVerified = true;
+      mobileStatus.textContent = "✅ Mobile Verified";
+      checkEnableSubmit();
+      document.getElementById("otp").disabled = true;
+      verifyBtn.disabled = true;
+    } catch (err) {
+      alert("❌ Invalid OTP");
+    }
+  });
+
+  // ===== Email OTP =====
+  sendEmailOtpBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email.includes("@")) return alert("Enter valid email");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/send-email-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        emailOtpSection.classList.remove("opacity-50", "pointer-events-none");
+        sendEmailOtpBtn.disabled = true;
+        sendEmailOtpBtn.textContent = "OTP Sent ✅";
+        emailStatus.textContent = "OTP sent successfully!";
+        emailStatus.classList.add("text-green-400");
+      } else alert("❌ " + data.message);
+    } catch (err) {
+      alert("❌ Error sending email OTP");
+    }
+  });
+
+  verifyEmailOtpBtn.addEventListener("click", async () => {
+    const otp = document.getElementById("emailOtp").value.trim();
+    const email = emailInput.value.trim();
+    if (!otp) return alert("Enter OTP");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/verify-email-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        emailOtpVerified = true;
+        emailStatus.textContent = "✅ Email Verified";
+        checkEnableSubmit();
+        document.getElementById("emailOtp").disabled = true;
+        verifyEmailOtpBtn.disabled = true;
+      } else alert("❌ " + data.message);
+    } catch (err) {
+      alert("❌ Error verifying email OTP");
+    }
+  });
+
+  function checkEnableSubmit() {
+    submitBtn.disabled = !(mobileOtpVerified && emailOtpVerified);
+  }
+
+  // ===== Form Submission =====
+  document.getElementById('enrollForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!mobileOtpVerified) return alert("Please verify mobile first!");
+    if (!emailOtpVerified) return alert("Please verify email first!");
+
+    const name = document.getElementById('name').value.trim();
+    const email = emailInput.value.trim();
+    const phone = countryCodeInput.value + phoneInput.value;
+    const course = document.getElementById('course').value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    try {
+const res = await fetch("http://localhost:5000/enroll", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name, email, phone, course })
+});
+const data = await res.json();
+
+if (data.success) {
+  alert(data.message);
+  window.location.href = "/payment.html";
+} else {
+  alert("⚠ " + data.message);
+}
+
+    } catch (err) {
+      showToast("Error submitting enrollment!", "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Enroll for ₹4499";
+    }
+  });
+</script>
+
+</body>
+</html>

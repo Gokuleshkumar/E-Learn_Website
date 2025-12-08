@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment - AGS Academy</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+.card { background: #fff; border-radius: 1rem; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+input { border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 1rem; transition: all 0.3s; width: 100%; }
+input:focus { border-color: #6366f1; box-shadow: 0 0 5px #6366f1aa; outline: none; }
+button { transition: all 0.3s; width: 100%; }
+button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+.status { transition: all 0.3s; }
+.required { color: red; margin-left: 2px; }
+</style>
+</head>
+<body class="flex justify-center items-center min-h-screen p-4">
+
+<div class="card max-w-4xl w-full flex flex-col md:flex-row overflow-hidden">
+  <!-- Left Side: Course Info -->
+  <div class="md:w-1/2 p-8 bg-indigo-50 flex flex-col justify-center space-y-4">
+    <h2 class="text-3xl font-bold text-indigo-700">Confirm Your Enrollment</h2>
+    <p class="text-gray-700">Course: <span class="font-semibold">Full Stack Development</span></p>
+    <p class="text-gray-700">Original Amount: <span class="line-through">₹5,499</span></p>
+    <p class="text-gray-700">Early Bird Discount: <span class="text-green-600">₹250</span></p>
+    <p class="text-gray-700 font-bold text-indigo-600">Amount to Pay: ₹5,249</p>
+    <p class="text-gray-600 mt-4">Choose a payment method below and complete the payment to start learning immediately!</p>
+  </div>
+
+  <!-- Right Side: Payment Form -->
+  <div class="md:w-1/2 p-8 flex flex-col justify-center space-y-6">
+    <!-- Payment Option Tabs -->
+    <div class="flex border-b mb-4">
+      <button id="upiTab" class="flex-1 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600">UPI Payment</button>
+      <button id="cardTab" class="flex-1 py-2 font-semibold text-gray-500 hover:text-indigo-600">Card Payment</button>
+    </div>
+
+    <!-- UPI Payment -->
+    <div id="upiSection" class="flex flex-col space-y-4">
+      <label class="text-gray-700">Your UPI ID<span class="required">*</span></label>
+      <input type="text" id="upiId" placeholder="example@okaxis (GPay, PhonePe, Paytm)" required>
+      <button id="payUpiBtn" class="py-3 bg-indigo-600 text-white rounded-lg font-semibold">
+        Pay ₹5,249
+      </button>
+    </div>
+
+    <!-- Card Payment -->
+    <div id="cardSection" class="flex flex-col space-y-4 hidden">
+      <label class="text-gray-700">Card Number<span class="required">*</span></label>
+      <input type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" required>
+
+      <div class="flex space-x-4">
+        <div class="flex-1">
+          <label class="text-gray-700">Expiry<span class="required">*</span></label>
+          <input type="text" id="cardExpiry" placeholder="MM/YY" required>
+        </div>
+        <div class="flex-1">
+          <label class="text-gray-700">CVV<span class="required">*</span></label>
+          <input type="text" id="cardCvv" placeholder="123" required>
+        </div>
+      </div>
+
+      <button id="payCardBtn" class="py-3 bg-indigo-600 text-white rounded-lg font-semibold">
+        Pay ₹5,249
+      </button>
+    </div>
+
+    <p id="status" class="status text-center text-gray-500 opacity-0"></p>
+  </div>
+</div>
+
+<script>
+// Toggle payment sections
+const upiTab = document.getElementById('upiTab');
+const cardTab = document.getElementById('cardTab');
+const upiSection = document.getElementById('upiSection');
+const cardSection = document.getElementById('cardSection');
+
+upiTab.addEventListener('click', () => {
+  upiSection.classList.remove('hidden');
+  cardSection.classList.add('hidden');
+  upiTab.classList.add('text-indigo-600', 'border-b-2');
+  upiTab.classList.remove('text-gray-500');
+  cardTab.classList.add('text-gray-500');
+  cardTab.classList.remove('text-indigo-600', 'border-b-2');
+});
+
+cardTab.addEventListener('click', () => {
+  cardSection.classList.remove('hidden');
+  upiSection.classList.add('hidden');
+  cardTab.classList.add('text-indigo-600', 'border-b-2');
+  cardTab.classList.remove('text-gray-500');
+  upiTab.classList.add('text-gray-500');
+  upiTab.classList.remove('text-indigo-600', 'border-b-2');
+});
+
+// Razorpay or backend payment logic will go here for both buttons
+</script>
+
+</body>
+<!-- Fixed Footer: Powered by Razorpay -->
+<div class="fixed bottom-3 left-0 right-0 flex justify-center items-center space-x-2 text-gray-500 text-sm">
+  <span>Powered by</span>
+  <img 
+    src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" 
+    alt="Razorpay" 
+    class="h-5"
+  >
+</div>
+
+</html>
