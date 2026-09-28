@@ -21,6 +21,7 @@
     "nodemailer": "^7.0.6",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "razorpay": "^2.9.8",
     "twilio": "^5.10.2"
   },
   "keywords": [],

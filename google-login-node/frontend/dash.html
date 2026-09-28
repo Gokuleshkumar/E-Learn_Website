@@ -3,180 +3,582 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - GK Academy</title>
+  <title>Dashboard - AGS Academy</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    html{
+    html {
       scroll-behavior: smooth;
     }
-  </style>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#1D4ED8',  // Blue
-            secondary: '#10B981', // Green
-          },
-        },
-      },
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-  </script>
+    /* Udemy typical dark purple */
+    .bg-udemy-dark { background-color: #1c1d1f; }
+    .text-udemy-purple { color: #5624d0; }
+    .bg-udemy-purple { background-color: #5624d0; }
+    .hover-bg-udemy-purple:hover { background-color: #401b9c; }
+    
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    /* Staggered delay classes */
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+    .delay-400 { animation-delay: 400ms; }
+
+    /* Card Hover Effects */
+    .course-card {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      min-width: 280px;
+      max-width: 300px;
+    }
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-color: transparent;
+    }
+    .course-card:hover .course-img {
+      transform: scale(1.08);
+    }
+    .course-img {
+      transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    /* Hide scrollbar for horizontal scrolling but keep functionality */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
+  
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-50 text-gray-900 font-sans antialiased flex flex-col min-h-screen">
 
   <!-- Navbar -->
-  <nav class="bg-white shadow-md p-4 flex flex-col md:flex-row justify-between items-center sticky top-0 z-50">
-    <div class="text-lg font-semibold text-gray-800 mb-2 md:mb-0">
-      Welcome, <span id="username">Student</span>!
+  <nav class="bg-white shadow-md border-b border-gray-100 py-4 px-6 flex items-center justify-between sticky top-0 z-50">
+    <!-- Left: Logo & Categories -->
+    <div class="flex items-center space-x-6">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+          <defs>
+            <linearGradient id="gradDash" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5624d0" />
+              <stop offset="100%" stop-color="#401b9c" />
+            </linearGradient>
+          </defs>
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradDash)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#401b9c" />
+          <circle cx="20" cy="70" r="8" fill="#5624d0" />
+          <circle cx="70" cy="70" r="8" fill="#5624d0" />
+        </svg>
+        <div class="flex items-baseline gap-0.5">
+          <span class="text-2xl font-black tracking-tight text-gray-900">AGS</span>
+          <span class="text-2xl font-black tracking-tight text-udemy-purple">Academy</span>
+        </div>
+      </a>
+      <div class="hidden md:block group relative">
+        <button onclick="const t = document.getElementById('storefront-carousel') || document.getElementById('learning-carousel'); if(t) t.scrollIntoView({behavior: 'smooth', block: 'center'})" class="text-sm text-gray-700 hover:text-udemy-purple font-semibold transition">Explore Categories</button>
+      </div>
     </div>
-    <ul class="flex space-x-6 mb-2 md:mb-0">
-      <li><a href="#courses" class="text-blue-500 font-medium transition-colors">Courses</a></li>
-      <li><a href="Aboutus.html" class="hover:text-blue-500 font-medium transition-colors">About Us</a></li>
-      <li><a href="contactus.html" class="hover:text-blue-500 font-medium transition-colors">Contact Us</a></li>
-    </ul>
-    <div class="flex space-x-4">
-      <a href="logstud.html" class="bg-secondary text-white px-4 py-2 rounded shadow hover:bg-green-600 transition transform hover:-translate-y-0.5">Login as Student</a>
-      <a href="admin.html" class="bg-primary text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition transform hover:-translate-y-0.5">Login as Admin</a>
+
+    <!-- Center: Search Bar -->
+    <div class="hidden md:flex flex-1 max-w-2xl mx-8 relative group">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <i class="fas fa-search text-gray-400 group-hover:text-udemy-purple transition-colors"></i>
+      </div>
+      <input type="text" class="block w-full pl-12 pr-4 py-2.5 border-2 border-transparent bg-gray-100 rounded-full text-sm leading-5 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-udemy-purple transition-all duration-300 shadow-inner" placeholder="Search for any course, skill, or topic...">
+    </div>
+
+    <!-- Right: Links & Profile -->
+    <div class="flex items-center space-x-5">
+      <a href="Aboutus.html" class="hidden md:block text-sm font-medium text-gray-700 hover:text-udemy-purple transition">About Us</a>
+      <a href="contactus.html" class="hidden md:block text-sm font-medium text-gray-700 hover:text-udemy-purple transition">Contact Us</a>
+      
+      <!-- AI Forum Button -->
+      <button onclick="handleForumClick()" class="relative hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full font-extrabold text-sm text-white overflow-hidden group shadow-[0_0_15px_rgba(139,92,246,0.5)] hover:shadow-[0_0_25px_rgba(139,92,246,0.7)] hover:-translate-y-1 transition-all duration-300">
+        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 group-hover:scale-105 transition-transform duration-500"></span>
+        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+        <i class="fas fa-robot relative z-10 text-lg group-hover:animate-pulse"></i> 
+        <span class="relative z-10 tracking-wide">AI Discuss & Doubt Forum</span>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="relative ml-2">
+        <div onclick="toggleDropdown()" class="flex items-center gap-3 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 cursor-pointer transition">
+          <span class="text-sm font-bold text-gray-800 hidden sm:block">Hi, <span id="nav-username">Student</span></span>
+          <div class="h-9 w-9 rounded-full bg-udemy-purple text-white flex items-center justify-center font-bold text-lg shadow-sm">
+            <span id="nav-initial">S</span>
+          </div>
+        </div>
+        
+        <!-- Dropdown Menu -->
+        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 border border-gray-100 hidden z-50">
+          <a href="#" onclick="logoutUser()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 font-bold transition-colors">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+          </a>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero / Welcome Banner -->
-  <section class="mt-12">
-    <div class="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white rounded-lg shadow-lg p-10 md:p-20 mx-4 md:mx-20 text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate-bounce">Welcome to GK Academy Dashboard</h1>
-      <p class="text-lg md:text-xl mb-6">Access your courses, announcements, and all learning resources from here.</p>
-      <a href="#courses" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition">Explore Courses</a>
+  <!-- Main Content Container -->
+  <main id="dashboard-content" class="flex-grow overflow-x-hidden">
+    <div class="flex justify-center items-center h-64">
+       <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-udemy-purple"></div>
     </div>
-  </section>
+  </main>
 
-  <!-- Courses Section Header -->
-  <header class="bg-white shadow mt-12">
-    <div class="max-w-6xl mx-auto px-4 py-8 text-center">
-      <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900">Courses Offered</h1>
-      <p class="mt-2 text-gray-600 text-lg">Learn the skills that will boost your career.</p>
-      <div class="mt-4 h-1 w-24 bg-blue-600 mx-auto rounded-full"></div>
-    </div>
-  </header>
-
-  <!-- Courses Section -->
-  <section id="courses" class="max-w-6xl mx-auto px-4 py-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-
-      <!-- Front End Development -->
-      <div class="flex flex-col items-center">
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden w-full">
-          <img src="./course_image/fr_banner.jpg" alt="Front End" class="w-full h-48 object-contain">
-          <div class="p-5">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Front End Development</h2>
-            <p class="text-gray-600 mb-4">Learn HTML, CSS, JavaScript, and modern frameworks to build stunning websites.</p>
-            <div class="flex justify-between items-center">
-              <span class="text-green-600 font-bold">₹4,999</span>
-              <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Enroll</button>
-            </div>
+  <!-- Footer -->
+  <footer class="bg-udemy-dark text-white py-12 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-6 md:mb-0">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+            <defs>
+              <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5624d0" />
+                <stop offset="100%" stop-color="#401b9c" />
+              </linearGradient>
+            </defs>
+            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            <circle cx="45" cy="20" r="8" fill="#401b9c" />
+            <circle cx="20" cy="70" r="8" fill="#5624d0" />
+            <circle cx="70" cy="70" r="8" fill="#5624d0" />
+          </svg>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-2xl font-black tracking-tight text-white">AGS</span>
+            <span class="text-2xl font-black tracking-tight text-udemy-purple">Academy</span>
           </div>
         </div>
-        <a href="frontend.html" class="mt-4 w-full text-center bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition block">More Details</a>
+        <p class="text-sm text-gray-400 mt-2">Empowering your future with modern skills.</p>
       </div>
-
-      <!-- Back End Development -->
-      <div class="flex flex-col items-center">
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden w-full">
-          <img src="./course_image/ba_banner.webp" alt="Back End" class="w-full h-48 object-contain">
-          <div class="p-5">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Back End Development</h2>
-            <p class="text-gray-600 mb-4">Master Node.js, databases, APIs, and server-side programming.</p>
-            <div class="flex justify-between items-center">
-              <span class="text-green-600 font-bold">₹8,499</span>
-              <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Enroll</button>
-            </div>
-          </div>
-        </div>
-        <a href="backend.html" class="mt-4 w-full text-center bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition block">More Details</a>
+      <div class="flex space-x-6 text-sm">
+        <a href="#" class="hover:text-gray-300 transition">Terms</a>
+        <a href="#" class="hover:text-gray-300 transition">Privacy policy</a>
+        <a href="#" class="hover:text-gray-300 transition">Cookie settings</a>
       </div>
-
-      <!-- Java Development -->
-      <div class="flex flex-col items-center">
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden w-full">
-          <img src="./course_image/java_banner.jpg" alt="Java" class="w-full h-48 object-contain">
-          <div class="p-5">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Java With SpringBoot</h2>
-            <p class="text-gray-600 mb-4">Learn Java programming and build robust applications for desktop.</p>
-            <div class="flex justify-between items-center">
-              <span class="text-green-600 font-bold">₹7,499</span>
-              <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Enroll</button>
-            </div>
-          </div>
-        </div>
-        <a href="java.html" class="mt-4 w-full text-center bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition block">More Details</a>
-      </div>
-
-      <!-- Python Development -->
-      <div class="flex flex-col items-center">
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden w-full">
-          <img src="./course_image/python_banner.webp" alt="Python" class="w-full h-48 object-contain">
-          <div class="p-5">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Python With Django Development</h2>
-            <p class="text-gray-600 mb-4">Master Python for web, data science, automation, and AI projects.</p>
-            <div class="flex justify-between items-center">
-              <span class="text-green-600 font-bold">₹7,499</span>
-              <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Enroll</button>
-            </div>
-          </div>
-        </div>
-        <a href="python.html" class="mt-4 w-full text-center bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition block">More Details</a>
-      </div>
-
     </div>
-  </section>
+  </footer>
 
-  <!-- Career Call-to-Action -->
-  <section class="bg-black text-white text-center py-16 mt-12">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6">
-      Are You Ready to Start Your Career with GK Academy?
-    </h2>
-    <div class="flex justify-center gap-6">
-      <button class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition">
-        Yes
-      </button>
-      <button class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition">
-        No
-      </button>
-    </div>
-  </section>
 <script>
-async function setUsername() {
-  const usernameEl = document.getElementById('username');
-  let name = 'Student';
+  const courseCatalog = [
+    { id: 'frontend', title: 'Front End Development Masterclass 2024', instructor: 'AGS Academy Experts', image: './course_image/fr_banner.jpg', rating: 4.8, reviews: '12,345', price: '₹4,999', oldPrice: '₹8,999', badge: 'Bestseller', link: 'frontend.html', progress: 0 },
+    { id: 'backend', title: 'The Complete Node.js & Express Backend Course', instructor: 'AGS Academy Experts', image: './course_image/ba_banner.webp', rating: 4.7, reviews: '8,432', price: '₹8,499', oldPrice: '₹12,999', badge: 'Hot & New', link: 'backend.html', progress: 0 },
+    { id: 'java', title: 'Java With SpringBoot - Zero to Hero', instructor: 'AGS Academy Experts', image: './course_image/java_banner.jpg', rating: 4.9, reviews: '15,102', price: '₹7,499', oldPrice: '₹11,999', badge: 'Highest Rated', link: 'java.html', progress: 0 },
+    { id: 'python', title: 'Python With Django Full Stack Developer', instructor: 'AGS Academy Experts', image: './course_image/python_banner.webp', rating: 4.6, reviews: '9,211', price: '₹7,499', oldPrice: '₹10,999', badge: null, link: 'python.html', progress: 0 },
+    { id: 'ai', title: 'AI & Machine Learning Deep Dive', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=600&h=400&fit=crop', rating: 4.9, reviews: '4,521', price: '₹9,999', oldPrice: '₹14,999', badge: 'Trending', link: 'ai.html', progress: 0 },
+    { id: 'datascience', title: 'Data Science & Analytics Bootcamp', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop', rating: 4.8, reviews: '6,124', price: '₹8,999', oldPrice: '₹13,999', badge: 'Bestseller', link: 'datascience.html', progress: 0 },
+    { id: 'cybersecurity', title: 'Cyber Security Professional Certification', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop', rating: 4.7, reviews: '3,892', price: '₹11,499', oldPrice: '₹18,999', badge: null, link: 'cybersecurity.html', progress: 0 },
+    { id: 'uiux', title: 'UI/UX Design Principles & Masterclass', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop', rating: 4.8, reviews: '7,433', price: '₹5,999', oldPrice: '₹9,999', badge: 'Bestseller', link: 'uiux.html', progress: 0 },
+    { id: 'ml', title: 'Machine Learning A-Z: Python & R', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1527474305487-b87b222841cc?w=600&h=400&fit=crop', rating: 4.7, reviews: '5,302', price: '₹8,999', oldPrice: '₹12,999', badge: 'Hot', link: 'ml.html', progress: 0 },
+    { id: 'dsa', title: 'Problem Solving Using DSA', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&h=400&fit=crop', rating: 4.9, reviews: '11,200', price: '₹6,499', oldPrice: '₹9,999', badge: 'Highest Rated', link: 'dsa.html', progress: 0 },
+    { id: 'quantum', title: 'Quantum Computing for Beginners', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop', rating: 4.5, reviews: '1,204', price: '₹12,499', oldPrice: '₹19,999', badge: 'New', link: 'quantum.html', progress: 0 },
+    { id: 'webdev', title: 'The Complete Web Development Bootcamp', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop', rating: 4.8, reviews: '18,490', price: '₹5,499', oldPrice: '₹8,999', badge: 'Bestseller', link: 'webdev.html', progress: 0 }
+  ];
 
-  try {
-    const res = await fetch('http://localhost:5000/api/me', {
-      credentials: 'include'
-    });
-    const data = await res.json();
-
-    if (data.user?.displayName) {
-      // Always use displayName from backend (signup name)
-      name = data.user.displayName;
+  function renderStars(rating) {
+    let starsHtml = '';
+    for(let i=1; i<=5; i++) {
+      if(i <= rating) starsHtml += '<i class="fas fa-star text-yellow-400 text-sm drop-shadow-sm"></i>';
+      else if(i - 0.5 === rating) starsHtml += '<i class="fas fa-star-half-alt text-yellow-400 text-sm drop-shadow-sm"></i>';
+      else starsHtml += '<i class="far fa-star text-yellow-400 text-sm drop-shadow-sm"></i>';
     }
-    // localStorage fallback only if backend fails
-    else if(localStorage.getItem('username')) {
-      name = localStorage.getItem('username');
-    }
-
-  } catch (err) {
-    console.error('Error fetching user:', err);
-    if(localStorage.getItem('username')) name = localStorage.getItem('username');
+    return starsHtml;
   }
 
-  usernameEl.textContent = name;
-}
+  function createStorefrontCard(course, index) {
+    const delayClass = `delay-${((index % 4) + 1) * 100}`; 
+    return `
+      <a href="${course.link}" class="animate-fade-up ${delayClass} shrink-0 bg-white rounded-xl overflow-hidden border border-gray-200 course-card flex flex-col w-[280px] sm:w-[300px]">
+        <div class="relative overflow-hidden bg-gray-100 shrink-0">
+          <img src="${course.image}" alt="${course.title}" class="w-full h-40 object-cover course-img">
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+        </div>
+        <div class="p-5 flex flex-col flex-grow">
+          <h3 class="text-base font-bold text-gray-900 leading-tight mb-2 line-clamp-2 min-h-[40px]">${course.title}</h3>
+          <p class="text-xs text-gray-500 mb-2 font-medium">${course.instructor}</p>
+          <div class="mt-auto pt-4 border-t border-gray-100 flex items-baseline space-x-2">
+            <span class="text-xl font-extrabold text-gray-900">${course.price}</span>
+            <span class="text-sm font-medium text-gray-400 line-through">${course.oldPrice}</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }
 
-setUsername();
+  function createLearningCard(course, progress, index) {
+    const delayClass = `delay-${((index % 4) + 1) * 100}`;
+    return `
+      <div class="animate-fade-up ${delayClass} bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300 min-w-[300px] shrink-0">
+        <div class="relative overflow-hidden group cursor-pointer">
+          <img src="${course.image}" alt="${course.title}" class="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"><i class="fas fa-play-circle text-5xl text-white drop-shadow-lg"></i></div>
+        </div>
+        <div class="p-5 flex flex-col flex-grow">
+          <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">${course.title}</h3>
+          <p class="text-sm font-medium text-gray-500 mb-6">${course.instructor}</p>
+          <div class="mt-auto">
+            <div class="flex justify-between items-center text-xs font-bold text-gray-600 mb-2">
+              <span class="text-udemy-purple">${progress}% Complete</span>
+            </div>
+            <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden mb-5">
+              <div class="bg-udemy-purple h-full rounded-full transition-all duration-1000 ease-out" style="width: 0%;" data-progress="${progress}"></div>
+            </div>
+            <a href="${course.link}" class="block w-full text-center bg-gray-900 text-white font-bold py-2.5 rounded-lg hover:bg-udemy-purple transition-colors duration-300">Continue Learning</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function scrollCarousel(id, direction) {
+    const container = document.getElementById(id);
+    if(container) {
+      // scroll by 600px (~2 cards)
+      const scrollAmount = direction === 'left' ? -600 : 600;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  function handleSearch(event, inputId, containerId, isStorefront) {
+    event.preventDefault();
+    const query = document.getElementById(inputId).value.toLowerCase();
+    const filtered = courseCatalog.filter(c => c.title.toLowerCase().includes(query) || c.instructor.toLowerCase().includes(query));
+    const container = document.getElementById(containerId);
+    if(container) {
+      if(filtered.length > 0) {
+        container.innerHTML = filtered.map((c, i) => isStorefront ? createStorefrontCard(c, i) : createStorefrontCard(c, i)).join('');
+      } else {
+        container.innerHTML = '<p class="text-gray-500 font-medium py-10 w-full text-center text-lg">No courses found matching your search.</p>';
+      }
+      // Scroll smoothly to the results
+      container.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+  }
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById('profile-dropdown');
+    dropdown.classList.toggle('hidden');
+  }
+
+  async function logoutUser() {
+    localStorage.removeItem('username');
+    // Attempt backend logout if possible (ignoring errors)
+    try {
+      await fetch('http://localhost:5000/api/logout', { method: 'POST', credentials: 'include' });
+    } catch(e) {}
+    window.location.href = 'index.html';
+  }
+
+  function renderStorefront(userName) {
+    let cardsHtml = courseCatalog.map((c, i) => createStorefrontCard(c, i)).join('');
+    document.getElementById('dashboard-content').innerHTML = `
+      <section class="relative bg-gradient-to-r from-blue-50 to-purple-50 overflow-hidden border-b border-gray-200">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center min-h-[500px]">
+          <div class="bg-white/90 backdrop-blur-md p-8 md:p-10 rounded-2xl shadow-2xl max-w-lg w-full border border-white/50 animate-fade-up md:my-16 my-8 md:mr-10 z-20">
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">Hi, ${userName}! <br/><span class="text-indigo-800 drop-shadow-sm">Start Learning Today.</span></h1>
+            <p class="text-gray-600 text-lg mb-8 font-medium">Accelerate your career with top-rated courses in tech and business. Get started from just ₹4,999.</p>
+            <form onsubmit="handleSearch(event, 'hero-search', 'storefront-carousel', true)" class="flex shadow-lg rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-udemy-purple transition-all">
+              <input type="text" id="hero-search" class="w-full p-4 text-gray-700 bg-white border-none focus:outline-none" placeholder="What do you want to learn?">
+              <button type="submit" class="bg-udemy-purple text-white px-6 font-bold hover:bg-purple-800 transition-colors">Search</button>
+            </form>
+          </div>
+          <div class="w-full md:w-1/2 h-full flex items-center justify-center animate-fade-up delay-200 hidden md:flex">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Students Learning" class="rounded-3xl shadow-2xl object-cover h-[400px] w-full transform rotate-2 hover:rotate-0 transition-transform duration-500">
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+         <div class="bg-gradient-to-r from-gray-900 via-udemy-purple to-gray-900 rounded-3xl shadow-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between text-white animate-fade-up delay-300">
+            <div class="max-w-2xl">
+              <span class="bg-yellow-400 text-gray-900 text-xs font-black px-3 py-1 uppercase tracking-widest rounded mb-4 inline-block shadow">Premium Program</span>
+              <h2 class="text-3xl md:text-4xl font-black mb-4">Training cum Placement Program</h2>
+              <p class="text-gray-200 text-lg mb-6 md:mb-0">Secure your dream tech job with our intensive, job-guaranteed training track. Gain hands-on project experience, mentorship from industry experts, and direct interview opportunities.</p>
+            </div>
+            <div class="shrink-0"><a href="details.html" class="bg-white text-udemy-purple hover:bg-gray-100 font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition-transform hover:-translate-y-1 block text-center">Join the Program</a></div>
+         </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-20 relative">
+        <h2 class="text-3xl font-black text-gray-900 mb-2">Top courses picked for ${userName}</h2>
+        <p class="text-lg text-gray-500 mb-8 font-medium">Swipe to explore highly-rated skills</p>
+        
+        <div class="relative group">
+          <button onclick="scrollCarousel('storefront-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
+            <i class="fas fa-chevron-left text-xl"></i>
+          </button>
+          
+          <div id="storefront-carousel" class="flex overflow-x-auto space-x-6 pb-6 pt-2 px-2 scrollbar-hide snap-x relative z-0 scroll-smooth">
+            ${cardsHtml}
+          </div>
+          
+          <button onclick="scrollCarousel('storefront-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
+            <i class="fas fa-chevron-right text-xl"></i>
+          </button>
+        </div>
+      </section>
+    `;
+    
+    // Attach nav search
+    const navSearchInput = document.querySelector('nav input[type="text"]');
+    if(navSearchInput) {
+      navSearchInput.addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          const q = e.target.value.toLowerCase();
+          document.getElementById('hero-search').value = q;
+          handleSearch(e, 'hero-search', 'storefront-carousel', true);
+          // Scroll to catalog
+          document.getElementById('storefront-carousel').scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+      });
+    }
+  }
+
+  function renderMyLearning(userName, enrolledCourseName) {
+    let course = courseCatalog.find(c => enrolledCourseName.toLowerCase().includes(c.id)) || courseCatalog.find(c => enrolledCourseName.toLowerCase().includes(c.title.split(' ')[0].toLowerCase())) || courseCatalog[0]; 
+    let otherCourses = courseCatalog.filter(c => c.id !== course.id);
+    let recommendationHtml = otherCourses.map((c, i) => createStorefrontCard(c, i)).join('');
+    const mockProgress = Math.floor(Math.random() * 50) + 20; 
+
+    document.getElementById('dashboard-content').innerHTML = `
+      <section class="bg-udemy-dark text-white pt-16 pb-0 shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 class="text-4xl font-black mb-10 animate-fade-up text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">My Learning</h1>
+          <div class="flex space-x-8 border-b border-gray-700 font-bold text-sm tracking-wide">
+            <button class="pb-3 border-b-4 border-udemy-purple text-white">All courses</button>
+            <button class="pb-3 text-gray-400 hover:text-gray-200 transition-colors border-b-4 border-transparent hover:border-gray-500">My Lists</button>
+            <button class="pb-3 text-gray-400 hover:text-gray-200 transition-colors border-b-4 border-transparent hover:border-gray-500">Wishlist</button>
+            <button class="pb-3 text-gray-400 hover:text-gray-200 transition-colors border-b-4 border-transparent hover:border-gray-500">Archived</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row gap-8">
+        <div class="flex-1 max-w-md"><h2 class="text-xl font-bold text-gray-900 mb-4">Currently Enrolled</h2>${createLearningCard(course, mockProgress, 0)}</div>
+        <div class="flex-1 w-full">
+           <div class="flex items-center justify-between mb-4">
+               <h2 class="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2"><i class="fas fa-video text-blue-500"></i> Upcoming Live Classes</h2>
+               <span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded-md">Live Daily</span>
+           </div>
+           
+           <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-1 flex flex-col h-[calc(100%-2.5rem)] animate-fade-up delay-200">
+              
+              <!-- Today's Class -->
+              <div class="p-5 hover:bg-gray-50 transition-colors rounded-xl border-b border-gray-100 last:border-0 flex items-center justify-between">
+                 <div class="flex gap-4 items-center">
+                    <div class="flex flex-col items-center justify-center bg-blue-50 text-blue-700 w-14 h-14 rounded-xl border border-blue-100 shrink-0">
+                       <span class="text-xs font-bold uppercase leading-none mb-1">Today</span>
+                       <span class="text-lg font-black leading-none">7 PM</span>
+                    </div>
+                    <div>
+                       <h4 class="font-bold text-gray-900 text-[15px] mb-0.5">Live Doubt Solving</h4>
+                       <p class="text-xs text-gray-500 font-medium flex items-center gap-1"><i class="far fa-clock"></i> 7:00 PM - 8:00 PM (IST)</p>
+                    </div>
+                 </div>
+                 <a href="#" onclick="alert('Redirecting to Zoom...')" class="shrink-0 bg-blue-600 text-white hover:bg-blue-700 font-bold text-sm px-4 py-2 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-2">
+                    Join <i class="fas fa-external-link-alt text-xs"></i>
+                 </a>
+              </div>
+
+              <!-- Tomorrow's Class -->
+              <div class="p-5 hover:bg-gray-50 transition-colors rounded-xl border-b border-gray-100 last:border-0 flex items-center justify-between">
+                 <div class="flex gap-4 items-center">
+                    <div class="flex flex-col items-center justify-center bg-gray-50 text-gray-600 w-14 h-14 rounded-xl border border-gray-200 shrink-0">
+                       <span class="text-xs font-bold uppercase leading-none mb-1">Tom</span>
+                       <span class="text-lg font-black leading-none">6 PM</span>
+                    </div>
+                    <div>
+                       <h4 class="font-bold text-gray-900 text-[15px] mb-0.5">Masterclass: Deep Dive</h4>
+                       <p class="text-xs text-gray-500 font-medium flex items-center gap-1"><i class="far fa-clock"></i> 6:00 PM - 7:30 PM (IST)</p>
+                    </div>
+                 </div>
+                 <button class="shrink-0 bg-gray-100 text-gray-400 cursor-not-allowed font-bold text-sm px-4 py-2 rounded-lg flex items-center gap-2">
+                    Starts Soon
+                 </button>
+              </div>
+
+              <div class="mt-auto p-4 pt-2 text-center">
+                 <a href="#" class="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors flex items-center justify-center gap-1">
+                    View Full Schedule <i class="fas fa-arrow-right"></i>
+                 </a>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      <section class="bg-gray-100 py-16 border-t border-gray-200 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative group">
+          <h2 class="text-2xl font-black text-gray-900 mb-2">Because you enrolled in "${course.title}"</h2>
+          <p class="text-gray-500 font-medium mb-8">Expand your skill set with these related courses.</p>
+          
+          <button onclick="scrollCarousel('learning-carousel', 'left')" class="absolute left-0 top-1/2 -ml-2 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
+            <i class="fas fa-chevron-left text-xl"></i>
+          </button>
+          
+          <div id="learning-carousel" class="flex overflow-x-auto space-x-6 pb-6 pt-2 px-2 scrollbar-hide snap-x relative z-0 scroll-smooth">
+            ${recommendationHtml}
+          </div>
+          
+          <button onclick="scrollCarousel('learning-carousel', 'right')" class="absolute right-0 top-1/2 -mr-2 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
+            <i class="fas fa-chevron-right text-xl"></i>
+          </button>
+        </div>
+      </section>
+    `;
+    setTimeout(() => {
+      const pbar = document.querySelector('[data-progress]');
+      if(pbar) pbar.style.width = pbar.getAttribute('data-progress') + '%';
+    }, 100);
+    
+    const navSearchInput = document.querySelector('nav input[type="text"]');
+    if(navSearchInput) {
+      navSearchInput.addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          const q = e.target.value.toLowerCase();
+          document.getElementById('learning-carousel').innerHTML = courseCatalog.filter(c => c.title.toLowerCase().includes(q) || c.instructor.toLowerCase().includes(q)).map((c, i) => createStorefrontCard(c, i)).join('');
+          document.getElementById('learning-carousel').scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+      });
+    }
+  }
+
+  async function initializeDashboard() {
+    let name = 'Student';
+    let isPaid = false;
+    let enrolledCourseName = null;
+    try {
+      const res = await fetch('http://localhost:5000/api/me', { credentials: 'include' });
+      if(res.ok) {
+        const data = await res.json();
+        if (data.user) {
+          name = data.user.displayName || data.user.name || 'Student';
+          window.userName = name;
+          if ((data.user.course && data.user.course.trim() !== '') || data.user.email === 'gokuleshkumar878@gmail.com') {
+            isPaid = true;
+            enrolledCourseName = data.user.course || 'frontend'; // Default to a course so renderMyLearning doesn't fail
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching user:', err);
+      if(localStorage.getItem('username')) name = localStorage.getItem('username');
+    }
+    const displayName = name.split(' ')[0]; 
+    document.getElementById('nav-username').textContent = displayName;
+    if(displayName && displayName.length > 0) document.getElementById('nav-initial').textContent = displayName.charAt(0).toUpperCase();
+    window.isUserPaid = isPaid;
+    if (isPaid) renderMyLearning(displayName, enrolledCourseName);
+    else renderStorefront(displayName);
+  }
+
+  function handleForumClick() {
+    if (window.isUserPaid) {
+      // Redirect to the AI Education Mini Project, passing autoLogin and name parameters
+      const nameParam = window.userName ? encodeURIComponent(window.userName) : 'Student';
+      window.open(`http://localhost:8000/?autoLogin=true&name=${nameParam}`, "_blank");
+    } else {
+      const modal = document.getElementById('premium-modal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.children[1].classList.remove('scale-95');
+        modal.children[1].classList.add('scale-100');
+      }, 10);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', initializeDashboard);
 </script>
+  <!-- Premium Required Modal -->
+  <div id="premium-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('premium-modal').classList.add('hidden')"></div>
+    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full relative z-10 transform scale-95 transition-transform duration-300">
+      <button onclick="document.getElementById('premium-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+        <i class="fas fa-crown text-3xl text-udemy-purple"></i>
+      </div>
+      <h3 class="text-2xl font-black text-center text-gray-900 mb-2">Premium Feature</h3>
+      <p class="text-center text-gray-600 mb-8 font-medium leading-relaxed">The AI Discuss & Doubt Forum is an exclusive feature for enrolled students. Upgrade your learning journey to unlock 24/7 AI assistance!</p>
+      <button onclick="document.getElementById('premium-modal').classList.add('hidden'); document.getElementById('storefront-carousel')?.scrollIntoView({behavior: 'smooth', block: 'center'})" class="w-full py-4 bg-udemy-purple hover:bg-purple-800 text-white rounded-xl font-bold text-lg transition-colors shadow-lg">
+        Explore Courses
+      </button>
+    </div>
+  </div>
 
+  <!-- Gopu Chatbot UI -->
+  <button id="gopu-chatbot-toggle" class="fixed bottom-24 right-6 w-14 h-14 bg-udemy-purple hover:bg-udemy-dark text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 z-50">
+    <i class="fa-solid fa-message text-xl"></i>
+  </button>
+
+  <div id="gopu-chatbot-container" class="hidden fixed bottom-40 right-6 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden z-50 flex flex-col border border-gray-100" style="height: 500px; max-height: 75vh;">
+    <!-- Header -->
+    <div class="bg-udemy-purple text-white p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
+           <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix&backgroundColor=ffffff" alt="Gopu" class="w-10 h-10">
+        </div>
+        <div>
+          <h3 class="font-bold text-lg leading-tight">Gopu</h3>
+          <p class="text-xs text-indigo-200">AGS Academy Assistant</p>
+        </div>
+      </div>
+      <button id="gopu-chatbot-close" class="text-white hover:text-gray-200 transition">
+        <i class="fa-solid fa-times text-lg"></i>
+      </button>
+    </div>
+    
+    <!-- Messages Area -->
+    <div id="gopu-chatbot-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-2">
+      <!-- Welcome Message -->
+      <div class="flex w-full mb-4 justify-start">
+          <div class="flex items-end gap-2 max-w-[80%]">
+              <div class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 mb-1 overflow-hidden">
+                  <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix&backgroundColor=ffffff" alt="Gopu" class="w-8 h-8">
+              </div>
+              <div class="bg-gray-100 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2 text-sm shadow-sm">
+                  Hi there! I'm Gopu, your personal assistant at AGS Academy. You can ask me about courses, timings, cohorts, fees, or help!
+              </div>
+          </div>
+      </div>
+    </div>
+    
+    <!-- Input Area -->
+    <div class="p-3 bg-white border-t border-gray-100 flex gap-2">
+      <input type="text" id="gopu-chatbot-input" placeholder="Type your message..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-udemy-purple">
+      <button id="gopu-chatbot-send" class="w-10 h-10 rounded-full bg-udemy-purple text-white flex items-center justify-center hover:bg-udemy-dark transition">
+        <i class="fa-solid fa-paper-plane text-sm"></i>
+      </button>
+    </div>
+  </div>
+
+  <script src="gopu-chatbot.js"></script>
 </body>
 </html>

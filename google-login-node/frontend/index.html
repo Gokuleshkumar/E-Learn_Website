@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGS Academy — Learn Skills That Get You Hired</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ink: #141417;
+      --ink-soft: #3c3d42;
+      --purple: #7C3AED;
+      --purple-deep: #5B21B6;
+      --purple-pale: #F1EBFE;
+      --paper: #FAFAFB;
+      --line: #E7E5EA;
+      --gold: #B4690E;
+      --green: #0F7B4F;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .font-display {
+      font-family: 'Sora', sans-serif;
+    }
+
+    /* ---------- Navbar ---------- */
+    nav a.nav-link {
+      position: relative;
+      color: #D8D6E0;
+      transition: color .2s ease;
+    }
+
+    nav a.nav-link:hover {
+      color: #fff;
+    }
+
+    nav a.nav-link.active {
+      color: #fff;
+    }
+
+    nav a.nav-link.active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -14px;
+      height: 2px;
+      background: var(--purple);
+    }
+
+    /* ---------- Seamless Marquee ---------- */
+    .marquee-container {
+      overflow: hidden;
+      display: flex;
+      width: 100%;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: seamless-marquee 20s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes seamless-marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ---------- Hero stack illustration ---------- */
+    .stack-card {
+      box-shadow: 0 20px 40px -12px rgba(20, 20, 23, .25);
+      border-radius: 14px;
+    }
+
+    @keyframes drift {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(var(--r));
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(var(--r));
+      }
+    }
+
+    .stack-card {
+      animation: drift 6s ease-in-out infinite;
+    }
+
+    /* ---------- Course cards ---------- */
+    .course-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+    }
+
+    .course-card:hover {
+      box-shadow: 0 18px 34px -16px rgba(20, 20, 23, .35);
+      transform: translateY(-4px);
+      border-color: #D9CDF8;
+    }
+
+    .stars {
+      color: var(--gold);
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* category chip */
+    .chip {
+      border: 1px solid var(--line);
+      color: var(--ink-soft);
+      transition: background .2s ease, color .2s ease, border-color .2s ease;
+      white-space: nowrap;
+    }
+
+    .chip.active,
+    .chip:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .faq-btn svg {
+      transition: transform .3s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stack-card {
+        animation: none;
+      }
+
+      .marquee-track {
+        animation: none;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 bg-[var(--ink)]">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center gap-6">
+      <a href="#Home" class="flex items-center gap-2 shrink-0">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#1d4ed8" />
+            </linearGradient>
+          </defs>
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round"
+            stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+          <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+          <circle cx="70" cy="70" r="8" fill="#3b82f6" />
+        </svg>
+        <div class="flex items-baseline gap-1">
+          <span class="font-display text-2xl font-800 text-white hidden sm:block">AGS</span>
+          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academy</span>
+        </div>
+      </a>
+
+      <!-- search (desktop) -->
+      <div class="hidden lg:flex flex-1 max-w-md">
+        <div
+          class="w-full flex items-center bg-[#232327] rounded-full px-4 py-2 text-sm text-[#B9B7C2] focus-within:ring-2 focus-within:ring-[var(--purple)]">
+          <svg class="w-4 h-4 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="desktop-search" placeholder="Search for Python, Java, React..."
+            class="bg-transparent outline-none w-full placeholder-[#8B899A]" onkeyup="handleIndexSearch(event)">
+        </div>
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium ml-2">
+        <a href="#courses" class="nav-link active">Courses</a>
+        <a href="#demand" class="nav-link">Career Paths</a>
+        <a href="#reviews" class="nav-link">Reviews</a>
+        <a href="#faq" class="nav-link">Help</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-3 ml-auto">
+        <a href="login.html"
+          class="px-4 py-2 text-sm font-semibold text-white border border-[#4A4850] rounded-full hover:border-white transition">Log
+          in</a>
+        <a href="signup.html"
+          class="px-4 py-2 text-sm font-semibold text-[var(--ink)] bg-white rounded-full hover:bg-[var(--purple-pale)] transition">Sign
+          up</a>
+      </div>
+
+      <button id="menu-btn" class="lg:hidden ml-auto text-white">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden px-4 pb-4 bg-[var(--ink)] text-[#D8D6E0] space-y-1">
+      <a href="#courses" class="block py-2">Courses</a>
+      <a href="#demand" class="block py-2">Career Paths</a>
+      <a href="#reviews" class="block py-2">Reviews</a>
+      <a href="#faq" class="block py-2">Help</a>
+      <a href="login.html" class="block py-2 text-white font-semibold">Log in</a>
+      <a href="signup.html" class="block py-2 text-white font-semibold">Sign up</a>
+    </div>
+  </header>
+
+  <section id="Home">
+    <!-- ================= HERO ================= -->
+    <div class="bg-[var(--ink)] text-white overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6 py-14 lg:py-20 grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-[var(--purple)] font-semibold text-sm tracking-wide mb-4">Live cohort-based learning</p>
+          <h1 class="font-display font-800 text-4xl md:text-5xl leading-[1.1] mb-5">
+            Build a career in tech, taught by people who work in it.
+          </h1>
+          <p class="text-[#C7C5D1] text-lg mb-8 max-w-md">
+            Live classes, real projects and internship placement — every course under ₹10,000, with a certificate the
+            moment you finish.
+          </p>
+          <div class="flex flex-wrap items-center gap-4 mb-10">
+            <a href="#courses"
+              class="px-6 py-3 bg-[var(--purple)] hover:bg-[var(--purple-deep)] rounded-full font-semibold transition">Browse
+              courses</a>
+            <a href="#demand"
+              class="px-6 py-3 border border-[#4A4850] hover:border-white rounded-full font-semibold transition">See
+              career outcomes</a>
+          </div>
+          <div class="flex flex-wrap gap-x-8 gap-y-3 text-sm text-[#C7C5D1]">
+            <span><strong class="text-white">1000+</strong> students taught</span>
+            <span><strong class="text-white">80+</strong> internships placed</span>
+          </div>
+        </div>
+
+        <!-- Illustration: stacked course cards -->
+        <div class="relative hidden md:block h-80">
+          <div class="stack-card absolute left-4 top-6 w-52 bg-white text-[var(--ink)] p-4"
+            style="--r:-6deg; transform:rotate(-6deg);">
+            <div class="h-2 w-10 bg-[var(--purple)] rounded-full mb-3"></div>
+            <p class="font-display font-700 text-sm mb-1">Python Programming</p>
+            <p class="text-xs text-[var(--ink-soft)]">Automation · AI · Data</p>
+          </div>
+          <div class="stack-card absolute right-2 top-0 w-52 bg-white text-[var(--ink)] p-4"
+            style="--r:5deg; transform:rotate(5deg); animation-delay:1s;">
+            <div class="h-2 w-10 bg-[#0F7B4F] rounded-full mb-3"></div>
+            <p class="font-display font-700 text-sm mb-1">Backend Development</p>
+            <p class="text-xs text-[var(--ink-soft)]">Node · Django · APIs</p>
+          </div>
+          <div class="stack-card absolute left-16 bottom-0 w-52 bg-white text-[var(--ink)] p-4"
+            style="--r:-3deg; transform:rotate(-3deg); animation-delay:2s;">
+            <div class="h-2 w-10 bg-[#B4690E] rounded-full mb-3"></div>
+            <p class="font-display font-700 text-sm mb-1">Java Programming</p>
+            <p class="text-xs text-[var(--ink-soft)]">OOP · Spring · Threads</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MARQUEE ================= -->
+    <div
+      class="relative w-full overflow-hidden bg-[var(--purple-pale)] py-3 text-[var(--purple-deep)] border-b border-[var(--line)]">
+      <div class="marquee-track text-sm font-semibold" style="animation-duration: 15s;">
+        <span class="mr-2">Affordable courses under ₹10,000 with live classes, certificates &amp; internships
+          &nbsp;•&nbsp; Limited seats left, enroll today &nbsp;•&nbsp; New Python and Java batches opening this month
+          &nbsp;•&nbsp;</span>
+        <span class="mr-2">Affordable courses under ₹10,000 with live classes, certificates &amp; internships
+          &nbsp;•&nbsp; Limited seats left, enroll today &nbsp;•&nbsp; New Python and Java batches opening this month
+          &nbsp;•&nbsp;</span>
+        <span class="mr-2">Affordable courses under ₹10,000 with live classes, certificates &amp; internships
+          &nbsp;•&nbsp; Limited seats left, enroll today &nbsp;•&nbsp; New Python and Java batches opening this month
+          &nbsp;•&nbsp;</span>
+        <span class="mr-2">Affordable courses under ₹10,000 with live classes, certificates &amp; internships
+          &nbsp;•&nbsp; Limited seats left, enroll today &nbsp;•&nbsp; New Python and Java batches opening this month
+          &nbsp;•&nbsp;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CATEGORY STRIP ================= -->
+  <div class="border-b border-[var(--line)] bg-white sticky top-[64px] z-40">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex gap-2 overflow-x-auto">
+      <span class="chip active px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">All courses</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Frontend</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Backend</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Java</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Python</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Web Development</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Cybersecurity</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">AI</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">UI/UX</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Data Science</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Machine Learning</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Quantum Computing</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Problem Solving Using DSA</span>
+    </div>
+  </div>
+
+  <div class="flex-grow">
+
+    <!-- ================= COURSES ================= -->
+    <section id="courses" class="max-w-7xl mx-auto px-4 lg:px-6 py-16">
+      <div class="flex items-end justify-between mb-8 flex-wrap gap-3">
+        <div>
+          <h2 class="font-display font-700 text-3xl text-[var(--ink)]">Explore our courses</h2>
+          <p class="text-[var(--ink-soft)] mt-1">Hand-picked programs, taught live, backed by an internship track.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Front End -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=2000" alt="Front End Development"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Front End Development</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">HTML, CSS, JavaScript and React — build responsive,
+              modern websites.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Aditi Rao</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹6,499</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹15,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">59% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back End -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2000" alt="Back End Development"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Back End Development</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Node.js, Express, MongoDB and APIs to power
+              server-side apps.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Karthik Subramanian</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹7,299</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹17,499</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">58% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Java -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2000" alt="Java Programming"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Java Programming</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">OOP, collections and multithreading for robust
+              applications.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Meera Iyer</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹6,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹16,499</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">57% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Python -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=2000" alt="Python Programming"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Python Programming</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Fundamentals, automation, data analysis and AI/ML
+              foundations.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Rohan Das</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹7,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹18,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">58% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Web Development -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000" alt="Web Development"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Web Development</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Full-stack track combining frontend and backend to
+              ship complete web apps.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Sanjay Verma</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹8,499</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹19,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">57% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cybersecurity -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000" alt="Cybersecurity"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Cybersecurity</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Network security, ethical hacking and threat defense
+              fundamentals.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Nikhil Chandran</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹8,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹20,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">57% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000"
+              alt="Artificial Intelligence" class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Artificial Intelligence</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Machine learning, neural networks and applied AI
+              project building.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Divya Krishnan</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹9,499</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹22,499</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">58% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- UI/UX -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000" alt="UI/UX Design"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">UI/UX Design</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Wireframing, prototyping and Figma workflows for
+              product design.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Ananya Pillai</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹6,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹16,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">59% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Science -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000" alt="Data Science"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Data Science</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Statistics, data visualization and predictive modeling
+              with Python.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Vikram Shah</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹9,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹23,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">58% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
+                now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Machine Learning -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1527474305487-b87b222841cc?q=80&w=2000" alt="Machine Learning"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Machine Learning</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Supervised and unsupervised learning, algorithms and
+              model deployment.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Rajesh Kumar</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹8,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹20,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">57% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition"
+                style="display: block; text-align: center;">Enroll now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantum Computing -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000" alt="Quantum Computing"
+              class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Quantum Computing</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Qubits, quantum algorithms, and next-generation
+              computing basics.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Dr. Aisha Khan</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹9,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹25,000</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">60% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition"
+                style="display: block; text-align: center;">Enroll now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Problem Solving Using DSA -->
+        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000"
+              alt="Problem Solving Using DSA" class="w-full h-36 object-cover">
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-display font-700 text-base mb-1">Problem Solving Using DSA</h3>
+            <p class="text-sm text-[var(--ink-soft)] mb-3 flex-1">Master Data Structures & Algorithms for top tech
+              interviews.</p>
+            <p class="text-xs text-[var(--ink-soft)] mb-2">Instructor: Sandeep Singh</p>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="font-display font-700 text-lg">₹5,999</span>
+              <span class="text-sm text-[var(--ink-soft)] line-through">₹14,999</span>
+              <span class="text-xs font-semibold text-[#0F7B4F]">60% off</span>
+            </div>
+            <div class="flex gap-2 mt-auto">
+              <a href="login.html"
+                class="flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition"
+                style="display: block; text-align: center;">Enroll now</a>
+              <a href="login.html"
+                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+  </section>
+
+  <!-- ================= INTERNSHIP CUM PLACEMENT BANNER ================= -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6">
+      <div
+        class="relative overflow-hidden rounded-[2.5rem] bg-[#0F172A] border border-[#1E293B] shadow-2xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between">
+
+        <!-- Subtle Grid Background -->
+        <div class="absolute inset-0 opacity-[0.03]"
+          style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+        <!-- Accent Glows -->
+        <div
+          class="absolute top-0 right-1/4 w-[30rem] h-[30rem] bg-[var(--purple)] rounded-full mix-blend-screen filter blur-[100px] opacity-20 pointer-events-none">
+        </div>
+        <div
+          class="absolute bottom-0 left-1/4 w-[30rem] h-[30rem] bg-indigo-500 rounded-full mix-blend-screen filter blur-[100px] opacity-10 pointer-events-none">
+        </div>
+
+        <div class="relative z-10 max-w-xl text-center md:text-left mb-10 md:mb-0">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/90 text-xs font-bold uppercase tracking-wider mb-6">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Exclusive Opportunity
+          </div>
+          <h2 class="font-display font-black text-4xl sm:text-5xl text-white mb-6 leading-[1.15] tracking-tight">
+            Training <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">&amp;
+              Placement</span> Program
+          </h2>
+          <p class="text-[#94A3B8] text-lg leading-relaxed max-w-md mx-auto md:mx-0">
+            Bridge the gap between learning and earning. Gain hands-on industry experience and secure guaranteed
+            placement support upon completion.
+          </p>
+        </div>
+
+        <div
+          class="relative z-10 w-full md:w-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 flex flex-col items-center md:items-end">
+          <p class="text-[#94A3B8] font-semibold text-sm uppercase tracking-widest mb-2">Program Fee</p>
+          <div class="flex items-end gap-3 mb-8">
+            <span class="text-[#64748B] line-through text-xl font-medium mb-1">₹35,000</span>
+            <span class="text-white font-black text-5xl tracking-tight">₹25,000</span>
+          </div>
+          <a href="login.html"
+            class="w-full flex items-center justify-center gap-2 bg-white text-[#0F172A] hover:bg-gray-100 px-8 py-4 rounded-xl font-bold text-lg transition-transform hover:scale-105 duration-300">
+            Apply Now
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= CAREER DEMAND ================= -->
+  <section id="demand" class="bg-white border-y border-[var(--line)] py-16">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6">
+      <h2 class="font-display font-700 text-3xl text-center mb-2">Where these skills lead</h2>
+      <p class="text-center text-[var(--ink-soft)] mb-10">Salary ranges and demand levels for each track, based on
+        current hiring trends.</p>
+
+      <div class="space-y-5">
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=2000" alt="Frontend Development"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Frontend Development</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">HTML, CSS, JavaScript and React for user-friendly websites.
+            </p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">High</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Frontend Dev, UI Engineer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹4–8 LPA · $75k–110k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2000" alt="Backend Development"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Backend Development</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Node.js, Django and Spring Boot for scalable APIs.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Very high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Backend Dev, API Engineer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹5–10 LPA · $85k–120k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2000" alt="Java Development"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Java Development</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Enterprise and Android apps with Java, Spring Boot and
+              Hibernate.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Strong</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Java Dev, Software Engineer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹5–12 LPA · $90k–130k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=2000" alt="Python Development"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Python Development</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Web development, automation, AI and data science with Python.
+            </p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Extremely high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Python Dev, Data Analyst</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹6–14 LPA · $95k–140k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000" alt="Web Development"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Web Development</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Full-stack skills combining frontend and backend into
+              shippable products.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Very high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Full-Stack Dev, Web Engineer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹5–11 LPA · $80k–125k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000" alt="Cybersecurity"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Cybersecurity</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Network defense, ethical hacking and security operations.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">High</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Security Analyst, SOC Engineer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹6–13 LPA · $90k–135k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000"
+            alt="Artificial Intelligence" class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Artificial Intelligence</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Machine learning and applied AI for real-world products.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Extremely high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: ML Engineer, AI Developer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹7–16 LPA · $100k–150k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000" alt="UI/UX Design"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">UI/UX Design</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Product design, prototyping and user research fundamentals.
+            </p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">High</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: UI Designer, Product Designer</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹4–9 LPA · $70k–115k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000" alt="Data Science"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Data Science</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Statistics, modeling and data storytelling for
+              decision-making.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Extremely high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Data Scientist, Data Analyst</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹7–15 LPA · $95k–145k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1527474305487-b87b222841cc?q=80&w=2000" alt="Machine Learning"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Machine Learning</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Model deployment, neural networks, and scalable AI solutions.
+            </p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Extremely high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: ML Engineer, AI Researcher</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹8–18 LPA · $100k–160k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000" alt="Quantum Computing"
+            class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Quantum Computing</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Next-gen computation, qubits, and advanced quantum
+              algorithms.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--purple)]">Emerging</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Quantum Researcher, Algorithm Dev</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹10–25 LPA · $120k–200k</p>
+          </div>
+        </div>
+
+        <div
+          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
+          <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000"
+            alt="Problem Solving Using DSA" class="w-full md:w-48 h-32 object-cover rounded-xl">
+          <div class="flex-1">
+            <h3 class="font-display font-700 text-lg">Problem Solving Using DSA</h3>
+            <p class="text-[var(--ink-soft)] mt-1 text-sm">Foundational algorithms and structures to crack tech
+              interviews.</p>
+          </div>
+          <div
+            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
+            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">Very high</span></p>
+            <p class="text-sm text-[var(--ink-soft)]">Roles: Software Engineer (SDE I/II)</p>
+            <p class="text-sm text-[var(--ink-soft)]">₹8–20 LPA · $90k–140k</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STATS ================= -->
+  <section class="bg-[var(--ink)] text-white py-14">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <div>
+        <p class="font-display font-800 text-3xl text-[var(--purple)]">1000+</p>
+        <p class="text-sm text-[#C7C5D1] mt-1">Students taught</p>
+      </div>
+      <div>
+        <p class="font-display font-800 text-3xl text-[var(--purple)]">80+</p>
+        <p class="text-sm text-[#C7C5D1] mt-1">Internships placed</p>
+      </div>
+      <div>
+        <p class="font-display font-800 text-3xl text-[var(--purple)]">4</p>
+        <p class="text-sm text-[#C7C5D1] mt-1">Live tracks</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REVIEWS ================= -->
+  <section id="reviews" class="py-16 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6 mb-10">
+      <h2 class="font-display font-700 text-3xl text-center">What students say</h2>
+    </div>
+
+    <!-- Infinite Scrolling Marquee Container -->
+    <div class="marquee-container">
+      <div class="marquee-track space-x-6 px-3">
+
+        <!-- CARD LIST (Original 7 Cards) -->
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">The live classes actually kept me accountable. I went from zero
+            to building my own React projects in ten weeks.</p>
+          <p class="font-semibold text-sm">Priya Nair</p>
+          <p class="text-xs text-[var(--ink-soft)]">Frontend Development</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">Instructors respond fast and the internship after the course
+            gave me real experience to put on my resume.</p>
+          <p class="font-semibold text-sm">Arjun Menon</p>
+          <p class="text-xs text-[var(--ink-soft)]">Backend Development</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">Best value for the price. The Python course covered exactly
+            what I needed for my data analyst interview.</p>
+          <p class="font-semibold text-sm">Sneha Reddy</p>
+          <p class="text-xs text-[var(--ink-soft)]">Python Programming</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">The hands-on projects with real datasets made learning Pandas
+            and Machine Learning incredibly practical and fun.</p>
+          <p class="font-semibold text-sm">Rahul Sharma</p>
+          <p class="text-xs text-[var(--ink-soft)]">Data Science</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">Learning Figma from scratch to advanced prototyping helped me
+            land a job as a Junior Product Designer.</p>
+          <p class="font-semibold text-sm">Kavya Iyer</p>
+          <p class="text-xs text-[var(--ink-soft)]">UI/UX Design</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">The ethical hacking modules are eye-opening. The practical labs
+            really solidify the network security concepts.</p>
+          <p class="font-semibold text-sm">Manoj Kumar</p>
+          <p class="text-xs text-[var(--ink-soft)]">Cybersecurity</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">From zero coding knowledge to building a full-stack e-commerce
+            app. The journey was tough but completely worth it.</p>
+          <p class="font-semibold text-sm">Riya Singh</p>
+          <p class="text-xs text-[var(--ink-soft)]">Web Development</p>
+        </div>
+
+        <!-- DUPLICATE LIST (For Seamless Loop) -->
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">The live classes actually kept me accountable. I went from zero
+            to building my own React projects in ten weeks.</p>
+          <p class="font-semibold text-sm">Priya Nair</p>
+          <p class="text-xs text-[var(--ink-soft)]">Frontend Development</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">Instructors respond fast and the internship after the course
+            gave me real experience to put on my resume.</p>
+          <p class="font-semibold text-sm">Arjun Menon</p>
+          <p class="text-xs text-[var(--ink-soft)]">Backend Development</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">Best value for the price. The Python course covered exactly
+            what I needed for my data analyst interview.</p>
+          <p class="font-semibold text-sm">Sneha Reddy</p>
+          <p class="text-xs text-[var(--ink-soft)]">Python Programming</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">The hands-on projects with real datasets made learning Pandas
+            and Machine Learning incredibly practical and fun.</p>
+          <p class="font-semibold text-sm">Rahul Sharma</p>
+          <p class="text-xs text-[var(--ink-soft)]">Data Science</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">Learning Figma from scratch to advanced prototyping helped me
+            land a job as a Junior Product Designer.</p>
+          <p class="font-semibold text-sm">Kavya Iyer</p>
+          <p class="text-xs text-[var(--ink-soft)]">UI/UX Design</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">The ethical hacking modules are eye-opening. The practical labs
+            really solidify the network security concepts.</p>
+          <p class="font-semibold text-sm">Manoj Kumar</p>
+          <p class="text-xs text-[var(--ink-soft)]">Cybersecurity</p>
+        </div>
+        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
+          <div class="stars mb-2 text-yellow-500">★★★★★</div>
+          <p class="text-sm text-[var(--ink-soft)] mb-4">From zero coding knowledge to building a full-stack e-commerce
+            app. The journey was tough but completely worth it.</p>
+          <p class="font-semibold text-sm">Riya Singh</p>
+          <p class="text-xs text-[var(--ink-soft)]">Web Development</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq" class="bg-white border-t border-[var(--line)] py-16">
+    <div class="max-w-3xl mx-auto px-4 lg:px-6">
+      <h2 class="font-display font-700 text-3xl text-center mb-8">Frequently asked questions</h2>
+
+      <div class="space-y-3">
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>Who is AGS Academy?</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            AGS Academy is an online learning platform offering industry-relevant courses in Python, Java, Backend and
+            Frontend Development.
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>Are the courses live or recorded?</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            All courses run live. Recordings are also available for anyone who misses a class.
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>When does the course start?</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            The next batch begins on February 1, 2027.
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>What's the class schedule?</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            Classes run Five days a week.
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>Do I get a certificate after completion?</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            Yes — every student who completes a course receives a verified certificate from AGS Academy.
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>Does AGS Academy offer internships?</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            Yes — internships are offered to top-performing students in each batch.
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] rounded-xl">
+          <button class="faq-btn w-full flex justify-between items-center px-5 py-4 text-left font-medium">
+            <span>Help and support</span>
+            <svg class="w-5 h-5 text-[var(--ink-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content px-5 pb-4 hidden text-sm text-[var(--ink-soft)]">
+            Facing an issue? Email us at <a href="mailto:gkacademy1234@gmail.com"
+              class="text-[var(--purple)] underline">gkacademy1234@gmail.com</a> and we'll get back to you as soon as
+            possible.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- ================= BACK TO TOP ================= -->
+  <button id="backToTopBtn"
+    class="hidden fixed bottom-8 right-8 bg-[var(--purple)] text-white p-3 rounded-full shadow-lg hover:bg-[var(--purple-deep)] transition duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="w-full bg-[var(--ink)] text-white py-12">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="md:col-span-2">
+        <a href="#Home" class="flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1d4ed8" />
+              </linearGradient>
+            </defs>
+            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round"
+              stroke-linejoin="round" fill="none" />
+            <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+            <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+            <circle cx="70" cy="70" r="8" fill="#3b82f6" />
+          </svg>
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-xl font-800 text-white">AGS</span>
+            <span class="font-display text-xl font-800 text-[var(--purple)]">Academy</span>
+          </div>
+        </a>
+        <p class="text-[#B9B7C2] text-sm max-w-sm">
+          Empowering students with quality, affordable online education — live classes, certificates and internship
+          placement in one place.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-sm">Quick links</h3>
+        <ul class="space-y-2 text-sm text-[#B9B7C2]">
+          <li><a href="#Home" class="hover:text-white transition">Home</a></li>
+          <li><a href="#courses" class="hover:text-white transition">Courses</a></li>
+          <li><a href="#demand" class="hover:text-white transition">Career paths</a></li>
+          <li><a href="#faq" class="hover:text-white transition">Help</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-sm">Contact</h3>
+        <p class="text-[#B9B7C2] text-sm">
+          <a href="mailto:gkacademy1234@gmail.com" class="hover:text-white underline">gkacademy1234@gmail.com</a>
+        </p>
+      </div>
+    </div>
+    <div class="w-full mt-10 text-center text-[#7A7887] text-xs px-4">
+      &copy; 2025 AGS Academy. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Nav links active state
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function () {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    // FAQ accordion
+    document.querySelectorAll(".faq-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector("svg");
+        content.classList.toggle("hidden");
+        icon.classList.toggle("rotate-180");
+      });
+    });
+
+    // Category chips
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+
+    // Back to top
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    window.addEventListener('scroll', () => {
+      backToTopBtn.classList.toggle('hidden', window.scrollY <= 300);
+    });
+    backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Scroll reveal (staggered, single orchestrated effect for cards/sections)
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('in'), i * 60);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Search Functionality
+    function handleIndexSearch(event) {
+      const query = event.target.value.toLowerCase();
+      const courseCards = document.querySelectorAll('.course-card');
+
+      courseCards.forEach(card => {
+        const title = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+        const desc = card.querySelector('p') ? card.querySelector('p').textContent.toLowerCase() : '';
+        const instructor = card.querySelectorAll('p')[1] ? card.querySelectorAll('p')[1].textContent.toLowerCase() : '';
+
+        if (title.includes(query) || desc.includes(query) || instructor.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (event.key === 'Enter') {
+        const coursesSection = document.getElementById('courses');
+        if (coursesSection) {
+          coursesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

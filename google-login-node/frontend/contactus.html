@@ -3,116 +3,219 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us - GK Academy</title>
+  <title>Contact Us - AGS Academy</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
+    body { font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .bg-udemy-dark { background-color: #1c1d1f; }
+    .text-udemy-purple { color: #5624d0; }
+    .bg-udemy-purple { background-color: #5624d0; }
+    .hover-bg-udemy-purple:hover { background-color: #401b9c; }
+    
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    
     /* Floating label animation */
-    .input-container { position: relative; }
-    .input-container input,
-    .input-container textarea { padding-top: 1.25rem; }
+    .input-container { position: relative; margin-bottom: 1.5rem; }
+    .input-container input, .input-container textarea { 
+      padding-top: 1.5rem; 
+      padding-bottom: 0.5rem;
+    }
     .input-container label {
       position: absolute;
-      top: 0.75rem;
+      top: 1rem;
       left: 1rem;
       font-size: 1rem;
       color: #6B7280;
       pointer-events: none;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease-out;
     }
     .input-container input:focus + label,
     .input-container input:not(:placeholder-shown) + label,
     .input-container textarea:focus + label,
     .input-container textarea:not(:placeholder-shown) + label {
-      top: -0.5rem;
-      left: 1rem;
+      top: 0.25rem;
       font-size: 0.75rem;
-      color: #2563EB;
-      font-weight: 500;
+      color: #5624d0;
+      font-weight: bold;
     }
-
-    /* Fade-in animation */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(15px);
-      animation: fadeInUp 0.8s forwards;
+  
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
     }
-    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-    /* Button hover animation */
-    .btn-animated {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-    .btn-animated::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-    }
-    .btn-animated:hover::after { width: 100%; }
-  </style>
+</style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-50 text-gray-900 antialiased flex flex-col min-h-screen">
 
-  <!-- Compact Header -->
-  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 py-12 text-center text-white fade-in">
-    <h1 class="text-4xl md:text-4xl font-bold mb-2">Contact Us</h1>
-    <p class="text-md md:text-lg max-w-xl mx-auto opacity-90">
-      Questions about courses or enrollment? Fill out the form below and we’ll respond quickly.
-    </p>
-  </header>
-
-  <!-- Contact Section -->
-  <main class="max-w-4xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
-    <!-- Info Panel -->
-    <div class="fade-in" style="animation-delay: 0.2s;">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">We’re Here to Help</h2>
-      <p class="text-gray-600 mb-4">
-        For course inquiries, schedules, or support, reach out to us. We respond within 24 hours.
-      </p>
-      <p class="font-semibold text-gray-700">📧 gkacademy1234@gmail.com</p>
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md border-b border-gray-100 py-4 px-6 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center space-x-6">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+          <defs>
+            <linearGradient id="gradDash" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5624d0" />
+              <stop offset="100%" stop-color="#401b9c" />
+            </linearGradient>
+          </defs>
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradDash)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#401b9c" />
+          <circle cx="20" cy="70" r="8" fill="#5624d0" />
+          <circle cx="70" cy="70" r="8" fill="#5624d0" />
+        </svg>
+        <div class="flex items-baseline gap-0.5">
+          <span class="text-2xl font-black tracking-tight text-gray-900">AGS</span>
+          <span class="text-2xl font-black tracking-tight text-udemy-purple">Academy</span>
+        </div>
+      </a>
     </div>
-
-    <!-- Form Panel -->
-    <div class="bg-white rounded-2xl shadow-md p-8 fade-in" style="animation-delay: 0.4s;">
-      <form class="space-y-4">
-
-        <!-- Full Name -->
-        <div class="input-container">
-          <input type="text" placeholder=" " class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <label>Full Name</label>
-        </div>
-
-        <!-- Email -->
-        <div class="input-container">
-          <input type="email" placeholder=" " class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <label>Email Address</label>
-        </div>
-
-        <!-- Message -->
-        <div class="input-container">
-          <textarea rows="4" placeholder=" " class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
-          <label>Your Message</label>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn-animated w-full bg-blue-600 text-white py-2 rounded-xl font-semibold shadow hover:bg-blue-700 transition">
-          Send Message
-        </button>
-      </form>
+    <div class="flex items-center space-x-5">
+      <a href="dash.html" class="text-sm font-medium text-gray-700 hover:text-udemy-purple transition">Dashboard</a>
+      <a href="Aboutus.html" class="text-sm font-medium text-gray-700 hover:text-udemy-purple transition">About Us</a>
+      <a href="contactus.html" class="text-sm font-bold text-udemy-purple transition border-b-2 border-udemy-purple pb-1">Contact Us</a>
     </div>
+  </nav>
 
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center py-16 px-6">
+    <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden flex flex-col md:flex-row animate-fade-up">
+      
+      <!-- Contact Info Section -->
+      <div class="bg-udemy-dark text-white p-10 md:p-16 md:w-5/12 flex flex-col justify-between relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="absolute -top-24 -left-24 w-64 h-64 bg-udemy-purple rounded-full mix-blend-screen opacity-20 filter blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-pink-500 rounded-full mix-blend-screen opacity-10 filter blur-3xl"></div>
+        
+        <div class="relative z-10">
+          <h2 class="text-3xl md:text-4xl font-black mb-4">Get in touch</h2>
+          <p class="text-gray-400 text-lg mb-12">We'd love to hear from you. Our friendly team is always here to chat.</p>
+          
+          <div class="space-y-8">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-envelope text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold mb-1">Chat with us</h4>
+                <p class="text-gray-400 mb-1 text-sm">Our friendly team is here to help.</p>
+                <a href="mailto:gkacademy1234@gmail.com" class="text-purple-400 font-bold hover:text-purple-300 transition">gkacademy1234@gmail.com</a>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-location-dot text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold mb-1">Visit us</h4>
+                <p class="text-gray-400 mb-1 text-sm">Come say hello at our office HQ.</p>
+                <p class="font-bold">100 Tech Park Way<br>Silicon Valley, CA 94025</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-phone text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold mb-1">Call us</h4>
+                <p class="text-gray-400 mb-1 text-sm">Mon-Fri from 8am to 5pm.</p>
+                <p class="font-bold">+1 (555) 000-0000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="relative z-10 mt-16 flex space-x-4">
+          <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-udemy-purple transition-colors"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-udemy-purple transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-udemy-purple transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+      
+      <!-- Contact Form Section -->
+      <div class="p-10 md:p-16 md:w-7/12">
+        <h3 class="text-2xl font-black text-gray-900 mb-8">Send us a message</h3>
+        
+        <form class="space-y-6" onsubmit="event.preventDefault(); alert('Message sent successfully! We will get back to you soon.');">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div class="input-container mb-0">
+               <input type="text" id="first-name" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
+               <label for="first-name">First name</label>
+             </div>
+             <div class="input-container mb-0">
+               <input type="text" id="last-name" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
+               <label for="last-name">Last name</label>
+             </div>
+          </div>
+          
+          <div class="input-container">
+            <input type="email" id="email" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
+            <label for="email">Email address</label>
+          </div>
+          
+          <div class="input-container">
+            <input type="text" id="subject" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
+            <label for="subject">Subject</label>
+          </div>
+          
+          <div class="input-container">
+            <textarea id="message" rows="5" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all resize-none"></textarea>
+            <label for="message">How can we help?</label>
+          </div>
+          
+          <button type="submit" class="w-full bg-udemy-dark hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition-transform hover:-translate-y-1">
+            Send Message
+          </button>
+        </form>
+      </div>
+      
+    </div>
   </main>
 
   <!-- Footer -->
-  <footer class="text-center py-6 text-gray-500 text-sm fade-in" style="animation-delay: 0.6s;">
-    &copy; 2025 GK Academy. All rights reserved.
+  <footer class="bg-udemy-dark text-white py-12 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-6 md:mb-0">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+            <defs>
+              <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5624d0" />
+                <stop offset="100%" stop-color="#401b9c" />
+              </linearGradient>
+            </defs>
+            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            <circle cx="45" cy="20" r="8" fill="#401b9c" />
+            <circle cx="20" cy="70" r="8" fill="#5624d0" />
+            <circle cx="70" cy="70" r="8" fill="#5624d0" />
+          </svg>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-2xl font-black tracking-tight text-white">AGS</span>
+            <span class="text-2xl font-black tracking-tight text-udemy-purple">Academy</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-400 mt-2">Empowering your future with modern skills.</p>
+      </div>
+      <div class="flex space-x-6 text-sm">
+        <a href="#" class="hover:text-gray-300 transition">Terms</a>
+        <a href="#" class="hover:text-gray-300 transition">Privacy policy</a>
+        <a href="#" class="hover:text-gray-300 transition">Cookie settings</a>
+      </div>
+    </div>
   </footer>
 
 </body>

@@ -3,63 +3,257 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Signup - GK Academy</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Signup - AGS Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --success: #16a34a;
+      --success-hover: #15803d;
+      --bg-color: #f3f4f6;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --input-border: #d1d5db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-color) url('bg_signup.png') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .glass-container {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 440px;
+      transition: transform 0.3s ease;
+    }
+
+    .glass-container:hover {
+      transform: translateY(-5px);
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: -0.5px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .input-group.flex-group {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .input-group.flex-group .input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 16px 14px 8px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.6);
+      border: 2px solid transparent;
+      border-bottom: 2px solid var(--input-border);
+      border-radius: 12px 12px 0 0;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom-color: var(--primary);
+    }
+
+    .floating-label {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      font-size: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: 0.2s ease all;
+      transform-origin: left top;
+    }
+
+    .input-field:focus ~ .floating-label,
+    .input-field:not(:placeholder-shown) ~ .floating-label {
+      top: 6px;
+      left: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .input-field::placeholder {
+      color: transparent;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--success);
+      color: white;
+      box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--success-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.5);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      padding: 0 20px;
+      background: var(--primary);
+      color: white;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+    }
+    
+    .btn-secondary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-secondary:disabled {
+      background: #a5b4fc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    #message {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .footer-text a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .footer-text a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+  
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body>
 
-<div class="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
-  <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Create Account</h2>
+<div class="glass-container">
+  <h2 class="title">Create Account</h2>
 
-  <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700">Name</label>
-    <input id="name" type="text" placeholder="Enter your name"
-      class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+  <div class="input-group">
+    <input id="name" type="text" class="input-field" placeholder="Name" autocomplete="name" required>
+    <label class="floating-label">Full Name</label>
   </div>
 
-  <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700">Email</label>
-    <div class="flex space-x-2">
-      <input id="email" type="email" placeholder="Enter your email"
-        class="flex-1 mt-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
-      <button id="getOtpBtn"
-        class="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Get OTP</button>
+  <div class="input-group flex-group">
+    <div class="input-wrapper">
+      <input id="email" type="email" class="input-field" placeholder="Email" autocomplete="email" required>
+      <label class="floating-label">Email Address</label>
     </div>
+    <button id="getOtpBtn" class="btn-secondary">Get OTP</button>
   </div>
 
-  <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700">OTP</label>
-    <input id="otp" type="text" placeholder="Enter OTP"
-      class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+  <div class="input-group">
+    <input id="otp" type="text" class="input-field" placeholder="OTP" autocomplete="one-time-code" required>
+    <label class="floating-label">Verification Code</label>
   </div>
 
-  <div class="mb-6">
-    <label class="block text-sm font-medium text-gray-700">Password</label>
-    <input id="password" type="password" placeholder="Enter your password"
-      class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+  <div class="input-group">
+    <input id="password" type="password" class="input-field" placeholder="Password" autocomplete="new-password" required>
+    <label class="floating-label">Password</label>
   </div>
 
-  <p id="message" class="text-center text-sm mb-4"></p>
+  <p id="message"></p>
 
-  <button id="signupBtn"
-    class="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Signup</button>
+  <button id="signupBtn" class="btn-primary">Sign Up</button>
 
-  <p class="text-center mt-4 text-sm text-gray-600">
+  <p class="footer-text">
     Already have an account?
-    <a href="login.html" class="text-indigo-600 hover:underline">Login</a>
+    <a href="login.html">Login</a>
   </p>
 </div>
 
 <script>
-const API_BASE = "http://localhost:5000";  // backend base URL
+const API_BASE = "http://localhost:5000";  
 const messageEl = document.getElementById('message');
 const getOtpBtn = document.getElementById('getOtpBtn');
 const signupBtn = document.getElementById('signupBtn');
 
 function showMessage(msg, color){
   messageEl.textContent = msg;
-  messageEl.style.color = color || '#111827';
-  messageEl.className = 'text-center text-sm mb-4 font-medium';
+  messageEl.style.color = color || 'var(--text-main)';
 }
 
 function startOtpCooldown(seconds = 60){
@@ -75,7 +269,7 @@ function startOtpCooldown(seconds = 60){
       getOtpBtn.innerText = original;
 
       document.getElementById('otp').value = "";
-      showMessage("OTP expired. Please request a new one.", "red");
+      showMessage("OTP expired. Please request a new one.", "#dc2626"); // Red
     } else {
       getOtpBtn.innerText = `Resend (${s}s)`;
     }
@@ -85,31 +279,31 @@ function startOtpCooldown(seconds = 60){
 // Request OTP
 getOtpBtn.addEventListener('click', async () => {
   const email = document.getElementById('email').value.trim();
-  if(!email){ showMessage('Please enter an email', 'red'); return; }
+  if(!email){ showMessage('Please enter an email address', '#dc2626'); return; }
 
   getOtpBtn.disabled = true;
   getOtpBtn.innerText = 'Sending...';
-  showMessage('Sending OTP...', '#0ea5e9');
+  showMessage('Sending OTP...', 'var(--primary)');
 
   try {
-    const res = await fetch(`${API_BASE}/api/send-email-otp`, { // ✅ Updated route
+    const res = await fetch(`${API_BASE}/api/send-email-otp`, { 
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ email })
     });
     const data = await res.json();
     if(res.ok){
-      showMessage(data.message || 'OTP sent', '#16a34a');
+      showMessage(data.message || 'OTP sent successfully', 'var(--success)');
       startOtpCooldown(60);
       if(data.otp){
         console.log('DEV OTP (server returned):', data.otp);
       }
     } else {
-      showMessage(data.message || 'Error sending OTP', 'red');
+      showMessage(data.message || 'Error sending OTP', '#dc2626');
     }
   } catch(err){
     console.error(err);
-    showMessage('Server error, try again!', 'red');
+    showMessage('Server error, please try again!', '#dc2626');
   } finally {
     if(!getOtpBtn.disabled){ getOtpBtn.innerText = 'Get OTP'; }
     else if(getOtpBtn.innerText === 'Sending...'){ getOtpBtn.innerText = 'Get OTP'; }
@@ -123,11 +317,11 @@ signupBtn.addEventListener('click', async () => {
   const password = document.getElementById('password').value.trim();
   const otp = document.getElementById('otp').value.trim();
 
-  if(!name || !email || !password || !otp){ showMessage('Fill all fields','red'); return; }
+  if(!name || !email || !password || !otp){ showMessage('Please fill in all fields','#dc2626'); return; }
 
   signupBtn.disabled = true;
   signupBtn.innerText = 'Signing up...';
-  showMessage('Signing up...', '#0ea5e9');
+  showMessage('Creating account...', 'var(--primary)');
 
   try{
     const res = await fetch(`${API_BASE}/api/signup`,{
@@ -137,20 +331,18 @@ signupBtn.addEventListener('click', async () => {
     });
     const data = await res.json();
     if(res.ok){
-      showMessage(data.message || 'Signup successful', '#16a34a');
-
+      showMessage(data.message || 'Signup successful!', 'var(--success)');
       localStorage.setItem('username', data.username || data.displayName || data.email);
-
       setTimeout(()=>window.location.href="dash.html",1500);
     } else {
-      showMessage(data.message || 'Signup failed', 'red');
+      showMessage(data.message || 'Signup failed', '#dc2626');
     }
   } catch(err){
     console.error(err);
-    showMessage('Server error, try again!', 'red');
+    showMessage('Server error, please try again!', '#dc2626');
   } finally {
     signupBtn.disabled = false;
-    signupBtn.innerText = 'Signup';
+    signupBtn.innerText = 'Sign Up';
   }
 });
 </script>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll - AGS Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --purple: #8b5cf6;
+            --purple-deep: #6d28d9;
+            --green: #10b981;
+        }
+        body { font-family: Inter, system-ui, sans-serif; background-color: #fff; color: #1f2937; margin: 0; padding: 0; }
+        
+        .toast {
+            position: fixed; top: 25px; right: 25px; z-index: 9999;
+            padding: 14px 20px; border-radius: 12px; background: var(--green);
+            color: white; font-size: 14px; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15); animation: slideIn .3s ease;
+        }
+        .toast.error { background: #ef4444; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        
+        /* Modern Select styling */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position-x: 96%;
+            background-position-y: center;
+        }
+    
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
+</head>
+<body class="h-screen w-full overflow-hidden flex bg-white">
+
+    <!-- Left Side: Branding / Imagery -->
+    <div class="hidden lg:flex lg:w-5/12 xl:w-1/2 relative bg-gray-900 overflow-hidden flex-col justify-end p-12">
+        <!-- Image background -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+                 alt="Students learning" 
+                 class="w-full h-full object-cover opacity-60">
+        </div>
+        <!-- Gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[var(--purple-deep)] via-[rgba(109,40,217,0.7)] to-transparent mix-blend-multiply"></div>
+        
+        <!-- Content -->
+        <div class="relative z-10 text-white fade-up mb-8">
+            <div class="mb-8 flex items-center gap-3">
+                <div class="w-14 h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center overflow-hidden border border-white/20">
+                    <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+  <defs>
+    <linearGradient id="gradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5624d0" />
+      <stop offset="100%" stop-color="#401b9c" />
+    </linearGradient>
+  </defs>
+  <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradLogo)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <circle cx="45" cy="20" r="8" fill="#401b9c" />
+  <circle cx="20" cy="70" r="8" fill="#5624d0" />
+  <circle cx="70" cy="70" r="8" fill="#5624d0" />
+</svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-tight leading-none">AGS</span>
+                    <span class="text-xl font-bold text-[var(--purple)] leading-none tracking-tight">Academy</span>
+                </div>
+            </div>
+            <h1 class="text-4xl xl:text-5xl font-extrabold mb-4 leading-tight">Fast-track your tech career.</h1>
+            <p class="text-white/80 text-lg xl:text-xl max-w-md font-light leading-relaxed">
+                Join thousands of students mastering high-demand skills with live classes, real-world projects, and career placement support.
+            </p>
+        </div>
+        
+        <!-- Trust badge / Profile Card -->
+        <div class="relative z-10 mt-6 p-5 sm:p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.15)] max-w-md">
+            <div class="flex items-center gap-5">
+                <div class="flex -space-x-4">
+                    <img class="w-12 h-12 rounded-full border-2 border-gray-900 object-cover shadow-sm transition-transform hover:-translate-y-1" src="https://i.pravatar.cc/150?img=11" alt="Student">
+                    <img class="w-12 h-12 rounded-full border-2 border-gray-900 object-cover shadow-sm transition-transform hover:-translate-y-1" src="https://i.pravatar.cc/150?img=32" alt="Student">
+                    <img class="w-12 h-12 rounded-full border-2 border-gray-900 object-cover shadow-sm transition-transform hover:-translate-y-1" src="https://i.pravatar.cc/150?img=44" alt="Student">
+                    <div class="w-12 h-12 rounded-full border-2 border-gray-900 bg-gradient-to-br from-[var(--purple)] to-[var(--purple-deep)] flex items-center justify-center text-xs font-bold text-white shadow-sm transition-transform hover:-translate-y-1">+5k</div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1 mb-1">
+                        <!-- 5 Stars -->
+                        <svg class="w-4 h-4 text-yellow-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4 text-yellow-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4 text-yellow-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4 text-yellow-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4 text-yellow-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-white/95 text-[15px] font-semibold leading-tight">Join <span class="text-white font-black">5,000+</span> alumni</p>
+                    <p class="text-white/70 text-xs mt-0.5 font-medium tracking-wide">Placed in top tech companies</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side: Enrollment Form -->
+    <div class="w-full lg:w-7/12 xl:w-1/2 flex items-center justify-center h-full overflow-y-auto bg-white p-6 sm:p-12">
+        
+        <div class="w-full max-w-lg">
+            
+            <div class="mb-10 text-center lg:text-left">
+                <p class="text-[var(--purple)] text-xs font-bold tracking-widest uppercase mb-2">AGS Academy Enrollment</p>
+                <h2 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">Create your account</h2>
+                <p class="text-gray-500 mt-2 text-sm sm:text-base">Enter your details and select a program to enroll.</p>
+            </div>
+
+            <form id="enrollForm" class="space-y-6">
+                
+                <!-- Inputs row -->
+                <div class="flex flex-col gap-5">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <div class="flex-1">
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2" for="name">Full Name</label>
+                            <input type="text" id="name" required placeholder="John Doe"
+                                   class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3.5 rounded-xl focus:bg-white focus:outline-none focus:border-[var(--purple)] focus:ring-4 focus:ring-purple-50 transition-all duration-300">
+                        </div>
+                        
+                        <div class="flex-1">
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2" for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="john@example.com"
+                                   class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3.5 rounded-xl focus:bg-white focus:outline-none focus:border-[var(--purple)] focus:ring-4 focus:ring-purple-50 transition-all duration-300">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2" for="mobile">Mobile Number</label>
+                        <input type="tel" id="mobile" required placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}"
+                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3.5 rounded-xl focus:bg-white focus:outline-none focus:border-[var(--purple)] focus:ring-4 focus:ring-purple-50 transition-all duration-300">
+                    </div>
+                </div>
+
+                <!-- OTP Verification Block -->
+                <div id="emailOtpContainer" class="bg-gray-50/50 border border-gray-200 rounded-2xl p-5 transition-all duration-300">
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span id="statusDot" class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-gray-400"></span>
+                            </span>
+                            <span class="text-sm font-semibold text-gray-700">Email Verification</span>
+                        </div>
+                        <button type="button" id="sendEmailOTP" 
+                                class="text-xs font-bold px-4 py-2 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white rounded-lg transition shadow-sm">
+                            Send OTP
+                        </button>
+                    </div>
+
+                    <div id="emailOtpSection" class="mt-4 pt-4 border-t border-gray-200 hidden transition-all">
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2" for="emailOtp">Verification Code</label>
+                        <div class="flex gap-3">
+                            <input type="text" id="emailOtp" placeholder="Enter 6-digit code" 
+                                   class="flex-1 bg-white border border-gray-200 text-gray-900 px-4 py-3 rounded-xl focus:outline-none focus:border-[var(--purple)] focus:ring-4 focus:ring-purple-50 transition-all text-center tracking-[0.5em] font-mono text-lg">
+                            <button type="button" id="verifyEmailOTP" 
+                                    class="px-6 rounded-xl bg-gray-900 hover:bg-black text-white font-semibold transition shadow-md">
+                                Verify
+                            </button>
+                        </div>
+                        <p id="emailStatus" class="text-xs text-gray-500 mt-2 font-medium"></p>
+                    </div>
+                </div>
+
+                <!-- Course Selection Dropdown -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2" for="course">Select Program</label>
+                    <div class="relative">
+                        <select id="course" required 
+                                class="w-full bg-gray-50 border border-gray-200 text-gray-900 px-4 py-3.5 rounded-xl focus:bg-white focus:outline-none focus:border-[var(--purple)] focus:ring-4 focus:ring-purple-50 transition-all duration-300 font-medium cursor-pointer">
+                            <option value="" disabled selected>-- Choose a course or program --</option>
+                            <option value="frontend">🎨 Frontend Development</option>
+                            <option value="backend">⚙️ Backend Development</option>
+                            <option value="java">☕ Java Programming</option>
+                            <option value="python">🐍 Python Programming</option>
+                            <option value="web-development">🌐 Full-Stack Web Development</option>
+                            <option value="cybersecurity">🔒 Cybersecurity</option>
+                            <option value="ai">🤖 Artificial Intelligence</option>
+                            <option value="ui-ux">🖌️ UI/UX Design</option>
+                            <option value="data-science">📊 Data Science</option>
+                            <option value="machine-learning">🧠 Machine Learning</option>
+                            <option value="quantum-computing">⚛️ Quantum Computing</option>
+                            <option value="problem-solving-dsa">🧩 Problem Solving Using DSA</option>
+                            <option value="training-placement">💼 Training cum Placement Program</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Price preview block -->
+                <div class="flex items-center justify-between p-4 rounded-xl bg-purple-50 border border-purple-100 mt-2">
+                    <span class="text-sm font-semibold text-[var(--purple-deep)]">Enrollment Fee</span>
+                    <div class="flex items-baseline gap-2">
+                        <span id="priceOriginal" class="text-xs text-gray-400 line-through">₹--</span>
+                        <span id="priceDiscounted" class="text-lg font-black text-[var(--purple-deep)]">₹--</span>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="pt-4">
+                    <button type="submit" id="submitBtn" disabled 
+                            class="w-full bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white font-bold text-lg py-4 rounded-xl transition shadow-[0_8px_20px_rgba(139,92,246,0.25)] hover:shadow-[0_12px_25px_rgba(139,92,246,0.35)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none">
+                        Complete Enrollment & Pay
+                    </button>
+                    <p class="text-center text-xs text-gray-400 mt-4">Secure encrypted payment gateway. Cancel anytime.</p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+<script>
+/* ==========================================
+   UI LOGIC & URL PARSING
+=========================================== */
+const courseSelect = document.getElementById("course");
+const priceOriginal = document.getElementById("priceOriginal");
+const priceDiscounted = document.getElementById("priceDiscounted");
+
+const pricingData = {
+    "frontend": { orig: "15,999", disc: "6,499" },
+    "backend": { orig: "17,499", disc: "7,299" },
+    "java": { orig: "16,499", disc: "6,999" },
+    "python": { orig: "18,999", disc: "7,999" },
+    "web-development": { orig: "19,999", disc: "7,499" },
+    "cybersecurity": { orig: "21,999", disc: "8,499" },
+    "ai": { orig: "24,999", disc: "9,999" },
+    "ui-ux": { orig: "14,999", disc: "5,499" },
+    "data-science": { orig: "22,999", disc: "8,999" },
+    "machine-learning": { orig: "23,999", disc: "9,499" },
+    "quantum-computing": { orig: "29,999", disc: "11,999" },
+    "problem-solving-dsa": { orig: "13,999", disc: "4,999" },
+    "training-placement": { orig: "35,000", disc: "25,000" },
+    "default": { orig: "19,999", disc: "7,499" }
+};
+
+function updatePrice() {
+    const val = courseSelect.value;
+    const price = pricingData[val] || pricingData["default"];
+    priceOriginal.textContent = "₹" + price.orig;
+    priceDiscounted.textContent = "₹" + price.disc;
+}
+
+courseSelect.addEventListener("change", updatePrice);
+
+// Pre-select from URL
+const urlParams = new URLSearchParams(window.location.search);
+const courseParam = urlParams.get('course');
+if (courseParam) {
+    const optionToSelect = Array.from(courseSelect.options).find(opt => opt.value === courseParam);
+    if(optionToSelect) courseSelect.value = courseParam;
+}
+updatePrice();
+
+/* ==========================================
+   API LOGIC (PRESERVED)
+=========================================== */
+const sendEmailOtpBtn = document.getElementById("sendEmailOTP");
+const verifyEmailOtpBtn = document.getElementById("verifyEmailOTP");
+const emailOtpSection = document.getElementById("emailOtpSection");
+const emailInput = document.getElementById("email");
+const emailStatus = document.getElementById("emailStatus");
+const submitBtn = document.getElementById("submitBtn");
+const statusDotContainer = document.getElementById("statusDot");
+const emailOtpContainer = document.getElementById("emailOtpContainer");
+
+let emailOtpVerified = false;
+
+function showToast(message, type = "success") {
+    const existing = document.querySelector(".toast");
+    if (existing) existing.remove();
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+sendEmailOtpBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email) return showToast("Please enter a valid email.", "error");
+
+    sendEmailOtpBtn.disabled = true;
+    sendEmailOtpBtn.textContent = "Sending...";
+    emailOtpSection.classList.remove("hidden");
+    
+    try {
+        const res = await fetch("http://localhost:5000/api/send-email-otp", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+            sendEmailOtpBtn.textContent = "Resend OTP";
+            sendEmailOtpBtn.disabled = false;
+            emailStatus.textContent = "Code sent to your email.";
+            emailStatus.className = "text-xs mt-2 text-green-600 font-medium";
+            showToast("OTP sent to your email.");
+        } else {
+            sendEmailOtpBtn.disabled = false;
+            sendEmailOtpBtn.textContent = "Send OTP";
+            showToast(data.message || "Failed to send.", "error");
+        }
+    } catch (err) {
+        sendEmailOtpBtn.disabled = false;
+        sendEmailOtpBtn.textContent = "Send OTP";
+        showToast("Connection error.", "error");
+    }
+});
+
+verifyEmailOtpBtn.addEventListener("click", async () => {
+    const otp = document.getElementById("emailOtp").value.trim();
+    const email = emailInput.value.trim();
+    if (!otp) return showToast("Enter Verification Code", "error");
+
+    verifyEmailOtpBtn.disabled = true;
+    verifyEmailOtpBtn.textContent = "Verifying...";
+    
+    try {
+        const res = await fetch("http://localhost:5000/api/verify-email-otp", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, otp })
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+            emailOtpVerified = true;
+            emailStatus.textContent = "Email verified ✓";
+            emailStatus.className = "text-xs mt-2 text-green-600 font-bold";
+            document.getElementById("emailOtp").disabled = true;
+            verifyEmailOtpBtn.textContent = "Verified";
+            
+            // UI Updates
+            sendEmailOtpBtn.style.display = "none";
+            emailOtpContainer.classList.add("border-green-200", "bg-green-50/50");
+            emailOtpContainer.classList.remove("bg-gray-50/50", "border-gray-200");
+            
+            statusDotContainer.innerHTML = `<span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>`;
+            statusDotContainer.nextElementSibling.classList.add("text-green-700");
+            
+            submitBtn.disabled = false;
+            showToast("Verified!");
+        } else {
+            verifyEmailOtpBtn.disabled = false;
+            verifyEmailOtpBtn.textContent = "Verify";
+            showToast(data.message || "Invalid OTP", "error");
+        }
+    } catch (err) {
+        verifyEmailOtpBtn.disabled = false;
+        verifyEmailOtpBtn.textContent = "Verify";
+        showToast("Connection error.", "error");
+    }
+});
+
+document.getElementById("enrollForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!emailOtpVerified) return showToast("Please verify email.", "error");
+    
+    const name = document.getElementById("name").value.trim();
+    const email = emailInput.value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const course = courseSelect.value;
+    
+    if (!course) return showToast("Please select a program.", "error");
+    if (!mobile || mobile.length !== 10) return showToast("Please enter a valid 10-digit mobile number.", "error");
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Processing...";
+    
+    try {
+        const res = await fetch("http://localhost:5000/enroll", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, mobile, course })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            showToast("Enrollment successful!");
+            sessionStorage.setItem("enrollmentData", JSON.stringify({ 
+                name, 
+                email, 
+                mobile, 
+                course,
+                enrollmentId: data.enrollmentId 
+            }));
+            setTimeout(() => window.location.href = "payment.html", 1000);
+        } else {
+            showToast(data.message || "Enrollment failed.", "error");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Complete Enrollment & Pay";
+        }
+    } catch (err) {
+        showToast("Connection error.", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Complete Enrollment & Pay";
+    }
+});
+</script>
+</body>
+</html>

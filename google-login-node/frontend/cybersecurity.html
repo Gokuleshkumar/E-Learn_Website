@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity - AGS Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Fade Up Animation */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+
+    /* Seamless Logo Marquee */
+    .logo-marquee-container {
+      overflow: hidden;
+      display: flex;
+      width: 100%;
+      background: white;
+      padding: 2.5rem 0;
+      border-top: 1px solid #f3f4f6;
+    }
+    .logo-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: seamless-logo-marquee 25s linear infinite;
+    }
+    .logo-marquee-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes seamless-logo-marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .company-logo-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 250px;
+      flex-shrink: 0;
+      padding: 0 2rem;
+      transition: transform 0.3s ease;
+    }
+    .company-logo-card:hover {
+      transform: scale(1.1);
+    }
+  
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 bg-[#141417]">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center gap-6">
+          <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+  <defs>
+    <linearGradient id="gradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5624d0" />
+      <stop offset="100%" stop-color="#401b9c" />
+    </linearGradient>
+  </defs>
+  <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradLogo)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <circle cx="45" cy="20" r="8" fill="#401b9c" />
+  <circle cx="20" cy="70" r="8" fill="#5624d0" />
+  <circle cx="70" cy="70" r="8" fill="#5624d0" />
+</svg>
+        <div class="flex items-baseline gap-1">
+          <span class="font-display text-2xl font-800 text-white hidden sm:block">AGS</span>
+          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academy</span>
+        </div>
+      </a>
+
+          <!-- search (desktop) -->
+          <div class="hidden lg:flex flex-1 max-w-md">
+              <div class="w-full flex items-center bg-[#232327] rounded-full px-4 py-2 text-sm text-[#B9B7C2] focus-within:ring-2 focus-within:ring-[#7C3AED]">
+                  <svg class="w-4 h-4 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input type="text" placeholder="Search for Python, Java, React..." class="bg-transparent outline-none w-full placeholder-[#8B899A] text-white">
+              </div>
+          </div>
+
+          <nav class="hidden lg:flex items-center gap-6 text-sm font-medium ml-2 text-[#D8D6E0]">
+              <a href="index.html#courses" class="hover:text-white transition">Courses</a>
+              <a href="index.html#demand" class="hover:text-white transition">Career Paths</a>
+              <a href="index.html#reviews" class="hover:text-white transition">Reviews</a>
+          </nav>
+
+          <div class="hidden lg:flex items-center gap-3 ml-auto">
+              <a href="login.html" class="px-4 py-2 text-sm font-semibold text-white border border-[#4A4850] rounded-full hover:border-white transition">Log in</a>
+              <a href="signup.html" class="px-4 py-2 text-sm font-semibold text-[#141417] bg-white rounded-full hover:bg-[#F1EBFE] transition">Sign up</a>
+          </div>
+      </div>
+  </header>
+
+  <!-- Banner -->
+  <div class="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
+    <!-- Background Image -->
+    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000"
+         alt="Cybersecurity Banner"
+         class="absolute inset-0 w-full h-full object-cover">
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+
+    <!-- Banner Text -->
+    <div class="relative z-10 max-w-3xl px-6 fade-up">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+        Cybersecurity
+      </h1>
+      <p class="text-lg md:text-xl mb-6">
+        Learn Ethical Hacking, Network Security, Cryptography, and Penetration Testing to secure modern applications.
+      </p>
+      <a href="enroll.html?course=cybersecurity" 
+         class="bg-slate-700 hover:opacity-90 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition inline-block">
+        Enroll Now
+      </a>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <section class="max-w-5xl mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold mb-6 text-center">Course Overview</h2>
+    <p class="text-lg text-gray-700 text-center mb-10 leading-relaxed">
+      This comprehensive program is designed to take you from fundamentals to advanced concepts. Learn from industry experts and build a powerful portfolio that gets you hired.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white shadow-md rounded-xl p-6 text-center">
+        <h3 class="text-xl font-semibold mb-2">📅 Duration</h3>
+        <p>3 Months</p>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-6 text-center">
+        <h3 class="text-xl font-semibold mb-2">📈 Level</h3>
+        <p>Beginner → Advanced</p>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-6 text-center">
+        <h3 class="text-xl font-semibold mb-2">💻 Projects</h3>
+        <p>3</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placement Logos Section -->
+  <section class="bg-white pt-8">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-sm font-bold text-center text-gray-800 uppercase tracking-widest mb-6">Our students are placed at top companies</h2>
+    </div>
+    <div class="logo-marquee-container">
+      <div class="logo-marquee-track">
+         <!-- Logos (Set 1) -->
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+             <rect x="0" y="0" width="28" height="28" rx="4" fill="#E22627"/>
+             <rect x="30" y="0" width="28" height="28" rx="4" fill="#32884A"/>
+             <rect x="60" y="0" width="28" height="28" rx="4" fill="#316FBA"/>
+             <rect x="90" y="0" width="28" height="28" rx="4" fill="#F49A2B"/>
+             <text x="6" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">Z</text>
+             <text x="34" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
+             <text x="64" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">H</text>
+             <text x="94" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <div class="flex items-center gap-2">
+             <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
+             <div class="font-black text-xl leading-none text-gray-800 tracking-tight text-left">IUCS<br><span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Consulting</span></div>
+           </div>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#2563EB" letter-spacing="-1">tcs</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
+             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#007BC0">Infosys</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg">
+             <circle cx="15" cy="15" r="6" fill="#EE2A24"/>
+             <circle cx="28" cy="15" r="6" fill="#F37021"/>
+             <circle cx="41" cy="15" r="6" fill="#F8A51C"/>
+             <circle cx="15" cy="28" r="6" fill="#009640"/>
+             <circle cx="28" cy="28" r="6" fill="#00AEEF"/>
+             <circle cx="41" cy="28" r="6" fill="#0064B3"/>
+             <circle cx="28" cy="41" r="6" fill="#662483"/>
+             <text x="60" y="36" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="#0064B3">wipro</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-8 w-auto" viewBox="0 0 450 135" xmlns="http://www.w3.org/2000/svg">
+             <path fill="#000" d="M129.5 75.3l-59-19 59-18.7v-25L10 50.7v11l119.5 38.6z"/>
+             <path fill="#a100ff" d="M141.2 56h35v11h-35z"/>
+             <text x="0" y="130" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold">accenture</text>
+           </svg>
+         </div>
+         
+         <!-- Logos (Duplicate for Seamless Loop) -->
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+             <rect x="0" y="0" width="28" height="28" rx="4" fill="#E22627"/>
+             <rect x="30" y="0" width="28" height="28" rx="4" fill="#32884A"/>
+             <rect x="60" y="0" width="28" height="28" rx="4" fill="#316FBA"/>
+             <rect x="90" y="0" width="28" height="28" rx="4" fill="#F49A2B"/>
+             <text x="6" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">Z</text>
+             <text x="34" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
+             <text x="64" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">H</text>
+             <text x="94" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <div class="flex items-center gap-2">
+             <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
+             <div class="font-black text-xl leading-none text-gray-800 tracking-tight text-left">IUCS<br><span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Consulting</span></div>
+           </div>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#2563EB" letter-spacing="-1">tcs</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
+             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#007BC0">Infosys</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-10 w-auto" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg">
+             <circle cx="15" cy="15" r="6" fill="#EE2A24"/>
+             <circle cx="28" cy="15" r="6" fill="#F37021"/>
+             <circle cx="41" cy="15" r="6" fill="#F8A51C"/>
+             <circle cx="15" cy="28" r="6" fill="#009640"/>
+             <circle cx="28" cy="28" r="6" fill="#00AEEF"/>
+             <circle cx="41" cy="28" r="6" fill="#0064B3"/>
+             <circle cx="28" cy="41" r="6" fill="#662483"/>
+             <text x="60" y="36" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="#0064B3">wipro</text>
+           </svg>
+         </div>
+         <div class="company-logo-card">
+           <svg class="h-8 w-auto" viewBox="0 0 450 135" xmlns="http://www.w3.org/2000/svg">
+             <path fill="#000" d="M129.5 75.3l-59-19 59-18.7v-25L10 50.7v11l119.5 38.6z"/>
+             <path fill="#a100ff" d="M141.2 56h35v11h-35z"/>
+             <text x="0" y="130" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold">accenture</text>
+           </svg>
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="bg-white py-16 shadow-inner border-t border-gray-100">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-10 text-center">Why Choose AGS Academy?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Benefit 1 -->
+        <div class="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
+          <div class="bg-slate-700 text-white p-3 rounded-full shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">100% Placement Support</h3>
+            <p class="text-gray-600 leading-relaxed">Get guaranteed placement assistance in top MNCs. We provide dedicated interview prep, resume building, and mock interviews to make you job-ready.</p>
+          </div>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
+          <div class="bg-slate-700 text-white p-3 rounded-full shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Learn from Global Mentors</h3>
+            <p class="text-gray-600 leading-relaxed">Our instructors are industry veterans with 10+ years of experience from top tech hubs abroad, including the UK and Australia.</p>
+          </div>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
+          <div class="bg-slate-700 text-white p-3 rounded-full shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Industry Certification</h3>
+            <p class="text-gray-600 leading-relaxed">Earn a globally recognized completion certificate. Validate your skills and stand out to top tech recruiters.</p>
+          </div>
+        </div>
+
+        <!-- Benefit 4 -->
+        <div class="flex items-start gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
+          <div class="bg-slate-700 text-white p-3 rounded-full shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Portfolio-Ready Projects</h3>
+            <p class="text-gray-600 leading-relaxed">Don't just watch videos. Build real-world applications that you can show off to recruiters to prove your expertise.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Modern Timeline Syllabus -->
+  <section class="py-16 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-12 text-center">Course Curriculum</h2>
+
+      <div class="relative border-l-2 border-slate-200 ml-4 space-y-12 pb-8">
+        
+          <div class="relative pl-8 fade-up" style="animation-delay: 0s">
+             <!-- Circle Marker -->
+             <div class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-slate-700 text-slate-700 bg-current ring-4 ring-gray-50 shadow-sm"></div>
+             
+             <!-- Module Header -->
+             <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-1">Module 1</h4>
+             <h3 class="text-2xl font-bold text-gray-900 mb-6">Networking & Security Basics</h3>
+             
+             <!-- Concepts List -->
+             <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">OSI Model, TCP/IP, Subnetting</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Linux for Hackers (Bash, Permissions)</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Windows Internals</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Types of Cyber Attacks & Malware</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Active Directory Basics</span>
+                 </li>
+               
+             </ul>
+          </div>
+        
+          <div class="relative pl-8 fade-up" style="animation-delay: 0.1s">
+             <!-- Circle Marker -->
+             <div class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-slate-700 text-slate-700 bg-current ring-4 ring-gray-50 shadow-sm"></div>
+             
+             <!-- Module Header -->
+             <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-1">Module 2</h4>
+             <h3 class="text-2xl font-bold text-gray-900 mb-6">Ethical Hacking (Red Teaming)</h3>
+             
+             <!-- Concepts List -->
+             <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Information Gathering (OSINT, Recon)</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Vulnerability Scanning (Nmap, Nessus)</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Exploitation Techniques (Metasploit)</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Privilege Escalation (Windows/Linux)</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Social Engineering</span>
+                 </li>
+               
+             </ul>
+          </div>
+        
+          <div class="relative pl-8 fade-up" style="animation-delay: 0.2s">
+             <!-- Circle Marker -->
+             <div class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-slate-700 text-slate-700 bg-current ring-4 ring-gray-50 shadow-sm"></div>
+             
+             <!-- Module Header -->
+             <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-1">Module 3</h4>
+             <h3 class="text-2xl font-bold text-gray-900 mb-6">Web Application Security</h3>
+             
+             <!-- Concepts List -->
+             <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">OWASP Top 10 Deep Dive</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">SQL Injection, XSS, CSRF</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Burp Suite Setup & Usage</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">API Security & Testing</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">SSRF & Directory Traversal</span>
+                 </li>
+               
+             </ul>
+          </div>
+        
+          <div class="relative pl-8 fade-up" style="animation-delay: 0.30000000000000004s">
+             <!-- Circle Marker -->
+             <div class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-slate-700 text-slate-700 bg-current ring-4 ring-gray-50 shadow-sm"></div>
+             
+             <!-- Module Header -->
+             <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-1">Module 4</h4>
+             <h3 class="text-2xl font-bold text-gray-900 mb-6">Cryptography & Defense (Blue Teaming)</h3>
+             
+             <!-- Concepts List -->
+             <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Symmetric & Asymmetric Encryption</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Hashes & Digital Signatures</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Firewalls & IDS/IPS Configuration</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">SIEM (Splunk/ELK) & Log Analysis</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Incident Response & Forensics</span>
+                 </li>
+               
+             </ul>
+          </div>
+        
+          <div class="relative pl-8 fade-up" style="animation-delay: 0.4s">
+             <!-- Circle Marker -->
+             <div class="absolute -left-[11px] top-1.5 w-5 h-5 rounded-full bg-slate-700 text-slate-700 bg-current ring-4 ring-gray-50 shadow-sm"></div>
+             
+             <!-- Module Header -->
+             <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-1">Module 5</h4>
+             <h3 class="text-2xl font-bold text-gray-900 mb-6">Placement & Interview Prep</h3>
+             
+             <!-- Concepts List -->
+             <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Certifications Prep (CEH, CompTIA Sec+, OSCP)</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Security Analyst/Pen Tester Interview Questions</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Resume Building</span>
+                 </li>
+               
+                 <li class="flex items-start gap-3">
+                   <svg class="w-5 h-5 bg-slate-700 text-slate-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                   <span class="leading-snug">Mock Interviews</span>
+                 </li>
+               
+             </ul>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Course Details Grid -->
+  <section class="py-16 bg-white border-t border-gray-200">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12 text-[#141417]">Course Details</h2>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <!-- Detail 1 -->
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
+          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Format</h4>
+          <p class="text-lg font-bold text-gray-900">Live Online</p>
+        </div>
+        <!-- Detail 2 -->
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
+          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Duration</h4>
+          <p class="text-lg font-bold text-gray-900">3 Months</p>
+        </div>
+        <!-- Detail 3 -->
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
+          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Schedule</h4>
+          <p class="text-lg font-bold text-gray-900">5 Days / Week</p>
+        </div>
+        <!-- Detail 4 -->
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
+          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Languages</h4>
+          <p class="text-lg font-bold text-gray-900">English, Tamil</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="text-center py-20 bg-gray-50 flex-1 border-t border-gray-200">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Master Cybersecurity?</h2>
+    <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Join thousands of students and start your journey towards becoming a professional today.</p>
+    <a href="enroll.html?course=cybersecurity" 
+       class="bg-slate-700 hover:opacity-90 text-white px-10 py-4 rounded-xl font-bold shadow-xl transition transform hover:-translate-y-1 inline-block">
+      Enroll Now
+    </a>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-[#141417] text-[#8B899A] py-12 mt-auto">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-[#232327] pb-8 mb-8">
+              <a href="index.html" class="flex items-center gap-2">
+                <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+  <defs>
+    <linearGradient id="gradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5624d0" />
+      <stop offset="100%" stop-color="#401b9c" />
+    </linearGradient>
+  </defs>
+  <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradLogo)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <circle cx="45" cy="20" r="8" fill="#401b9c" />
+  <circle cx="20" cy="70" r="8" fill="#5624d0" />
+  <circle cx="70" cy="70" r="8" fill="#5624d0" />
+</svg>
+                <div class="flex items-baseline gap-1">
+                  <span class="font-display text-2xl font-800 text-white">AGS</span>
+                  <span class="font-display text-2xl font-800 text-[var(--purple)]">Academy</span>
+                </div>
+              </a>
+              <div class="flex gap-6 text-sm font-medium">
+                  <a href="#" class="hover:text-white transition">About</a>
+                  <a href="#" class="hover:text-white transition">Careers</a>
+                  <a href="#" class="hover:text-white transition">Privacy</a>
+                  <a href="#" class="hover:text-white transition">Terms</a>
+              </div>
+          </div>
+          <div class="text-sm text-center md:text-left">
+              &copy; 2026 AGS Academy, Inc. All rights reserved.
+          </div>
+      </div>
+  </footer>
+</body>
+</html>

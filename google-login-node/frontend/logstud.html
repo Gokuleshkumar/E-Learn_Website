@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Login - GK Academy</title>
+  <title>Student Login - AGS Academy</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -83,7 +83,13 @@
       transform: translateY(-2px);
     } */
 
-  </style>
+  
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
 </head>
 <body>
 
@@ -117,7 +123,7 @@
         <input type="password" id="password" placeholder="Enter your password"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none pr-10" required>
         <span class="eye-toggle" id="togglePassword">
-          <i class="fa-solid fa-eye"></i>
+          <i class="fa-solid fa-eye-slash"></i>
         </span>
       </div>
 
@@ -127,7 +133,7 @@
     </form>
 
     <p class="mt-4 text-center text-gray-500 text-sm">
-      Don't have credentials? Contact GK Academy.
+      Don't have credentials? Contact AGS Academy.
     </p>
   </div>
 

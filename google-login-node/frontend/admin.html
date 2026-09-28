@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - GK Academy</title>
+  <title>Admin Login - AGS Academy</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -51,7 +51,13 @@
     button[type="submit"]:hover {
       transform: translateY(-2px);
     }
-  </style>
+  
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
   <!-- Font Awesome -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>

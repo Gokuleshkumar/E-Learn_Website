@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - AGS Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        :root {
+            --purple: #8b5cf6;
+            --purple-deep: #6d28d9;
+            --green: #10b981;
+        }
+        body { font-family: Inter, system-ui, sans-serif; background-color: #fff; color: #1f2937; margin: 0; padding: 0; }
+        
+        .toast {
+            position: fixed; top: 25px; right: 25px; z-index: 9999;
+            padding: 14px 20px; border-radius: 12px; background: var(--green);
+            color: white; font-size: 14px; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15); animation: slideIn .3s ease;
+        }
+        .toast.error { background: #ef4444; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Loader */
+        .loader {
+            width: 20px; height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Payment Option Styles */
+        .payment-option.selected {
+            border-color: var(--purple);
+            background-color: #faf5ff;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.1);
+        }
+        .payment-option.selected .radio-btn {
+            border-color: var(--purple);
+        }
+        .payment-option.selected .radio-inner {
+            opacity: 1;
+            transform: scale(1);
+        }
+    
+    /* Hide default browser password reveal icon */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+</style>
+</head>
+<body class="h-screen w-full overflow-hidden flex bg-white">
+
+    <!-- Left Side: Branding / Imagery -->
+    <div class="hidden lg:flex lg:w-5/12 xl:w-1/2 relative bg-gray-900 overflow-hidden flex-col justify-between p-12">
+        <!-- Image background -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+                 alt="Students learning" 
+                 class="w-full h-full object-cover opacity-60">
+        </div>
+        <!-- Gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[var(--purple-deep)] via-[rgba(109,40,217,0.7)] to-transparent mix-blend-multiply"></div>
+        
+        <!-- Content -->
+        <div class="relative z-10 text-white mt-auto">
+            <div class="w-14 h-14 rounded-2xl bg-white text-[var(--purple-deep)] flex items-center justify-center font-black text-2xl shadow-lg mb-8">
+                GK
+            </div>
+            <h1 class="text-4xl xl:text-5xl font-extrabold mb-4 leading-tight">Complete your enrollment.</h1>
+            <p class="text-white/80 text-lg xl:text-xl max-w-md font-light leading-relaxed">
+                You're one step away from starting your learning journey with AGS Academy.
+            </p>
+        </div>
+        
+        <!-- Trust badge / Security -->
+        <div class="relative z-10 flex flex-col gap-3 border-t border-white/20 pt-6 mt-8">
+            <div class="flex items-center gap-3">
+                <span class="text-green-400">✓</span>
+                <span class="text-white/90 text-sm font-medium">Secure payment</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-green-400">✓</span>
+                <span class="text-white/90 text-sm font-medium">Razorpay protected</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-green-400">✓</span>
+                <span class="text-white/90 text-sm font-medium">Instant enrollment confirmation</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side: Payment Form -->
+    <div class="w-full lg:w-7/12 xl:w-1/2 flex items-start justify-center h-full overflow-y-auto bg-white p-6 sm:p-12 pt-16 md:pt-24 lg:pt-32">
+        
+        <div class="w-full max-w-lg">
+            
+            <div class="mb-10 text-center lg:text-left">
+                <p class="text-[var(--purple)] text-xs font-bold tracking-widest uppercase mb-2">SECURE CHECKOUT</p>
+                <h2 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">Payment Method</h2>
+                <p class="text-gray-500 mt-2 text-sm sm:text-base">Choose how you'd like to pay for your course.</p>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="rounded-2xl bg-gray-50 border border-gray-200 p-5 mb-8 flex justify-between items-center">
+                <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">AGS Academy</p>
+                    <p id="courseName" class="font-bold text-gray-900 mt-1">Course Enrollment</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total</p>
+                    <p id="totalAmountDisplay" class="text-2xl font-black text-[var(--purple-deep)]">₹4,499</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-8">
+                <!-- Card Option -->
+                <label class="payment-option relative flex items-center justify-between p-5 rounded-xl border border-gray-200 cursor-pointer hover:border-[var(--purple)] transition-all bg-white" data-method="card">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center text-2xl">
+                            💳
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Debit / Credit Card</h3>
+                            <p class="text-xs text-gray-500 mt-1">Visa, Mastercard, RuPay</p>
+                        </div>
+                    </div>
+                    <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center radio-btn transition-colors">
+                        <div class="w-3 h-3 rounded-full bg-[var(--purple)] opacity-0 scale-50 transition-all radio-inner"></div>
+                    </div>
+                </label>
+                
+                <!-- QR Option -->
+                <label class="payment-option relative flex items-center justify-between p-5 rounded-xl border border-gray-200 cursor-pointer hover:border-[var(--purple)] transition-all bg-white" data-method="qr">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center text-xl text-[var(--purple)]">
+                            ▣
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">UPI QR Code</h3>
+                            <p class="text-xs text-gray-500 mt-1">Google Pay, PhonePe, Paytm</p>
+                        </div>
+                    </div>
+                    <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center radio-btn transition-colors">
+                        <div class="w-3 h-3 rounded-full bg-[var(--purple)] opacity-0 scale-50 transition-all radio-inner"></div>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Selected Message -->
+            <div id="selectedMessage" class="hidden rounded-xl bg-purple-50 border border-purple-100 p-4 mb-6 text-sm font-semibold text-[var(--purple-deep)] flex items-center gap-2">
+                <span class="text-lg">✓</span> <span id="selectedMessageText"></span>
+            </div>
+
+            <!-- Pay Button -->
+            <button type="button" id="payButton" disabled 
+                    class="w-full bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white font-bold text-lg py-4 rounded-xl transition shadow-[0_8px_20px_rgba(139,92,246,0.25)] hover:shadow-[0_12px_25px_rgba(139,92,246,0.35)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center gap-3">
+                Select a payment method
+            </button>
+            <p class="text-center text-xs text-gray-400 mt-4 flex items-center justify-center gap-2">
+                <span>🔒</span> Secure payment powered by Razorpay
+            </p>
+
+        </div>
+    </div>
+
+<script>
+// ======================================================
+// ENROLLMENT DATA & UI
+// ======================================================
+
+const enrollment = JSON.parse(sessionStorage.getItem("enrollmentData") || "{}");
+
+if (!enrollment.course || !enrollment.name || !enrollment.email) {
+    alert("Enrollment session data is missing! Please complete the enrollment form first so the correct price can be calculated.");
+    window.location.href = "enroll.html";
+}
+
+const courseNames = {
+    "frontend": "Frontend Development",
+    "backend": "Backend Development",
+    "java": "Java Programming",
+    "python": "Python Programming",
+    "web-development": "Full-Stack Web Development",
+    "cybersecurity": "Cybersecurity",
+    "ai": "Artificial Intelligence",
+    "ui-ux": "UI/UX Design",
+    "data-science": "Data Science",
+    "machine-learning": "Machine Learning",
+    "quantum-computing": "Quantum Computing",
+    "problem-solving-dsa": "Problem Solving Using DSA",
+    "training-placement": "Training cum Placement Program"
+};
+
+const pricingData = {
+    "frontend": "6,499",
+    "backend": "7,299",
+    "java": "6,999",
+    "python": "7,999",
+    "web-development": "7,499",
+    "cybersecurity": "8,499",
+    "ai": "9,999",
+    "ui-ux": "5,499",
+    "data-science": "8,999",
+    "machine-learning": "9,499",
+    "quantum-computing": "11,999",
+    "problem-solving-dsa": "4,999",
+    "training-placement": "25,000",
+    "default": "4,499"
+};
+
+let coursePrice = pricingData["default"];
+
+if (enrollment.course) {
+    document.getElementById("courseName").textContent = courseNames[enrollment.course] || enrollment.course;
+    if(pricingData[enrollment.course]) {
+        coursePrice = pricingData[enrollment.course];
+    }
+}
+document.getElementById("totalAmountDisplay").textContent = "₹" + coursePrice;
+
+// ======================================================
+// PAYMENT OPTIONS
+// ======================================================
+
+const paymentOptions = document.querySelectorAll(".payment-option");
+const payButton = document.getElementById("payButton");
+const selectedMessage = document.getElementById("selectedMessage");
+const selectedMessageText = document.getElementById("selectedMessageText");
+
+let selectedPaymentMethod = null;
+
+paymentOptions.forEach(option => {
+    option.addEventListener("click", function () {
+        // Remove previous selection
+        paymentOptions.forEach(item => item.classList.remove("selected"));
+        
+        // Select current
+        this.classList.add("selected");
+        selectedPaymentMethod = this.dataset.method;
+
+        selectedMessage.classList.remove("hidden");
+        
+        if (selectedPaymentMethod === "card") {
+            selectedMessageText.textContent = "Debit / Credit Card selected";
+        } else if (selectedPaymentMethod === "qr") {
+            selectedMessageText.textContent = "UPI QR Code selected";
+        }
+        
+        payButton.disabled = false;
+        payButton.textContent = "Pay ₹" + coursePrice;
+    });
+});
+
+// ======================================================
+// PAY BUTTON LOGIC
+// ======================================================
+
+payButton.addEventListener("click", async function () {
+    if (!selectedPaymentMethod) {
+        alert("Please select a payment method.");
+        return;
+    }
+
+    if (!enrollment.name || !enrollment.email || !enrollment.course) {
+        alert("Enrollment information is missing.");
+        window.location.href = "enroll.html";
+        return;
+    }
+
+    payButton.disabled = true;
+    payButton.innerHTML = `<div class="loader"></div> Creating secure payment...`;
+
+    try {
+        const response = await fetch("/api/create-payment-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                enrollmentId: enrollment.enrollmentId,
+                name: enrollment.name,
+                email: enrollment.email,
+                mobile: enrollment.mobile,
+                course: enrollment.course,
+                paymentMethod: selectedPaymentMethod
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Unable to create payment.");
+        }
+
+        const options = {
+            key: data.key,
+            amount: data.amount,
+            currency: "INR",
+            name: "AGS Academy",
+            description: "Course Enrollment",
+            order_id: data.orderId,
+            prefill: {
+                name: enrollment.name,
+                email: enrollment.email,
+                contact: enrollment.mobile
+            },
+            theme: { color: "#8b5cf6" },
+            config: {
+                display: {
+                    blocks: {
+                        card: { name: "Cards", instruments: [{ method: "card" }] },
+                        upi: { name: "UPI", instruments: [{ method: "upi" }] }
+                    },
+                    sequence: ["block.card", "block.upi"],
+                    preferences: { show_default_blocks: false }
+                }
+            },
+            handler: async function (payment) {
+                payButton.innerHTML = `<div class="loader"></div> Verifying payment...`;
+
+                try {
+                    const verifyResponse = await fetch("/api/verify-payment", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            razorpay_order_id: payment.razorpay_order_id,
+                            razorpay_payment_id: payment.razorpay_payment_id,
+                            razorpay_signature: payment.razorpay_signature
+                        })
+                    });
+
+                    const verifyData = await verifyResponse.json();
+
+                    if (!verifyData.success) {
+                        throw new Error(verifyData.message || "Payment verification failed.");
+                    }
+
+                    sessionStorage.setItem("paymentData", JSON.stringify({
+                        paymentId: verifyData.paymentId,
+                        orderId: verifyData.orderId,
+                        status: "PAID"
+                    }));
+
+                    window.location.href = "payment-success.html";
+
+                } catch (verifyError) {
+                    console.error(verifyError);
+                    alert(verifyError.message);
+                    payButton.disabled = false;
+                    payButton.textContent = "Pay ₹" + coursePrice;
+                }
+            },
+            modal: {
+                ondismiss: function () {
+                    payButton.disabled = false;
+                    payButton.textContent = "Pay ₹" + coursePrice;
+                }
+            }
+        };
+
+        const rzp = new Razorpay(options);
+
+        rzp.on("payment.failed", function (response) {
+            console.error(response);
+            alert("Payment failed. Please try again.");
+            payButton.disabled = false;
+            payButton.textContent = "Pay ₹" + coursePrice;
+        });
+
+        rzp.open();
+
+    } catch (error) {
+        console.error(error);
+        alert(error.message || "Unable to start payment.");
+        payButton.disabled = false;
+        payButton.textContent = "Pay ₹" + coursePrice;
+    }
+});
+</script>
+</body>
+</html>
