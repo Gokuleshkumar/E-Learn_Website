@@ -1943,7 +1943,7 @@ app.get(
 
             // Check if user has an enrollment with paymentStatus: 'PAID'
             const paidEnrollment = await Enrollment.findOne({
-                email: userObj.email,
+                email: { $regex: new RegExp(`^${userEmail}$`, 'i') },
                 paymentStatus: 'PAID'
             });
 
@@ -1951,10 +1951,10 @@ app.get(
                 userObj.course = paidEnrollment.course;
             }
 
-            // ONLY gokuleshkumar878@gmail.com is paid, all other accounts are unpaid
-            if (userEmail === 'gokuleshkumar878@gmail.com') {
+            // User is paid if they have a paid enrollment record or is the admin account
+            if (userEmail === 'gokuleshkumar878@gmail.com' || paidEnrollment) {
                 userObj.isPaid = true;
-                userObj.course = userObj.course || 'frontend';
+                userObj.course = userObj.course || (paidEnrollment ? paidEnrollment.course : 'frontend');
             } else {
                 userObj.isPaid = false;
             }
