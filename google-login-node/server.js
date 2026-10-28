@@ -123,123 +123,52 @@ app.use(
 
 
 // ==========================================================
-// MONGODB
+// MONGODB (Auto-starts Freebase connector on Render / Local)
 // ==========================================================
 
-mongoose
-    .connect(
-        process.env.MONGO_URI
-    )
+async function connectDatabase() {
+    if (process.env.MONGO_URI && process.env.MONGO_URI.includes('17017')) {
+        const net = require('net');
+        const isListening = await new Promise(resolve => {
+            const socket = net.createConnection({ port: 17017, host: '127.0.0.1' }, () => {
+                socket.destroy();
+                resolve(true);
+            });
+            socket.on('error', () => resolve(false));
+            socket.setTimeout(400, () => { socket.destroy(); resolve(false); });
+        });
 
-    .then(() => {
-
-        console.log(
-            '✅ MongoDB connected'
-        );
-
-    })
-
-    .catch(err => {
-
-        console.error(
-            '❌ MongoDB error:',
-            err
-        );
-
-    });
-
-
-// ==========================================================
-// USER SCHEMA
-// ==========================================================
-
-const userSchema =
-    new mongoose.Schema({
-
-        googleId: String,
-
-        displayName: String,
-
-        email: {
-            type: String,
-            unique: true
-        },
-
-        password: String,
-
-        phone: {
-            type: String,
-            unique: true,
-            sparse: true,
-            default: undefined
-        },
-
-        course: {
-            type: String,
-            default: null
-        },
-
-        resetToken: String,
-
-        resetTokenExpiry: Date
-
-    });
-
-
-userSchema.index(
-    {
-        phone: 1
-    },
-    {
-        unique: true,
-        sparse: true
-    }
-);
-
-
-const User =
-    mongoose.model(
-        'User',
-        userSchema
-    );
-
-
-// ==========================================================
-// OTP SCHEMA
-// ==========================================================
-
-const otpSchema =
-    new mongoose.Schema({
-
-        email: {
-            type: String,
-            required: true,
-            index: true
-        },
-
-        code: {
-            type: String,
-            required: true
-        },
-
-        expiresAt: {
-            type: Date,
-            required: true
-        },
-
-        createdAt: {
-            type: Date,
-            default: Date.now
+        if (!isListening) {
+            console.log('🔄 Starting Freebase connector tunnel in background...');
+            try {
+                const { fork } = require('child_process');
+                const connectorPath = path.join(__dirname, 'freebase-mongo-connector.mjs');
+                fork(connectorPath, [], { detached: true, stdio: 'ignore' }).unref();
+                await new Promise(r => setTimeout(r, 1500));
+            } catch (err) {
+                console.warn('⚠️ Could not launch connector automatically:', err.message);
+            }
         }
+    }
 
-    });
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('✅ MongoDB connected');
+    } catch (err) {
+        console.error('❌ MongoDB error:', err);
+    }
+}
+
+connectDatabase();
 
 
-const Otp =
-    mongoose.model(
-        'Otp',
-        otpSchema
-    );
+// ==========================================================
+// MODELS (Clean Table/Collection Architecture)
+// ==========================================================
+
+const User = require('./models/User');
+const Otp = require('./models/Otp');
+const LoginLog = require('./models/LoginLog');
 
 
 // ==========================================================
@@ -434,9 +363,19 @@ if (
                         user.googleId =
                             profile.id;
 
-                        await user.save();
-
                     }
+
+                    user.lastLogin = new Date();
+                    await user.save();
+
+                    try {
+                        await LoginLog.create({
+                            userId: user._id,
+                            email: user.email,
+                            authProvider: 'google',
+                            status: 'SUCCESS'
+                        });
+                    } catch (_) {}
 
 
                     return done(
@@ -974,15 +913,41 @@ app.post(
             const newUser =
                 await User.create({
 
+                    name:
+                        name,
+
                     displayName:
                         name,
 
-                    email,
+                    email:
+                        email.toLowerCase().trim(),
 
                     password:
-                        hashed
+                        hashed,
+
+                    phone:
+                        phone || null,
+
+                    authProvider:
+                        'local',
+
+                    lastLogin:
+                        new Date()
 
                 });
+
+
+            // Record initial login log
+            try {
+                await LoginLog.create({
+                    userId: newUser._id,
+                    email: newUser.email,
+                    authProvider: 'local',
+                    status: 'SUCCESS',
+                    ipAddress: req.ip || req.headers['x-forwarded-for'] || null,
+                    userAgent: req.headers['user-agent'] || null
+                });
+            } catch (_) {}
 
 
             await Otp.deleteMany({
@@ -1256,6 +1221,9 @@ app.post(
                     {
 
                         $set: {
+
+                            amount:
+                                price,
 
                             razorpayOrderId:
                                 order.id,
@@ -1578,6 +1546,17 @@ app.post(
 
             if (!isMatch) {
 
+                try {
+                    await LoginLog.create({
+                        userId: user._id,
+                        email: user.email,
+                        authProvider: 'local',
+                        status: 'FAILED',
+                        ipAddress: req.ip || req.headers['x-forwarded-for'] || null,
+                        userAgent: req.headers['user-agent'] || null
+                    });
+                } catch (_) {}
+
                 return res
                     .status(400)
                     .json({
@@ -1588,6 +1567,21 @@ app.post(
                     });
 
             }
+
+
+            user.lastLogin = new Date();
+            await user.save();
+
+            try {
+                await LoginLog.create({
+                    userId: user._id,
+                    email: user.email,
+                    authProvider: 'local',
+                    status: 'SUCCESS',
+                    ipAddress: req.ip || req.headers['x-forwarded-for'] || null,
+                    userAgent: req.headers['user-agent'] || null
+                });
+            } catch (_) {}
 
 
             req.login(

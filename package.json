@@ -6,6 +6,9 @@
     "build": "npm --prefix google-login-node install",
     "start": "npm --prefix google-login-node start"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
