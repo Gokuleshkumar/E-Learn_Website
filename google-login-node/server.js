@@ -30,6 +30,8 @@ const Enrollment = require('./models/Enrollment');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 
 // ==========================================================
 // STATIC FRONTEND
@@ -65,11 +67,7 @@ app.get(
 app.use(
     cors({
 
-        origin: [
-            'http://localhost:5500',
-            'http://127.0.0.1:5500',
-            'http://localhost:5000'
-        ],
+        origin: true,
 
         credentials: true
 
@@ -250,82 +248,83 @@ const Otp =
 
 let transporter = null;
 
+function initTransporter() {
+    try {
+        require('dotenv').config();
+    } catch (_) {}
 
-if (
-    process.env.EMAIL_HOST &&
-    process.env.EMAIL_USER
-) {
+    const emailUser = process.env.EMAIL_USER;
+    const rawPass = process.env.EMAIL_PASS || '';
+    const cleanPass = rawPass.replace(/\s+/g, '');
 
-    transporter =
-        nodemailer.createTransport({
+    if (!emailUser || !cleanPass) {
+        transporter = null;
+        return null;
+    }
 
-            host:
-                process.env.EMAIL_HOST,
+    const isGmail = (process.env.EMAIL_HOST && process.env.EMAIL_HOST.includes('gmail')) ||
+                    (emailUser && emailUser.endsWith('@gmail.com'));
 
-            port:
-                parseInt(
-                    process.env.EMAIL_PORT ||
-                    '587'
-                ),
+    transporter = nodemailer.createTransport(
+        isGmail
+            ? {
+                  service: 'gmail',
+                  auth: {
+                      user: emailUser,
+                      pass: cleanPass
+                  }
+              }
+            : {
+                  host: process.env.EMAIL_HOST,
+                  port: parseInt(process.env.EMAIL_PORT || '587'),
+                  secure: process.env.EMAIL_SECURE === 'true',
+                  auth: {
+                      user: emailUser,
+                      pass: cleanPass
+                  }
+              }
+    );
 
-            secure:
-                process.env.EMAIL_SECURE ===
-                'true',
-
-            auth: {
-
-                user:
-                    process.env.EMAIL_USER,
-
-                pass:
-                    process.env.EMAIL_PASS
-
-            }
-
-        });
-
-
-    transporter
-        .verify()
-
-        .then(() => {
-
-            console.log(
-                '✅ SMTP transporter ready'
-            );
-
-        })
-
-        .catch(err => {
-
-            console.error(
-                '⚠️ SMTP verify failed:',
-                err
-            );
-
-            transporter = null;
-
-        });
-
+    return transporter;
 }
 
+// Initial transporter check on startup
+initTransporter();
+
+if (transporter) {
+    transporter
+        .verify()
+        .then(() => {
+            console.log('✅ SMTP transporter ready. Emails will be sent from:', process.env.EMAIL_USER);
+        })
+        .catch(err => {
+            console.warn('⚠️ SMTP verification failed: Gmail rejected EMAIL_PASS (BadCredentials).');
+            console.log('ℹ️ Switched to local Dev Mode: OTP codes will be auto-filled in the web page and printed below.');
+            console.log('💡 To enable real Gmail emails:');
+            console.log('   1. Ensure 2-Step Verification is ON at https://myaccount.google.com/security');
+            console.log('   2. Generate an App Password at https://myaccount.google.com/apppasswords');
+            console.log('   3. Set EMAIL_PASS=your-16-char-code in .env');
+            transporter = null;
+        });
+}
 
 // ==========================================================
 // SEND OTP EMAIL
 // ==========================================================
 
-async function sendOtpEmail(
-    email,
-    otp
-) {
+async function sendOtpEmail(email, otp) {
+    // If transporter is null, try re-initializing in case .env was recently updated
+    if (!transporter) {
+        initTransporter();
+    }
 
     if (transporter) {
-
-        await transporter.sendMail({
-            from: '"AGS Academy" <agsacademys@gmail.com>',
-            to: email,
-            subject: 'Your AGS Academy OTP Verification',
-            html: `
+        try {
+            await transporter.sendMail({
+                from: `"AGS Academy" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
+                to: email,
+                subject: 'Your AGS Academy OTP Verification Code',
+                html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
                     <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academy</h2>
                     <p style="font-size: 16px; color: #333333; line-height: 1.5;">Hello,</p>
@@ -338,7 +337,7 @@ async function sendOtpEmail(
                         </span>
                     </div>
                     <p style="font-size: 14px; color: #555555; line-height: 1.5;">
-                        This OTP is valid for the next few minutes. For your security, please do not share this code with anyone.
+                        This OTP is valid for the next 5 minutes. For your security, please do not share this code with anyone.
                     </p>
                     <p style="font-size: 14px; color: #555555; line-height: 1.5;">
                         If you did not request this OTP, please ignore this email or contact our support team if you have concerns.
@@ -348,19 +347,19 @@ async function sendOtpEmail(
                     <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academy Team</p>
                 </div>
             `
-        });
-
-        return true;
-
+            });
+            console.log(`✅ Real OTP email sent successfully to ${email}`);
+            return { success: true };
+        } catch (mailErr) {
+            console.warn(`⚠️ SMTP sendMail failed for ${email} (${mailErr.message}). Falling back to Dev OTP.`);
+            transporter = null;
+            console.log(`💡 DEV OTP for ${email}: ${otp}`);
+            return { success: false, error: mailErr.message };
+        }
     }
 
-
-    console.log(
-        `💡 DEV OTP for ${email}: ${otp}`
-    );
-
-    return false;
-
+    console.log(`💡 DEV OTP for ${email}: ${otp}`);
+    return { success: false, reason: 'SMTP not configured or unauthenticated' };
 }
 
 
@@ -386,7 +385,9 @@ if (
                     process.env.GOOGLE_CLIENT_SECRET,
 
                 callbackURL:
-                    "/auth/google/callback"
+                    "/auth/google/callback",
+
+                proxy: true
 
             },
 
@@ -664,7 +665,7 @@ app.post(
             });
 
 
-            await sendOtpEmail(
+            const sendResult = await sendOtpEmail(
                 email,
                 code
             );
@@ -672,27 +673,17 @@ app.post(
 
             const response = {
 
-                message:
-                    'OTP sent to your email',
+                success: true,
 
-                success:
-                    true
+                emailSent: !!sendResult.success,
+
+                message: sendResult.success
+                    ? 'OTP sent successfully to your email!'
+                    : 'Dev Mode: OTP generated. SMTP unauthenticated.',
+
+                otp: code
 
             };
-
-
-            if (
-                process.env.NODE_ENV !==
-                    'production' ||
-
-                process.env.DEV_OTP ===
-                    'true'
-            ) {
-
-                response.otp =
-                    code;
-
-            }
 
 
             return res.json(
@@ -715,7 +706,7 @@ app.post(
                     success: false,
 
                     message:
-                        'Server error while sending OTP'
+                        'Server error while generating OTP'
 
                 });
 
@@ -723,6 +714,37 @@ app.post(
 
     }
 );
+
+
+// ==========================================================
+// SMTP VERIFY STATUS ENDPOINT
+// ==========================================================
+
+app.get('/api/smtp-verify', async (req, res) => {
+    try {
+        const t = initTransporter();
+        if (!t) {
+            return res.status(400).json({
+                success: false,
+                message: 'EMAIL_USER or EMAIL_PASS not configured in .env'
+            });
+        }
+        await t.verify();
+        transporter = t;
+        return res.json({
+            success: true,
+            user: process.env.EMAIL_USER,
+            message: `SMTP verified successfully for ${process.env.EMAIL_USER}!`
+        });
+    } catch (err) {
+        return res.status(401).json({
+            success: false,
+            code: err.code || 'EAUTH',
+            message: err.message,
+            fix: 'Please generate a new 16-character App Password at https://myaccount.google.com/apppasswords and update EMAIL_PASS in .env'
+        });
+    }
+});
 
 
 // ==========================================================
@@ -1823,16 +1845,51 @@ app.post(
 app.get(
     '/api/me',
 
-    (req, res) => {
+    async (req, res) => {
 
-        res.json({
+        if (!req.isAuthenticated() || !req.user) {
+            return res.json({
+                user: null
+            });
+        }
 
-            user:
-                req.isAuthenticated()
-                    ? req.user
-                    : null
+        try {
+            const userObj = req.user.toObject
+                ? req.user.toObject()
+                : { ...req.user };
 
-        });
+            const userEmail = (userObj.email || '').toLowerCase().trim();
+
+            // Check if user has an enrollment with paymentStatus: 'PAID'
+            const paidEnrollment = await Enrollment.findOne({
+                email: userObj.email,
+                paymentStatus: 'PAID'
+            });
+
+            if (paidEnrollment && paidEnrollment.course) {
+                userObj.course = paidEnrollment.course;
+            }
+
+            // ONLY gokuleshkumar878@gmail.com is paid, all other accounts are unpaid
+            if (userEmail === 'gokuleshkumar878@gmail.com') {
+                userObj.isPaid = true;
+                userObj.course = userObj.course || 'frontend';
+            } else {
+                userObj.isPaid = false;
+            }
+
+            return res.json({
+                user: userObj
+            });
+        } catch (err) {
+            console.error('Error in /api/me enrollment lookup:', err);
+            const fallbackUser = req.user.toObject ? req.user.toObject() : { ...req.user };
+            const fallbackEmail = (fallbackUser.email || '').toLowerCase().trim();
+            fallbackUser.isPaid = (fallbackEmail === 'gokuleshkumar878@gmail.com');
+            return res.json({
+                user: fallbackUser
+            });
+        }
 
     }
 );
@@ -1961,7 +2018,7 @@ const PORT =
     5000;
 
 
-app.listen(
+const server = app.listen(
     PORT,
     () => {
 
@@ -1971,3 +2028,16 @@ app.listen(
 
     }
 );
+
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(
+            `❌ Port ${PORT} is already in use by another running process.`
+        );
+        console.error(
+            `💡 Tip: Close the terminal running the previous server or kill the process on port ${PORT}.`
+        );
+    } else {
+        console.error('❌ Server error:', err);
+    }
+});

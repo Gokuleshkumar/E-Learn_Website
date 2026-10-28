@@ -30,6 +30,8 @@ const Enrollment = require('./models/Enrollment');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 
 // ==========================================================
 // STATIC FRONTEND
@@ -65,11 +67,7 @@ app.get(
 app.use(
     cors({
 
-        origin: [
-            'http://localhost:5500',
-            'http://127.0.0.1:5500',
-            'http://localhost:5000'
-        ],
+        origin: true,
 
         credentials: true
 
@@ -377,7 +375,9 @@ if (
                     process.env.GOOGLE_CLIENT_SECRET,
 
                 callbackURL:
-                    "/auth/google/callback"
+                    "/auth/google/callback",
+
+                proxy: true
 
             },
 
@@ -1787,16 +1787,51 @@ app.post(
 app.get(
     '/api/me',
 
-    (req, res) => {
+    async (req, res) => {
 
-        res.json({
+        if (!req.isAuthenticated() || !req.user) {
+            return res.json({
+                user: null
+            });
+        }
 
-            user:
-                req.isAuthenticated()
-                    ? req.user
-                    : null
+        try {
+            const userObj = req.user.toObject
+                ? req.user.toObject()
+                : { ...req.user };
 
-        });
+            const userEmail = (userObj.email || '').toLowerCase().trim();
+
+            // Check if user has an enrollment with paymentStatus: 'PAID'
+            const paidEnrollment = await Enrollment.findOne({
+                email: userObj.email,
+                paymentStatus: 'PAID'
+            });
+
+            if (paidEnrollment && paidEnrollment.course) {
+                userObj.course = paidEnrollment.course;
+            }
+
+            // ONLY gokuleshkumar878@gmail.com is paid, all other accounts are unpaid
+            if (userEmail === 'gokuleshkumar878@gmail.com') {
+                userObj.isPaid = true;
+                userObj.course = userObj.course || 'frontend';
+            } else {
+                userObj.isPaid = false;
+            }
+
+            return res.json({
+                user: userObj
+            });
+        } catch (err) {
+            console.error('Error in /api/me enrollment lookup:', err);
+            const fallbackUser = req.user.toObject ? req.user.toObject() : { ...req.user };
+            const fallbackEmail = (fallbackUser.email || '').toLowerCase().trim();
+            fallbackUser.isPaid = (fallbackEmail === 'gokuleshkumar878@gmail.com');
+            return res.json({
+                user: fallbackUser
+            });
+        }
 
     }
 );

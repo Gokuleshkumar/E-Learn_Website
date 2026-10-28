@@ -306,7 +306,7 @@
 
     <div class="divider">OR</div>
 
-    <button type="button" onclick="window.location.href='http://localhost:5000/auth/google'" class="btn-google">
+    <button type="button" onclick="window.location.href='/auth/google'" class="btn-google">
       <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google logo" />
       <span>Sign in with Google</span>
     </button>
@@ -359,7 +359,7 @@
     btn.disabled = true;
 
     try {
-      const res = await fetch('http://localhost:5000/api/login', {
+      const res = await fetch('/api/login', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

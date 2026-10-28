@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "build": "npm --prefix google-login-node install",
+    "start": "npm --prefix google-login-node start"
   },
   "dependencies": {
     "dotenv": "^16.5.0",

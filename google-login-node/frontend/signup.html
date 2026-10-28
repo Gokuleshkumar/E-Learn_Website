@@ -246,7 +246,7 @@
 </div>
 
 <script>
-const API_BASE = "http://localhost:5000";  
+const API_BASE = window.location.origin.includes(":5500") ? "http://localhost:5000" : "";  
 const messageEl = document.getElementById('message');
 const getOtpBtn = document.getElementById('getOtpBtn');
 const signupBtn = document.getElementById('signupBtn');
@@ -292,11 +292,16 @@ getOtpBtn.addEventListener('click', async () => {
       body: JSON.stringify({ email })
     });
     const data = await res.json();
-    if(res.ok){
-      showMessage(data.message || 'OTP sent successfully', 'var(--success)');
+    if(res.ok && data.success){
       startOtpCooldown(60);
-      if(data.otp){
-        console.log('DEV OTP (server returned):', data.otp);
+      if (data.emailSent) {
+        showMessage(data.message || 'OTP sent successfully to your email!', 'var(--success)');
+      } else {
+        const otpInput = document.getElementById('otp');
+        if (otpInput && data.otp) {
+          otpInput.value = data.otp;
+        }
+        showMessage(`Dev Mode: OTP is ${data.otp} (auto-filled)`, 'var(--primary)');
       }
     } else {
       showMessage(data.message || 'Error sending OTP', '#dc2626');

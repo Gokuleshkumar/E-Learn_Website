@@ -5,24 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - AGS Academy</title>
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Font Awesome for Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="quiz-data.js"></script>
+  <script src="quiz-engine.js"></script>
   
   <style>
+    :root {
+      --ink: #141417;
+      --ink-soft: #3c3d42;
+      --purple: #7C3AED;
+      --purple-deep: #5B21B6;
+      --purple-pale: #F1EBFE;
+      --paper: #FAFAFB;
+      --line: #E7E5EA;
+      --gold: #B4690E;
+      --green: #0F7B4F;
+    }
     html {
       scroll-behavior: smooth;
     }
     body {
-      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
     }
-    /* Udemy typical dark purple */
-    .bg-udemy-dark { background-color: #1c1d1f; }
-    .text-udemy-purple { color: #5624d0; }
-    .bg-udemy-purple { background-color: #5624d0; }
-    .hover-bg-udemy-purple:hover { background-color: #401b9c; }
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Sora', sans-serif;
+    }
     
     /* Animations */
     @keyframes fadeUp {
@@ -33,215 +47,603 @@
       animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
     }
-    /* Staggered delay classes */
     .delay-100 { animation-delay: 100ms; }
     .delay-200 { animation-delay: 200ms; }
     .delay-300 { animation-delay: 300ms; }
     .delay-400 { animation-delay: 400ms; }
 
-    /* Card Hover Effects */
+    /* ---------- Hero stack illustration ---------- */
+    .stack-card {
+      box-shadow: 0 20px 40px -12px rgba(20, 20, 23, .25);
+      border-radius: 14px;
+      animation: drift 6s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) rotate(var(--r)); }
+      50% { transform: translateY(-10px) rotate(var(--r)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stack-card { animation: none; }
+    }
+
+    /* Course cards */
     .course-card {
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      min-width: 280px;
-      max-width: 300px;
+      border: 1px solid var(--line);
+      background: #fff;
+      transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
     }
     .course-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      border-color: transparent;
+      box-shadow: 0 18px 34px -16px rgba(20, 20, 23, .35);
+      transform: translateY(-4px);
+      border-color: #D9CDF8;
     }
-    .course-card:hover .course-img {
-      transform: scale(1.08);
-    }
+    
     .course-img {
       transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+    .course-card:hover .course-img {
+      transform: scale(1.05);
+    }
     
-    /* Hide scrollbar for horizontal scrolling but keep functionality */
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
-    .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-  
-    /* Hide default browser password reveal icon */
-    input[type="password"]::-ms-reveal,
-    input[type="password"]::-ms-clear {
-      display: none;
-    }
-</style>
-  
-</head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased flex flex-col min-h-screen">
+    /* Hide scrollbar */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md border-b border-gray-100 py-4 px-6 flex items-center justify-between sticky top-0 z-50">
-    <!-- Left: Logo & Categories -->
-    <div class="flex items-center space-x-6">
-      <a href="index.html" class="flex items-center gap-2 shrink-0">
-        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+    /* Quiz Modal Dialog Styles (Modern Native Dialog) */
+    dialog#quiz-runner-dialog {
+      margin: auto;
+      border: none;
+      padding: 0;
+      background: transparent;
+      outline: none;
+      max-width: 720px;
+      width: 95vw;
+    }
+    dialog#quiz-runner-dialog::backdrop {
+      background-color: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    dialog#quiz-runner-dialog[open] {
+      animation: dialogPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* 2-Minute Course Demo Video Modal Dialog */
+    dialog#course-demo-dialog {
+      margin: auto;
+      border: none;
+      padding: 0;
+      background: transparent;
+      outline: none;
+      max-width: 860px;
+      width: 95vw;
+    }
+    dialog#course-demo-dialog::backdrop {
+      background-color: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    dialog#course-demo-dialog[open] {
+      animation: dialogPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes dialogPop {
+      from { opacity: 0; transform: scale(0.96) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <header class="sticky top-0 z-50 bg-[var(--ink)]">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center gap-6">
+      <a href="dash.html" class="flex items-center gap-2 shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
           <defs>
-            <linearGradient id="gradDash" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#5624d0" />
-              <stop offset="100%" stop-color="#401b9c" />
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#1d4ed8" />
             </linearGradient>
           </defs>
-          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradDash)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-          <circle cx="45" cy="20" r="8" fill="#401b9c" />
-          <circle cx="20" cy="70" r="8" fill="#5624d0" />
-          <circle cx="70" cy="70" r="8" fill="#5624d0" />
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+          <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+          <circle cx="70" cy="70" r="8" fill="#3b82f6" />
         </svg>
-        <div class="flex items-baseline gap-0.5">
-          <span class="text-2xl font-black tracking-tight text-gray-900">AGS</span>
-          <span class="text-2xl font-black tracking-tight text-udemy-purple">Academy</span>
+        <div class="flex items-baseline gap-1">
+          <span class="font-display text-2xl font-800 text-white hidden sm:block">AGS</span>
+          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academy</span>
         </div>
       </a>
-      <div class="hidden md:block group relative">
-        <button onclick="const t = document.getElementById('storefront-carousel') || document.getElementById('learning-carousel'); if(t) t.scrollIntoView({behavior: 'smooth', block: 'center'})" class="text-sm text-gray-700 hover:text-udemy-purple font-semibold transition">Explore Categories</button>
-      </div>
-    </div>
 
-    <!-- Center: Search Bar -->
-    <div class="hidden md:flex flex-1 max-w-2xl mx-8 relative group">
-      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-        <i class="fas fa-search text-gray-400 group-hover:text-udemy-purple transition-colors"></i>
+      <!-- search (desktop) -->
+      <div class="hidden lg:flex flex-1 max-w-md ml-4">
+        <div class="w-full flex items-center bg-[#232327] rounded-full px-4 py-2 text-sm text-[#B9B7C2] focus-within:ring-2 focus-within:ring-[var(--purple)] transition-all">
+          <i class="fas fa-search w-4 h-4 mr-2 shrink-0"></i>
+          <input type="text" id="desktop-search" placeholder="Search courses..."
+            class="bg-transparent outline-none w-full placeholder-[#8B899A]" onkeyup="if(event.key==='Enter'){ const evt = {preventDefault:()=>{}}; document.getElementById('hero-search') && (document.getElementById('hero-search').value=this.value); handleSearch(evt, 'desktop-search', 'storefront-carousel', true); document.getElementById('storefront-carousel')?.scrollIntoView({behavior: 'smooth', block: 'center'}); }">
+        </div>
       </div>
-      <input type="text" class="block w-full pl-12 pr-4 py-2.5 border-2 border-transparent bg-gray-100 rounded-full text-sm leading-5 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-udemy-purple transition-all duration-300 shadow-inner" placeholder="Search for any course, skill, or topic...">
-    </div>
 
-    <!-- Right: Links & Profile -->
-    <div class="flex items-center space-x-5">
-      <a href="Aboutus.html" class="hidden md:block text-sm font-medium text-gray-700 hover:text-udemy-purple transition">About Us</a>
-      <a href="contactus.html" class="hidden md:block text-sm font-medium text-gray-700 hover:text-udemy-purple transition">Contact Us</a>
-      
-      <!-- AI Forum Button -->
-      <button onclick="handleForumClick()" class="relative hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full font-extrabold text-sm overflow-hidden group shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_25px_rgba(0,0,0,0.25)] hover:-translate-y-1 transition-all duration-300 border border-gray-300">
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-white via-gray-100 to-white group-hover:scale-105 transition-transform duration-500"></span>
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-gray-900 via-black to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-        <i class="fas fa-robot relative z-10 text-lg text-gray-800 group-hover:text-white group-hover:animate-pulse transition-colors duration-500"></i> 
-        <span class="relative z-10 tracking-wide text-gray-800 group-hover:text-white transition-colors duration-500">AI Discuss & Doubt Forum</span>
-      </button>
-      
-      <!-- User Profile -->
-      <div class="relative ml-2">
-        <div onclick="toggleDropdown()" class="flex items-center gap-3 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 cursor-pointer transition">
-          <span class="text-sm font-bold text-gray-800 hidden sm:block">Hi, <span id="nav-username">Student</span></span>
-          <div class="h-9 w-9 rounded-full bg-udemy-purple text-white flex items-center justify-center font-bold text-lg shadow-sm">
-            <span id="nav-initial">S</span>
+      <nav class="hidden lg:flex items-center gap-6 text-[15px] font-semibold mx-4">
+        <a href="Aboutus.html" class="text-white hover:text-gray-300 transition">About Us</a>
+        <a href="contactus.html" class="text-white hover:text-gray-300 transition">Contact Us</a>
+      </nav>
+
+      <div class="flex items-center ml-auto border border-[#3c3d42] rounded-[30px] pl-2 pr-1 py-1 gap-1">
+        <!-- Quiz Arena Nav Button -->
+        <button onclick="handleQuizNavClick()" class="flex px-3 py-1.5 text-xs sm:text-sm font-bold text-white hover:text-purple-200 transition items-center gap-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-sm mr-1">
+          <i class="fas fa-brain text-yellow-300"></i> Quizzes <span class="bg-yellow-400 text-purple-950 text-[10px] font-extrabold px-1.5 py-0.2 rounded-full uppercase tracking-wider">VIP</span>
+        </button>
+
+        <button onclick="handleForumClick()" class="hidden sm:flex px-2 py-1.5 text-sm font-bold text-white hover:text-gray-300 transition items-center gap-2 mr-2">
+          <i class="fas fa-robot text-[#A78BFA]"></i> AI Discuss
+        </button>
+        
+        <!-- User Profile -->
+        <div class="relative" id="profile-btn-container">
+          <div onclick="toggleDropdown(event)" class="flex items-center justify-center gap-3 px-3 py-1.5 rounded-[30px] hover:bg-[#232327] cursor-pointer transition w-full min-w-[120px]">
+            <span class="text-sm font-bold text-white hidden sm:block truncate">Hi, <span id="nav-username">Student</span></span>
+            <div class="h-9 w-9 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
+              <span id="nav-initial">S</span>
+            </div>
+          </div>
+          
+          <!-- Dropdown Menu -->
+          <div id="profile-dropdown" class="absolute right-0 mt-3 w-60 bg-white rounded-xl shadow-2xl py-2 border border-gray-100 hidden z-50 transform opacity-0 scale-95 transition-all duration-200 origin-top-right">
+            <div class="px-4 py-2 border-b border-gray-100">
+              <p class="text-xs text-gray-500">Student Account</p>
+              <p class="text-sm font-bold text-gray-900 truncate" id="dropdown-user-display">Student</p>
+              <div class="mt-1 flex items-center gap-1.5">
+                <span id="dropdown-status-badge" class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                  <i class="fas fa-check-circle"></i> Paid Member
+                </span>
+              </div>
+            </div>
+            <a href="#" onclick="switchDashboardTab('quizzes'); toggleDropdown(event);" class="block px-4 py-2 text-sm text-[var(--ink)] hover:bg-[var(--paper)] hover:text-[var(--purple)] font-semibold transition-colors">
+              <i class="fas fa-brain mr-2 text-[var(--purple)]"></i> Quiz Arena (23 Topics)
+            </a>
+            <a href="#" onclick="switchDashboardTab('courses'); toggleDropdown(event);" class="block px-4 py-2 text-sm text-[var(--ink)] hover:bg-[var(--paper)] hover:text-[var(--purple)] font-semibold transition-colors">
+              <i class="fas fa-graduation-cap mr-2 text-[var(--purple)]"></i> My Enrolled Courses
+            </a>
+            <a href="#" onclick="togglePaidSimulation(); toggleDropdown(event);" class="block px-4 py-2 text-xs text-gray-500 hover:bg-gray-100 font-medium transition-colors border-t border-gray-100">
+              <i class="fas fa-sliders-h mr-1.5"></i> Test: Toggle Paid / Free View
+            </a>
+            <a href="#" onclick="logoutUser()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-semibold transition-colors border-t border-gray-100">
+              <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
           </div>
         </div>
-        
-        <!-- Dropdown Menu -->
-        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 border border-gray-100 hidden z-50">
-          <a href="#" onclick="logoutUser()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 font-bold transition-colors">
-            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-          </a>
-        </div>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- Main Content Container -->
   <main id="dashboard-content" class="flex-grow overflow-x-hidden">
     <div class="flex justify-center items-center h-64">
-       <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-udemy-purple"></div>
+       <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[var(--purple)]"></div>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-udemy-dark text-white py-12 mt-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-      <div class="mb-6 md:mb-0">
-        <div class="flex items-center gap-2">
-          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+  <footer class="w-full bg-[var(--ink)] text-white py-12 mt-12">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="md:col-span-2">
+        <a href="dash.html" class="flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
             <defs>
               <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#5624d0" />
-                <stop offset="100%" stop-color="#401b9c" />
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1d4ed8" />
               </linearGradient>
             </defs>
             <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-            <circle cx="45" cy="20" r="8" fill="#401b9c" />
-            <circle cx="20" cy="70" r="8" fill="#5624d0" />
-            <circle cx="70" cy="70" r="8" fill="#5624d0" />
+            <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+            <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+            <circle cx="70" cy="70" r="8" fill="#3b82f6" />
           </svg>
-          <div class="flex items-baseline gap-0.5">
-            <span class="text-2xl font-black tracking-tight text-white">AGS</span>
-            <span class="text-2xl font-black tracking-tight text-udemy-purple">Academy</span>
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-xl font-800 text-white">AGS</span>
+            <span class="font-display text-xl font-800 text-[var(--purple)]">Academy</span>
           </div>
-        </div>
-        <p class="text-sm text-gray-400 mt-2">Empowering your future with modern skills.</p>
+        </a>
+        <p class="text-[#B9B7C2] text-sm max-w-sm">
+          Empowering students with quality, affordable online education — live classes, certificates and internship placement in one place.
+        </p>
       </div>
-      <div class="flex space-x-6 text-sm">
-        <a href="#" class="hover:text-gray-300 transition">Terms</a>
-        <a href="#" class="hover:text-gray-300 transition">Privacy policy</a>
-        <a href="#" class="hover:text-gray-300 transition">Cookie settings</a>
+      <div>
+        <h3 class="font-semibold mb-3 text-sm">Quick links</h3>
+        <ul class="space-y-2 text-sm text-[#B9B7C2]">
+          <li><a href="dash.html" class="hover:text-white transition">Home</a></li>
+          <li><a href="#" class="hover:text-white transition">Courses</a></li>
+          <li><a href="#" class="hover:text-white transition">Help</a></li>
+        </ul>
       </div>
+      <div>
+        <h3 class="font-semibold mb-3 text-sm">Contact</h3>
+        <p class="text-[#B9B7C2] text-sm">
+          <a href="mailto:gkacademy1234@gmail.com" class="hover:text-white underline">gkacademy1234@gmail.com</a>
+        </p>
+      </div>
+    </div>
+    <div class="w-full mt-10 text-center text-[#7A7887] text-xs px-4">
+      &copy; 2025 AGS Academy. All rights reserved.
     </div>
   </footer>
 
 <script>
   const courseCatalog = [
-    { id: 'frontend', title: 'Front End Development Masterclass 2024', instructor: 'AGS Academy Experts', image: './course_image/fr_banner.jpg', rating: 4.8, reviews: '12,345', price: '₹4,999', oldPrice: '₹8,999', badge: 'Bestseller', link: 'frontend.html', progress: 0 },
-    { id: 'backend', title: 'The Complete Node.js & Express Backend Course', instructor: 'AGS Academy Experts', image: './course_image/ba_banner.webp', rating: 4.7, reviews: '8,432', price: '₹8,499', oldPrice: '₹12,999', badge: 'Hot & New', link: 'backend.html', progress: 0 },
-    { id: 'java', title: 'Java With SpringBoot - Zero to Hero', instructor: 'AGS Academy Experts', image: './course_image/java_banner.jpg', rating: 4.9, reviews: '15,102', price: '₹7,499', oldPrice: '₹11,999', badge: 'Highest Rated', link: 'java.html', progress: 0 },
-    { id: 'python', title: 'Python With Django Full Stack Developer', instructor: 'AGS Academy Experts', image: './course_image/python_banner.webp', rating: 4.6, reviews: '9,211', price: '₹7,499', oldPrice: '₹10,999', badge: null, link: 'python.html', progress: 0 },
-    { id: 'ai', title: 'AI & Machine Learning Deep Dive', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=600&h=400&fit=crop', rating: 4.9, reviews: '4,521', price: '₹9,999', oldPrice: '₹14,999', badge: 'Trending', link: 'ai.html', progress: 0 },
-    { id: 'datascience', title: 'Data Science & Analytics Bootcamp', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop', rating: 4.8, reviews: '6,124', price: '₹8,999', oldPrice: '₹13,999', badge: 'Bestseller', link: 'datascience.html', progress: 0 },
-    { id: 'cybersecurity', title: 'Cyber Security Professional Certification', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop', rating: 4.7, reviews: '3,892', price: '₹11,499', oldPrice: '₹18,999', badge: null, link: 'cybersecurity.html', progress: 0 },
-    { id: 'uiux', title: 'UI/UX Design Principles & Masterclass', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop', rating: 4.8, reviews: '7,433', price: '₹5,999', oldPrice: '₹9,999', badge: 'Bestseller', link: 'uiux.html', progress: 0 },
-    { id: 'ml', title: 'Machine Learning A-Z: Python & R', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1527474305487-b87b222841cc?w=600&h=400&fit=crop', rating: 4.7, reviews: '5,302', price: '₹8,999', oldPrice: '₹12,999', badge: 'Hot', link: 'ml.html', progress: 0 },
-    { id: 'dsa', title: 'Problem Solving Using DSA', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&h=400&fit=crop', rating: 4.9, reviews: '11,200', price: '₹6,499', oldPrice: '₹9,999', badge: 'Highest Rated', link: 'dsa.html', progress: 0 },
-    { id: 'quantum', title: 'Quantum Computing for Beginners', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop', rating: 4.5, reviews: '1,204', price: '₹12,499', oldPrice: '₹19,999', badge: 'New', link: 'quantum.html', progress: 0 },
-    { id: 'webdev', title: 'The Complete Web Development Bootcamp', instructor: 'AGS Academy Experts', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop', rating: 4.8, reviews: '18,490', price: '₹5,499', oldPrice: '₹8,999', badge: 'Bestseller', link: 'webdev.html', progress: 0 }
+    { 
+      id: 'frontend', 
+      title: 'Front End Development Masterclass 2024', 
+      instructor: 'AGS Academy Experts', 
+      image: './course_image/fr_banner.jpg', 
+      rating: 4.8, 
+      reviews: '12,345', 
+      price: '₹4,999', 
+      oldPrice: '₹8,999', 
+      badge: 'Bestseller', 
+      link: 'frontend.html', 
+      progress: 0,
+      demoTagline: 'Build ultra-responsive web interfaces with modern HTML5, Tailwind CSS, JavaScript ES6+, and React 19 component architecture.',
+      demoKeyTopics: ['Modern Flex & Grid Layouts', 'React 19 State, Hooks & Context', 'Performance & Lighthouse Optimization', 'Portfolio Capstone Projects']
+    },
+    { 
+      id: 'backend', 
+      title: 'The Complete Node.js & Express Backend Course', 
+      instructor: 'AGS Academy Experts', 
+      image: './course_image/ba_banner.webp', 
+      rating: 4.7, 
+      reviews: '8,432', 
+      price: '₹8,499', 
+      oldPrice: '₹12,999', 
+      badge: 'Hot & New', 
+      link: 'backend.html', 
+      progress: 0,
+      demoTagline: 'Engineer scalable, robust backend architectures using Node.js, Express, MongoDB Mongoose, JWT authentication, and Docker.',
+      demoKeyTopics: ['RESTful API Design & Best Practices', 'MongoDB Aggregations & Schema Design', 'JWT Authentication & Security', 'Deployment to Cloud & Docker']
+    },
+    { 
+      id: 'java', 
+      title: 'Java With SpringBoot - Zero to Hero', 
+      instructor: 'AGS Academy Experts', 
+      image: './course_image/java_banner.jpg', 
+      rating: 4.9, 
+      reviews: '15,102', 
+      price: '₹7,499', 
+      oldPrice: '₹11,999', 
+      badge: 'Highest Rated', 
+      link: 'java.html', 
+      progress: 0,
+      demoTagline: 'Master enterprise-grade Java 21, Spring Boot microservices, Spring Security, Hibernate ORM, and production database modeling.',
+      demoKeyTopics: ['Java 21 Virtual Threads & OOP', 'Spring Boot 3 RESTful Microservices', 'Hibernate & Spring Data JPA', 'Enterprise Security & Testing']
+    },
+    { 
+      id: 'python', 
+      title: 'Python With Django Full Stack Developer', 
+      instructor: 'AGS Academy Experts', 
+      image: './course_image/python_banner.webp', 
+      rating: 4.6, 
+      reviews: '9,211', 
+      price: '₹7,499', 
+      oldPrice: '₹10,999', 
+      badge: null, 
+      link: 'python.html', 
+      progress: 0,
+      demoTagline: 'From zero coding to deploying dynamic full-stack Django web applications, REST framework APIs, database modeling, and task queues.',
+      demoKeyTopics: ['Python OOP & Advanced Data Structures', 'Django MVC/MVT Architecture', 'Django REST Framework (DRF)', 'PostgreSQL Integration & Deployment']
+    },
+    { 
+      id: 'ai', 
+      title: 'AI & Machine Learning Deep Dive', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=600&h=400&fit=crop', 
+      rating: 4.9, 
+      reviews: '4,521', 
+      price: '₹9,999', 
+      oldPrice: '₹14,999', 
+      badge: 'Trending', 
+      link: 'ai.html', 
+      progress: 0,
+      demoTagline: 'Explore the frontiers of AI with Gemini LLMs, Multimodal agents, prompt engineering, fine-tuning, and neural networks.',
+      demoKeyTopics: ['Gemini 2.5 Flash & Multimodal APIs', 'LLM Prompt Engineering & Agents', 'Computer Vision & Deep Learning', 'Production AI App Deployment']
+    },
+    { 
+      id: 'datascience', 
+      title: 'Data Science & Analytics Bootcamp', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop', 
+      rating: 4.8, 
+      reviews: '6,124', 
+      price: '₹8,999', 
+      oldPrice: '₹13,999', 
+      badge: 'Bestseller', 
+      link: 'datascience.html', 
+      progress: 0,
+      demoTagline: 'Turn complex data into strategic business insights using Python, NumPy, Pandas, Seaborn, SQL, and predictive analytics models.',
+      demoKeyTopics: ['Pandas Data Wrangling & Cleaning', 'Interactive Visualizations & BI', 'Hypothesis Testing & Statistics', 'Predictive Modeling & Scikit-Learn']
+    },
+    { 
+      id: 'cybersecurity', 
+      title: 'Cyber Security Professional Certification', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop', 
+      rating: 4.7, 
+      reviews: '3,892', 
+      price: '₹11,499', 
+      oldPrice: '₹18,999', 
+      badge: null, 
+      link: 'cybersecurity.html', 
+      progress: 0,
+      demoTagline: 'Learn real-world defensive and offensive cyber security, penetration testing tools, Wireshark packet analysis, and network protection.',
+      demoKeyTopics: ['Ethical Hacking & Reconnaissance', 'Vulnerability Scanning & Metasploit', 'Network Security & Firewalls', 'Security Incident & Event Management']
+    },
+    { 
+      id: 'uiux', 
+      title: 'UI/UX Design Principles & Masterclass', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop', 
+      rating: 4.8, 
+      reviews: '7,433', 
+      price: '₹5,999', 
+      oldPrice: '₹9,999', 
+      badge: 'Bestseller', 
+      link: 'uiux.html', 
+      progress: 0,
+      demoTagline: 'Craft intuitive, visually stunning digital experiences using Figma components, user journey mapping, design systems, and wireframing.',
+      demoKeyTopics: ['Figma Auto-Layout & Component Libraries', 'Design Systems & Color Typography', 'User Research & Usability Testing', 'Interactive Micro-Animations']
+    },
+    { 
+      id: 'ml', 
+      title: 'Machine Learning A-Z: Python & R', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1527474305487-b87b222841cc?w=600&h=400&fit=crop', 
+      rating: 4.7, 
+      reviews: '5,302', 
+      price: '₹8,999', 
+      oldPrice: '₹12,999', 
+      badge: 'Hot', 
+      link: 'ml.html', 
+      progress: 0,
+      demoTagline: 'Comprehensive machine learning guide: regression, classification, clustering, ensemble models, and hyperparameter tuning.',
+      demoKeyTopics: ['Supervised & Unsupervised Learning', 'Decision Trees, Random Forests, XGBoost', 'Model Evaluation & Cross-Validation', 'Deployment of ML Models via APIs']
+    },
+    { 
+      id: 'dsa', 
+      title: 'Problem Solving Using DSA', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&h=400&fit=crop', 
+      rating: 4.9, 
+      reviews: '11,200', 
+      price: '₹6,499', 
+      oldPrice: '₹9,999', 
+      badge: 'Highest Rated', 
+      link: 'dsa.html', 
+      progress: 0,
+      demoTagline: 'Crush technical coding interviews with deep problem solving in Arrays, Trees, Graphs, Dynamic Programming, and Big-O efficiency.',
+      demoKeyTopics: ['Time & Space Complexity (Big-O)', 'Trees, Heaps, and Graph Traversals', 'Dynamic Programming Patterns', 'FAANG-Level LeetCode Strategies']
+    },
+    { 
+      id: 'quantum', 
+      title: 'Quantum Computing for Beginners', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop', 
+      rating: 4.5, 
+      reviews: '1,204', 
+      price: '₹12,499', 
+      oldPrice: '₹19,999', 
+      badge: 'New', 
+      link: 'quantum.html', 
+      progress: 0,
+      demoTagline: 'Understand quantum mechanics foundations, qubits, quantum gates, entanglement, and write quantum code on IBM Qiskit.',
+      demoKeyTopics: ['Qubits & Quantum Superposition', 'Quantum Logic Gates & Circuits', 'Shor & Grover Algorithms', 'Hands-on IBM Qiskit Programming']
+    },
+    { 
+      id: 'webdev', 
+      title: 'The Complete Web Development Bootcamp', 
+      instructor: 'AGS Academy Experts', 
+      image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop', 
+      rating: 4.8, 
+      reviews: '18,490', 
+      price: '₹5,499', 
+      oldPrice: '₹8,999', 
+      badge: 'Bestseller', 
+      link: 'webdev.html', 
+      progress: 0,
+      demoTagline: 'The all-in-one web development journey: Frontend HTML/CSS/JS, Backend servers, databases, security, authentication, and deployment.',
+      demoKeyTopics: ['Full-Stack MERN Architecture', 'Database Design & Integration', 'Authentication & Authorization', 'Full Production Cloud Deployment']
+    }
   ];
 
-  function renderStars(rating) {
-    let starsHtml = '';
-    for(let i=1; i<=5; i++) {
-      if(i <= rating) starsHtml += '<i class="fas fa-star text-yellow-400 text-sm drop-shadow-sm"></i>';
-      else if(i - 0.5 === rating) starsHtml += '<i class="fas fa-star-half-alt text-yellow-400 text-sm drop-shadow-sm"></i>';
-      else starsHtml += '<i class="far fa-star text-yellow-400 text-sm drop-shadow-sm"></i>';
+  const trainingPlacementDemo = {
+    id: 'training-placement',
+    title: 'Training cum Placement Program',
+    instructor: 'AGS Academy Placement Team',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop',
+    rating: 4.9,
+    reviews: '25,000+',
+    price: '₹25,000',
+    oldPrice: '₹50,000',
+    badge: 'Job Guaranteed Track',
+    link: 'details.html',
+    demoTagline: 'Guaranteed tech placement program with intensive 4-month live training, personal mentor reviews, resume building, and direct hiring partner interviews.',
+    demoKeyTopics: ['Guaranteed Placement Drives', '1-on-1 Mentorship & Mock Interviews', 'Production Grade Full-Stack Projects', 'Resume & LinkedIn Optimization']
+  };
+
+  let demoVideoTimer = null;
+
+  function openCourseDemoModal(courseId) {
+    let course = courseCatalog.find(c => c.id === courseId);
+    if (!course && courseId === 'training-placement') {
+      course = trainingPlacementDemo;
     }
-    return starsHtml;
+    if (!course) course = courseCatalog[0];
+
+    const dialog = document.getElementById('course-demo-dialog');
+    const titleEl = document.getElementById('demo-modal-title');
+    const badgeEl = document.getElementById('demo-modal-badge');
+    const taglineEl = document.getElementById('demo-modal-tagline');
+    const topicsEl = document.getElementById('demo-modal-topics');
+    const enrollBtn = document.getElementById('demo-modal-enroll-btn');
+    const endEnrollBtn = document.getElementById('demo-end-enroll-btn');
+    const priceEl = document.getElementById('demo-modal-price');
+    const oldPriceEl = document.getElementById('demo-modal-oldprice');
+
+    if (!dialog) return;
+
+    if (titleEl) titleEl.textContent = course.title;
+    if (badgeEl) badgeEl.textContent = course.id === 'training-placement' ? 'Exclusive Placement Track' : (course.badge || 'Demo Preview');
+    if (taglineEl) taglineEl.textContent = course.demoTagline || 'Watch this 2-minute animated course intro.';
+    if (priceEl) priceEl.textContent = course.price;
+    if (oldPriceEl) oldPriceEl.textContent = course.oldPrice;
+
+    const targetUrl = course.id === 'training-placement' ? 'details.html' : `enroll.html?course=${course.id}`;
+    if (enrollBtn) {
+      enrollBtn.href = targetUrl;
+      enrollBtn.innerHTML = `Enroll Now &bull; ${course.price} <i class="fas fa-arrow-right ml-1"></i>`;
+    }
+    if (endEnrollBtn) {
+      endEnrollBtn.href = targetUrl;
+    }
+
+    if (topicsEl && course.demoKeyTopics) {
+      topicsEl.innerHTML = course.demoKeyTopics.map(t => `
+        <span class="inline-flex items-center gap-1 text-[11px] bg-white/10 text-purple-200 border border-purple-400/20 px-2 py-0.5 rounded-full">
+          <i class="fas fa-check text-emerald-400 text-[9px]"></i> ${t}
+        </span>
+      `).join('');
+    }
+
+    dialog.showModal();
+
+    if (window.CourseVideoEngine) {
+      window.CourseVideoEngine.open(course);
+    }
   }
 
-  function createStorefrontCard(course, index) {
+  function closeCourseDemoModal() {
+    const dialog = document.getElementById('course-demo-dialog');
+    if (window.CourseVideoEngine) {
+      window.CourseVideoEngine.close();
+    }
+    if (dialog && dialog.open) {
+      dialog.close();
+    }
+  }
+
+  function seekDemoVideo(seconds) {
+    if (window.CourseVideoEngine) {
+      window.CourseVideoEngine.seek(seconds);
+    }
+  }
+
+  function replayDemoVideo() {
+    if (window.CourseVideoEngine) {
+      window.CourseVideoEngine.replay();
+    }
+  }
+
+  // Backdrop and Escape key handlers
+  document.addEventListener('click', (e) => {
+    const demoDialog = document.getElementById('course-demo-dialog');
+    if (demoDialog && demoDialog.open && e.target === demoDialog) {
+      closeCourseDemoModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const demoDialog = document.getElementById('course-demo-dialog');
+      if (demoDialog && demoDialog.open) {
+        closeCourseDemoModal();
+      }
+    }
+  });
+
+  function createStorefrontCard(course, index, isUnpaid = true) {
     const delayClass = `delay-${((index % 4) + 1) * 100}`; 
-    return `
-      <a href="${course.link}" class="animate-fade-up ${delayClass} shrink-0 bg-white rounded-xl overflow-hidden border border-gray-200 course-card flex flex-col w-[280px] sm:w-[300px]">
-        <div class="relative overflow-hidden bg-gray-100 shrink-0">
-          <img src="${course.image}" alt="${course.title}" class="w-full h-40 object-cover course-img">
-          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+    
+    // For unpaid users only: display the 2-min demo video badge & play button on the thumbnail
+    const demoMediaOverlay = isUnpaid ? `
+      <!-- 2-Min Demo Video Badge -->
+      <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 bg-black/75 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20 shadow-xs pointer-events-none">
+        <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+        <i class="fas fa-play text-[8px] text-yellow-300"></i>
+        <span>2-Min Demo</span>
+      </div>
+
+      <!-- Video Duration Pill -->
+      <div class="absolute top-2.5 right-2.5 bg-black/75 backdrop-blur-md text-purple-200 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border border-white/10 pointer-events-none">
+        02:00
+      </div>
+
+      <!-- Centered Play Button Overlay -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[var(--purple-deep)] to-purple-500 text-white flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110 border-2 border-white/80">
+          <i class="fas fa-play text-xs ml-0.5 text-white"></i>
         </div>
-        <div class="p-5 flex flex-col flex-grow">
-          <h3 class="text-base font-bold text-gray-900 leading-tight mb-2 line-clamp-2 min-h-[40px]">${course.title}</h3>
-          <p class="text-xs text-gray-500 mb-2 font-medium">${course.instructor}</p>
-          <div class="mt-auto pt-4 border-t border-gray-100 flex items-baseline space-x-2">
-            <span class="text-xl font-extrabold text-gray-900">${course.price}</span>
-            <span class="text-sm font-medium text-gray-400 line-through">${course.oldPrice}</span>
+      </div>
+
+      <!-- Bottom bar indicator on image -->
+      <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-white/90 text-[10px] font-medium pointer-events-none">
+        <span class="flex items-center gap-1"><i class="fas fa-bolt text-yellow-400 text-[10px]"></i> Energetic Intro</span>
+        <span class="text-yellow-300 font-bold flex items-center gap-0.5">Watch Preview &rarr;</span>
+      </div>
+    ` : '';
+
+    const thumbnailClickAction = isUnpaid 
+      ? `onclick="openCourseDemoModal('${course.id}')" title="Click to watch 2-Min Energetic Intro Video"` 
+      : `onclick="window.location.href='${course.link}'" title="View Course Details"`;
+
+    return `
+      <div class="animate-fade-up ${delayClass} shrink-0 course-card flex flex-col w-[265px] sm:w-[285px] rounded-xl overflow-hidden bg-white border border-[var(--line)] shadow-xs hover:shadow-md transition-all duration-300 group">
+        <!-- Thumbnail Media with Demo Video Trigger & Badges (unpaid users) -->
+        <div class="relative overflow-hidden cursor-pointer" ${thumbnailClickAction}>
+          <img src="${course.image}" alt="${course.title}" class="w-full h-36 object-cover course-img transition-transform duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
+          ${demoMediaOverlay}
+        </div>
+
+        <!-- Card Content Body -->
+        <div class="p-3.5 flex flex-col flex-1">
+          <a href="${course.link}" class="hover:text-[var(--purple)] transition-colors">
+            <h3 class="font-display font-semibold text-sm mb-1 line-clamp-2 min-h-[38px] text-[var(--ink)] leading-snug">${course.title}</h3>
+          </a>
+          <p class="text-[11px] text-[var(--ink-soft)] mb-2">Instructor: ${course.instructor}</p>
+          
+          <div class="flex items-center gap-2 mb-3 mt-auto">
+            <span class="font-display font-bold text-base text-[var(--ink)]">${course.price}</span>
+            <span class="text-xs text-[var(--ink-soft)] line-through">${course.oldPrice}</span>
+          </div>
+
+          <!-- Action Buttons: View details & Enroll -->
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <a href="${course.link}" class="bg-purple-50 hover:bg-purple-100 text-[var(--purple-deep)] border border-purple-200 text-[11px] font-bold py-1.5 px-2 rounded-lg transition text-center flex items-center justify-center gap-1 shadow-xs" title="View course wordings, syllabus and curriculum">
+              <i class="fas fa-file-lines text-xs text-[var(--purple)]"></i> View details
+            </a>
+            <a href="enroll.html?course=${course.id}" class="bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-[11px] font-bold py-1.5 px-2 rounded-lg transition text-center flex items-center justify-center gap-1 shadow-xs">
+              Enroll <i class="fas fa-arrow-right text-[9px]"></i>
+            </a>
           </div>
         </div>
-      </a>
+      </div>
     `;
   }
 
   function createLearningCard(course, progress, index) {
     const delayClass = `delay-${((index % 4) + 1) * 100}`;
     return `
-      <div class="animate-fade-up ${delayClass} bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300 min-w-[300px] shrink-0">
+      <div class="animate-fade-up ${delayClass} bg-white rounded-xl border border-[var(--line)] overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-200 min-w-[280px] shrink-0">
         <div class="relative overflow-hidden group cursor-pointer">
-          <img src="${course.image}" alt="${course.title}" class="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105">
-          <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"><i class="fas fa-play-circle text-5xl text-white drop-shadow-lg"></i></div>
+          <img src="${course.image}" alt="${course.title}" class="w-full h-36 object-cover transition-transform duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"><i class="fas fa-play-circle text-4xl text-white drop-shadow-md"></i></div>
         </div>
-        <div class="p-5 flex flex-col flex-grow">
-          <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">${course.title}</h3>
-          <p class="text-sm font-medium text-gray-500 mb-6">${course.instructor}</p>
+        <div class="p-4 flex flex-col flex-grow">
+          <h3 class="font-display text-base font-semibold text-[var(--ink)] mb-1 leading-snug">${course.title}</h3>
+          <p class="text-xs font-medium text-[var(--ink-soft)] mb-4">${course.instructor}</p>
           <div class="mt-auto">
-            <a href="#" onclick="alert('Redirecting to Zoom...')" class="flex items-center justify-center gap-2 w-full text-center bg-blue-600 text-white font-bold py-2.5 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-              <i class="fas fa-video"></i> Join Live Zoom Class
+            <a href="#" onclick="alert('Redirecting to Zoom...')" class="flex items-center justify-center gap-1.5 w-full text-center bg-[var(--purple)] text-white font-semibold text-xs py-2 rounded-lg hover:bg-[var(--purple-deep)] transition-colors">
+              <i class="fas fa-video text-xs"></i> Join Live Zoom Class
             </a>
           </div>
         </div>
@@ -252,38 +654,66 @@
   function scrollCarousel(id, direction) {
     const container = document.getElementById(id);
     if(container) {
-      // scroll by 600px (~2 cards)
       const scrollAmount = direction === 'left' ? -600 : 600;
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   }
 
   function handleSearch(event, inputId, containerId, isStorefront) {
-    event.preventDefault();
-    const query = document.getElementById(inputId).value.toLowerCase();
+    if(event) event.preventDefault();
+    const inputEl = document.getElementById(inputId);
+    if(!inputEl) return;
+    const query = inputEl.value.toLowerCase();
     const filtered = courseCatalog.filter(c => c.title.toLowerCase().includes(query) || c.instructor.toLowerCase().includes(query));
     const container = document.getElementById(containerId);
     if(container) {
       if(filtered.length > 0) {
         container.innerHTML = filtered.map((c, i) => isStorefront ? createStorefrontCard(c, i) : createStorefrontCard(c, i)).join('');
       } else {
-        container.innerHTML = '<p class="text-gray-500 font-medium py-10 w-full text-center text-lg">No courses found matching your search.</p>';
+        container.innerHTML = '<p class="text-[var(--ink-soft)] font-medium py-10 w-full text-center text-lg">No courses found matching your search.</p>';
       }
-      // Scroll smoothly to the results
-      container.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
   }
 
-  function toggleDropdown() {
+  function toggleDropdown(event) {
+    if(event) event.stopPropagation();
     const dropdown = document.getElementById('profile-dropdown');
-    dropdown.classList.toggle('hidden');
+    if (dropdown.classList.contains('hidden')) {
+      dropdown.classList.remove('hidden');
+      // trigger reflow for transition
+      void dropdown.offsetWidth;
+      dropdown.classList.remove('opacity-0', 'scale-95');
+      dropdown.classList.add('opacity-100', 'scale-100');
+    } else {
+      dropdown.classList.remove('opacity-100', 'scale-100');
+      dropdown.classList.add('opacity-0', 'scale-95');
+      setTimeout(() => {
+        if (dropdown.classList.contains('opacity-0')) {
+          dropdown.classList.add('hidden');
+        }
+      }, 200);
+    }
   }
+
+  // Hide dropdown on click outside
+  document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('profile-dropdown');
+    const container = document.getElementById('profile-btn-container');
+    if (dropdown && !dropdown.classList.contains('hidden') && container && !container.contains(event.target)) {
+      dropdown.classList.remove('opacity-100', 'scale-100');
+      dropdown.classList.add('opacity-0', 'scale-95');
+      setTimeout(() => {
+        if (dropdown.classList.contains('opacity-0')) {
+          dropdown.classList.add('hidden');
+        }
+      }, 200);
+    }
+  });
 
   async function logoutUser() {
     localStorage.removeItem('username');
-    // Attempt backend logout if possible (ignoring errors)
     try {
-      await fetch('http://localhost:5000/api/logout', { method: 'POST', credentials: 'include' });
+      await fetch('/api/logout', { method: 'POST', credentials: 'include' });
     } catch(e) {}
     window.location.href = 'index.html';
   }
@@ -291,298 +721,571 @@
   function renderStorefront(userName) {
     let cardsHtml = courseCatalog.map((c, i) => createStorefrontCard(c, i)).join('');
     document.getElementById('dashboard-content').innerHTML = `
-      <section class="relative bg-gradient-to-r from-blue-50 to-purple-50 overflow-hidden border-b border-gray-200">
-        <div class="absolute top-0 left-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+      <section class="relative bg-[var(--purple-pale)] overflow-hidden border-b border-[var(--line)]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center min-h-[500px]">
-          <div class="bg-white/90 backdrop-blur-md p-8 md:p-10 rounded-2xl shadow-2xl max-w-lg w-full border border-white/50 animate-fade-up md:my-16 my-8 md:mr-10 z-20">
-            <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">Hi, ${userName}! <br/><span class="text-indigo-800 drop-shadow-sm">Start Learning Today.</span></h1>
-            <p class="text-gray-600 text-lg mb-8 font-medium">Accelerate your career with top-rated courses in tech and business. Get started from just ₹4,999.</p>
-            <form onsubmit="handleSearch(event, 'hero-search', 'storefront-carousel', true)" class="flex shadow-lg rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-udemy-purple transition-all">
-              <input type="text" id="hero-search" class="w-full p-4 text-gray-700 bg-white border-none focus:outline-none" placeholder="What do you want to learn?">
-              <button type="submit" class="bg-udemy-purple text-white px-6 font-bold hover:bg-purple-800 transition-colors">Search</button>
-            </form>
+          <div class="py-14 md:py-20 md:pr-10 z-20 w-full md:w-1/2">
+            <p class="text-[var(--purple)] font-semibold text-sm tracking-wide mb-4">Welcome to your dashboard</p>
+            <h1 class="font-display font-800 text-4xl md:text-5xl text-[var(--ink)] mb-4 leading-[1.1]">Hi, ${userName}! <br/><span class="text-[var(--purple-deep)]">Start Learning Today.</span></h1>
+            <p class="text-[var(--ink-soft)] text-lg mb-8">Accelerate your career with top-rated courses in tech and business. Get started from just ₹4,999.</p>
+            <div class="flex bg-white rounded-full p-2 border border-[var(--line)] focus-within:ring-2 focus-within:ring-[var(--purple)] transition-all max-w-md">
+              <input type="text" id="hero-search" class="w-full px-4 text-[var(--ink)] bg-transparent border-none focus:outline-none placeholder-[#8B899A]" placeholder="What do you want to learn?" onkeyup="if(event.key==='Enter') { handleSearch(event, 'hero-search', 'storefront-carousel', true); document.getElementById('storefront-carousel').scrollIntoView({behavior: 'smooth', block: 'center'}); }">
+              <button onclick="handleSearch(null, 'hero-search', 'storefront-carousel', true); document.getElementById('storefront-carousel').scrollIntoView({behavior: 'smooth', block: 'center'});" class="bg-[var(--purple)] text-white px-6 py-2 rounded-full font-semibold hover:bg-[var(--purple-deep)] transition">Search</button>
+            </div>
           </div>
           <div class="w-full md:w-1/2 h-full flex items-center justify-center animate-fade-up delay-200 hidden md:flex">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Students Learning" class="rounded-3xl shadow-2xl object-cover h-[400px] w-full transform rotate-2 hover:rotate-0 transition-transform duration-500">
+            <div class="relative w-[80%] h-80">
+              <div class="stack-card absolute left-0 top-0 w-52 bg-white text-[var(--ink)] p-4 z-10" style="--r:-6deg; transform:rotate(-6deg);">
+                <div class="h-2 w-10 bg-[#7C3AED] rounded-full mb-3"></div>
+                <p class="font-display font-700 text-sm mb-1">Frontend Development</p>
+                <p class="text-xs text-[var(--ink-soft)]">HTML · CSS · React</p>
+              </div>
+              <div class="stack-card absolute right-0 top-8 w-52 bg-white text-[var(--ink)] p-4 z-10" style="--r:5deg; transform:rotate(5deg); animation-delay:1s;">
+                <div class="h-2 w-10 bg-[#0F7B4F] rounded-full mb-3"></div>
+                <p class="font-display font-700 text-sm mb-1">Backend Development</p>
+                <p class="text-xs text-[var(--ink-soft)]">Node · Express · MongoDB</p>
+              </div>
+              <div class="stack-card absolute left-4 top-28 w-52 bg-white text-[var(--ink)] p-4 z-20" style="--r:-2deg; transform:rotate(-2deg); animation-delay:2.5s;">
+                <div class="h-2 w-10 bg-[#B4690E] rounded-full mb-3"></div>
+                <p class="font-display font-700 text-sm mb-1">Python Programming</p>
+                <p class="text-xs text-[var(--ink-soft)]">Data · AI · Scripting</p>
+              </div>
+              <div class="stack-card absolute right-2 top-32 w-52 bg-white text-[var(--ink)] p-4 z-20" style="--r:8deg; transform:rotate(8deg); animation-delay:4s;">
+                <div class="h-2 w-10 bg-[#2563EB] rounded-full mb-3"></div>
+                <p class="font-display font-700 text-sm mb-1">Java Programming</p>
+                <p class="text-xs text-[var(--ink-soft)]">Spring · OOP · Enterprise</p>
+              </div>
+              <div class="stack-card absolute left-[25%] top-[13rem] w-52 bg-white text-[var(--ink)] p-4 z-30" style="--r:-4deg; transform:rotate(-4deg); animation-delay:1.5s;">
+                <div class="h-2 w-10 bg-[#EF4444] rounded-full mb-3"></div>
+                <p class="font-display font-700 text-sm mb-1">Data Science</p>
+                <p class="text-xs text-[var(--ink-soft)]">Pandas · ML · Analytics</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-         <h2 class="text-2xl font-black text-gray-900 mb-6">Exclusive Premium Program</h2>
-         <a href="details.html" class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-amber-300 shadow-[0_8px_30px_rgb(251,191,36,0.2)] hover:shadow-[0_8px_30px_rgb(251,191,36,0.4)] transition-all duration-300 group">
-           <div class="relative w-full md:w-1/3 h-56 md:h-auto overflow-hidden bg-gray-100">
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+         <h2 class="font-display font-700 text-3xl text-[var(--ink)] mb-6">Exclusive Premium Program</h2>
+         <div class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-[#FCD34D] shadow-lg hover:shadow-xl transition-all duration-300 group relative">
+           <!-- Thumbnail Media with 2-Min Demo Video Badges -->
+           <div class="relative w-full md:w-1/3 h-64 md:h-auto overflow-hidden bg-gray-100 cursor-pointer" onclick="openCourseDemoModal('training-placement')" title="Watch 2-Min Edited Intro Video">
              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Training">
-             <div class="absolute top-4 left-4 bg-yellow-400 text-gray-900 text-xs font-black px-3 py-1 uppercase tracking-widest rounded shadow">Premium Program</div>
-           </div>
-           <div class="p-8 md:p-10 flex flex-col justify-center w-full md:w-2/3 bg-gradient-to-r from-amber-50 to-orange-50">
-             <div class="flex items-center gap-2 mb-2">
-               <i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i>
-               <span class="text-sm font-bold text-gray-600">(25,000+ Reviews)</span>
+             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+             <div class="absolute top-4 left-4 bg-[var(--gold)] text-white text-xs font-bold px-3 py-1 uppercase tracking-widest rounded shadow">Premium</div>
+
+             <!-- 2-Min Demo Video Badge -->
+             <div class="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-400/30 flex items-center gap-1.5 shadow">
+               <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+               <i class="fas fa-play text-[9px]"></i> 2-Min Demo (02:00)
              </div>
-             <h3 class="text-2xl md:text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-amber-700 transition-colors">Training cum Placement Program</h3>
-             <p class="text-gray-600 text-base md:text-lg mb-6 leading-relaxed">Secure your dream tech job with our intensive, job-guaranteed training track. Gain hands-on project experience and direct interview opportunities.</p>
-             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto gap-4">
-               <div class="flex items-baseline space-x-3">
-                 <span class="text-3xl font-black text-gray-900">₹25,000</span>
-                 <span class="text-lg font-bold text-gray-400 line-through">₹50,000</span>
+
+             <!-- Centered Play Button Overlay -->
+             <div class="absolute inset-0 flex items-center justify-center">
+               <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-900 flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-115 border-2 border-white">
+                 <i class="fas fa-play text-base ml-1"></i>
                </div>
-               <span class="bg-gray-900 text-white font-bold px-6 py-3 rounded-xl group-hover:bg-amber-600 transition-colors shadow text-center">Enroll Now <i class="fas fa-arrow-right ml-2"></i></span>
+             </div>
+
+             <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold">
+               <span class="flex items-center gap-1"><i class="fas fa-video text-amber-300 text-xs"></i> Edited Placement Intro</span>
+               <span class="text-amber-300 font-bold">Watch Preview &rarr;</span>
              </div>
            </div>
-         </a>
+
+           <div class="p-8 md:p-10 flex flex-col justify-center w-full md:w-2/3 bg-gradient-to-r from-amber-50 to-orange-50/30">
+             <div class="flex items-center gap-2 mb-3 text-[var(--gold)]">
+               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+               <span class="text-sm font-semibold text-[var(--ink-soft)] ml-1">(25,000+ Reviews)</span>
+             </div>
+             <a href="details.html" class="hover:text-[var(--gold)] transition-colors">
+               <h3 class="font-display text-2xl md:text-3xl font-700 text-[var(--ink)] mb-3 leading-tight group-hover:text-[var(--gold)] transition-colors">Training cum Placement Program</h3>
+             </a>
+             <p class="text-[var(--ink-soft)] text-base md:text-lg mb-8 leading-relaxed max-w-2xl">Secure your dream tech job with our intensive, job-guaranteed training track. Gain hands-on project experience and direct interview opportunities.</p>
+             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto gap-4 border-t border-amber-200/50 pt-6">
+               <div class="flex items-baseline space-x-3">
+                 <span class="font-display text-3xl font-800 text-[var(--ink)]">₹25,000</span>
+                 <span class="text-lg font-medium text-gray-400 line-through">₹50,000</span>
+               </div>
+               <div class="flex flex-wrap items-center gap-3">
+                 <a href="details.html" class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold px-6 py-3 rounded-xl border border-amber-300 transition-colors shadow-xs text-center flex items-center justify-center gap-2 text-sm" title="View program wordings, curriculum and syllabus">
+                    <i class="fas fa-file-lines text-amber-700 text-base"></i> View details
+                  </a>
+                 <a href="enroll.html?course=training-placement" class="bg-[var(--ink)] hover:bg-[var(--gold)] text-white font-semibold px-7 py-3 rounded-xl transition-colors shadow text-center flex items-center justify-center gap-2 text-sm">
+                   Enroll Now <i class="fas fa-arrow-right"></i>
+                 </a>
+               </div>
+             </div>
+           </div>
+         </div>
       </section>
 
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-20 relative">
-        <h2 class="text-3xl font-black text-gray-900 mb-2">Top courses picked for ${userName}</h2>
-        <p class="text-lg text-gray-500 mb-8 font-medium">Swipe to explore highly-rated skills</p>
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-14 relative">
+        <div class="flex items-end justify-between mb-5 flex-wrap gap-3">
+          <div>
+            <h2 class="font-display font-bold text-xl sm:text-2xl text-[var(--ink)]">Top courses picked for ${userName}</h2>
+            <p class="text-xs text-[var(--ink-soft)] mt-1">Swipe to explore highly-rated technical specializations.</p>
+          </div>
+        </div>
         
         <div class="relative group">
-          <button onclick="scrollCarousel('storefront-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
-            <i class="fas fa-chevron-left text-xl"></i>
+          <button onclick="scrollCarousel('storefront-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-3 z-10 bg-white border border-[var(--line)] text-[var(--ink)] w-10 h-10 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:border-[var(--purple)]">
+            <i class="fas fa-chevron-left text-sm"></i>
           </button>
           
-          <div id="storefront-carousel" class="flex overflow-x-auto space-x-6 pb-6 pt-2 px-2 scrollbar-hide snap-x relative z-0 scroll-smooth">
+          <div id="storefront-carousel" class="flex overflow-x-auto space-x-4 pb-4 pt-1 px-1 scrollbar-hide snap-x relative z-0 scroll-smooth">
             ${cardsHtml}
           </div>
           
-          <button onclick="scrollCarousel('storefront-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
-            <i class="fas fa-chevron-right text-xl"></i>
+          <button onclick="scrollCarousel('storefront-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-3 z-10 bg-white border border-[var(--line)] text-[var(--ink)] w-10 h-10 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:border-[var(--purple)]">
+            <i class="fas fa-chevron-right text-sm"></i>
           </button>
         </div>
       </section>
+
+      <!-- Locked Quiz Arena Teaser for Unpaid Users -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[var(--line)]">
+        <div class="bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 rounded-2xl p-5 sm:p-7 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div class="max-w-2xl relative z-10">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-yellow-400 text-purple-950 uppercase tracking-wider mb-2">
+              <i class="fas fa-lock text-[10px]"></i> Paid Student VIP Feature
+            </span>
+            <h3 class="font-display font-bold text-lg sm:text-xl text-white mb-1.5">
+              Unlock the Comprehensive Quiz Arena
+            </h3>
+            <p class="text-purple-200 text-xs sm:text-[13px] leading-relaxed mb-3">
+              Enrolled students get unlimited access to <strong>23 comprehensive quizzes</strong> covering all 12 course topics and 11 core CS programming question topics (C, C++, JS, Python, Java, SQL, DSA, Algorithms, OS, Networks, Git) with interactive timers, score reports, and answer rationales.
+            </p>
+            <div class="flex items-center gap-3 text-[11px] text-purple-300 font-medium flex-wrap">
+              <span><i class="fas fa-check text-emerald-400 mr-1"></i> 115+ Interview Questions</span>
+              <span><i class="fas fa-check text-emerald-400 mr-1"></i> Instant Feedback</span>
+              <span><i class="fas fa-check text-emerald-400 mr-1"></i> Detailed Solution Explanations</span>
+            </div>
+          </div>
+          <div class="shrink-0 flex flex-col sm:flex-row gap-2.5 w-full md:w-auto relative z-10">
+            <button onclick="handleQuizNavClick()" class="px-5 py-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-purple-950 font-bold rounded-xl shadow transition text-center text-xs flex items-center justify-center gap-1.5">
+              <i class="fas fa-unlock-alt text-xs"></i> Unlock All Quizzes
+            </button>
+          </div>
+        </div>
+      </section>
     `;
-    
-    // Attach nav search
-    const navSearchInput = document.querySelector('nav input[type="text"]');
-    if(navSearchInput) {
-      navSearchInput.addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') {
-          e.preventDefault();
-          const q = e.target.value.toLowerCase();
-          document.getElementById('hero-search').value = q;
-          handleSearch(e, 'hero-search', 'storefront-carousel', true);
-          // Scroll to catalog
-          document.getElementById('storefront-carousel').scrollIntoView({behavior: 'smooth', block: 'center'});
-        }
-      });
-    }
   }
 
   function renderMyLearning(userName, enrolledCourseName) {
     let course = courseCatalog.find(c => enrolledCourseName.toLowerCase().includes(c.id)) || courseCatalog.find(c => enrolledCourseName.toLowerCase().includes(c.title.split(' ')[0].toLowerCase())) || courseCatalog[0]; 
     let otherCourses = courseCatalog.filter(c => c.id !== course.id);
-    let recommendationHtml = otherCourses.map((c, i) => createStorefrontCard(c, i)).join('');
+    let recommendationHtml = otherCourses.map((c, i) => createStorefrontCard(c, i, false)).join('');
     const mockProgress = Math.floor(Math.random() * 50) + 20; 
 
     document.getElementById('dashboard-content').innerHTML = `
-      <section class="bg-udemy-dark text-white pt-16 pb-0 shadow-inner">
+      <section class="bg-[var(--ink)] text-white pt-8 pb-1 shadow-inner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 class="text-4xl font-black mb-10 animate-fade-up text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">My Learning</h1>
-          <div class="flex space-x-8 border-b border-gray-700 font-bold text-sm tracking-wide">
-            <button class="pb-3 border-b-4 border-udemy-purple text-white">All courses</button>
-            <button class="pb-3 text-gray-400 hover:text-gray-200 transition-colors border-b-4 border-transparent hover:border-gray-500">My Lists</button>
-            <button class="pb-3 text-gray-400 hover:text-gray-200 transition-colors border-b-4 border-transparent hover:border-gray-500">Wishlist</button>
-            <button class="pb-3 text-gray-400 hover:text-gray-200 transition-colors border-b-4 border-transparent hover:border-gray-500">Archived</button>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-900/60 border border-purple-700/60 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5 mb-1.5">
+                <i class="fas fa-crown text-yellow-400"></i> Paid Student VIP Zone
+              </span>
+              <h1 class="font-display font-bold text-xl sm:text-2xl text-white">Student Dashboard & Learning Center</h1>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="switchDashboardTab('quizzes')" class="px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow transition flex items-center gap-1.5">
+                <i class="fas fa-brain text-yellow-300"></i> Open Quiz Arena
+              </button>
+            </div>
+          </div>
+
+          <!-- Navigation Tabs -->
+          <div class="flex space-x-6 border-b border-[#3c3d42] font-semibold text-xs tracking-normal">
+            <button id="tab-btn-courses" onclick="switchDashboardTab('courses')" class="pb-2.5 border-b-2 border-[var(--purple)] text-white font-bold flex items-center gap-1.5 transition">
+              <i class="fas fa-graduation-cap"></i> My Enrolled Courses
+            </button>
+            <button id="tab-btn-quizzes" onclick="switchDashboardTab('quizzes')" class="pb-2.5 border-b-2 border-transparent text-[#B9B7C2] hover:text-white transition flex items-center gap-1.5">
+              <i class="fas fa-brain text-yellow-400"></i> Quiz Section (23 Topics)
+              <span class="bg-gradient-to-r from-yellow-400 to-amber-500 text-purple-950 font-bold text-[9px] px-1.5 py-0.5 rounded-full uppercase">VIP Unlocked</span>
+            </button>
           </div>
         </div>
       </section>
 
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row gap-8">
-        <div class="flex-1 max-w-md"><h2 class="text-xl font-bold text-gray-900 mb-4">Currently Enrolled</h2>${createLearningCard(course, mockProgress, 0)}</div>
-        <div class="flex-1 w-full">
-           <div class="flex items-center justify-between mb-4">
-               <h2 class="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2"><i class="fas fa-video text-blue-500"></i> Upcoming Live Classes</h2>
-               <span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded-md">Live Daily</span>
-           </div>
-           
-           <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-1 flex flex-col h-[calc(100%-2.5rem)] animate-fade-up delay-200">
-              
-              <!-- Today's Class -->
-              <div class="p-5 hover:bg-gray-50 transition-colors rounded-xl border-b border-gray-100 last:border-0 flex items-center justify-between">
-                 <div class="flex gap-4 items-center">
-                    <div class="flex flex-col items-center justify-center bg-blue-50 text-blue-700 w-14 h-14 rounded-xl border border-blue-100 shrink-0">
-                       <span class="text-xs font-bold uppercase leading-none mb-1">Today</span>
-                       <span class="text-lg font-black leading-none">7 PM</span>
-                    </div>
-                    <div>
-                       <h4 class="font-bold text-gray-900 text-[15px] mb-0.5">Live Doubt Solving</h4>
-                       <p class="text-xs text-gray-500 font-medium flex items-center gap-1"><i class="far fa-clock"></i> 7:00 PM - 8:00 PM (IST)</p>
-                    </div>
-                 </div>
-                 <a href="#" onclick="alert('Redirecting to Zoom...')" class="shrink-0 bg-blue-600 text-white hover:bg-blue-700 font-bold text-sm px-4 py-2 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-2">
-                    Join <i class="fas fa-external-link-alt text-xs"></i>
-                 </a>
-              </div>
-
-              <!-- Tomorrow's Class -->
-              <div class="p-5 hover:bg-gray-50 transition-colors rounded-xl border-b border-gray-100 last:border-0 flex items-center justify-between">
-                 <div class="flex gap-4 items-center">
-                    <div class="flex flex-col items-center justify-center bg-gray-50 text-gray-600 w-14 h-14 rounded-xl border border-gray-200 shrink-0">
-                       <span class="text-xs font-bold uppercase leading-none mb-1">Tom</span>
-                       <span class="text-lg font-black leading-none">6 PM</span>
-                    </div>
-                    <div>
-                       <h4 class="font-bold text-gray-900 text-[15px] mb-0.5">Masterclass: Deep Dive</h4>
-                       <p class="text-xs text-gray-500 font-medium flex items-center gap-1"><i class="far fa-clock"></i> 6:00 PM - 7:30 PM (IST)</p>
-                    </div>
-                 </div>
-                 <button class="shrink-0 bg-gray-100 text-gray-400 cursor-not-allowed font-bold text-sm px-4 py-2 rounded-lg flex items-center gap-2">
-                    Starts Soon
-                 </button>
-              </div>
-
-              <div class="mt-auto p-4 pt-2 text-center">
-                 <a href="#" class="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors flex items-center justify-center gap-1">
-                    View Full Schedule <i class="fas fa-arrow-right"></i>
-                 </a>
-              </div>
-           </div>
-        </div>
-      </section>
-
-      <!-- UPSell Premium Program -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-         <h2 class="text-2xl font-black text-gray-900 mb-6">Upgrade to Premium</h2>
-         <a href="details.html" class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-amber-300 shadow-[0_8px_30px_rgb(251,191,36,0.2)] hover:shadow-[0_8px_30px_rgb(251,191,36,0.4)] transition-all duration-300 group">
-           <div class="relative w-full md:w-1/3 h-56 md:h-auto overflow-hidden bg-gray-100">
-             <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Training">
-             <div class="absolute top-4 left-4 bg-yellow-400 text-gray-900 text-xs font-black px-3 py-1 uppercase tracking-widest rounded shadow">Premium Program</div>
-           </div>
-           <div class="p-8 md:p-10 flex flex-col justify-center w-full md:w-2/3 bg-gradient-to-r from-amber-50 to-orange-50">
-             <div class="flex items-center gap-2 mb-2">
-               <i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i>
-               <span class="text-sm font-bold text-gray-600">(25,000+ Reviews)</span>
+      <!-- ENROLLED COURSES SECTION -->
+      <div id="my-courses-section">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-6">
+          <div class="flex-1 max-w-sm">
+            <h2 class="font-display text-base sm:text-lg font-bold text-[var(--ink)] mb-3">Currently Enrolled</h2>
+            ${createLearningCard(course, mockProgress, 0)}
+          </div>
+          
+          <div class="flex-1 w-full">
+             <div class="flex items-center justify-between mb-4">
+                 <h2 class="font-display text-lg sm:text-xl font-bold text-[var(--ink)] tracking-tight">Upcoming Live Classes</h2>
+                 <span class="text-xs font-semibold bg-[#e6f4ea] text-[#0F7B4F] px-2.5 py-0.5 rounded-md">Live Daily</span>
              </div>
-             <h3 class="text-2xl md:text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-amber-700 transition-colors">Training cum Placement Program</h3>
-             <p class="text-gray-600 text-base md:text-lg mb-6 leading-relaxed">Secure your dream tech job with our intensive, job-guaranteed training track. Gain hands-on project experience and direct interview opportunities.</p>
-             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto gap-4">
-               <div class="flex items-baseline space-x-3">
-                 <span class="text-3xl font-black text-gray-900">₹25,000</span>
+             
+             <div class="bg-white rounded-2xl border border-[var(--line)] p-3 sm:p-4 flex flex-col animate-fade-up delay-200">
+                <!-- Today's Class -->
+                <div class="p-3 sm:p-4 rounded-xl border-b border-[var(--line)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                   <div class="flex gap-4 items-center">
+                      <div class="flex flex-col items-center justify-center bg-[#F1EBFE] text-[var(--purple-deep)] w-14 h-14 rounded-xl shrink-0">
+                         <span class="text-[10px] font-bold uppercase tracking-wider">Today</span>
+                         <span class="font-display text-lg font-bold leading-tight">7 PM</span>
+                      </div>
+                      <div>
+                         <h4 class="font-display font-semibold text-[var(--ink)] text-sm sm:text-base mb-0.5">Live Doubt Solving</h4>
+                         <p class="text-xs text-[#6B7280] flex items-center gap-1.5"><i class="far fa-clock"></i> 7:00 PM - 8:00 PM (IST)</p>
+                      </div>
+                   </div>
+                   <a href="#" onclick="alert('Redirecting to Zoom...')" class="shrink-0 bg-[#8B5CF6] text-white hover:bg-[#7C3AED] font-semibold text-xs px-5 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5">
+                      Join <i class="fas fa-external-link-alt text-[10px]"></i>
+                   </a>
+                </div>
+
+                <!-- Tomorrow's Class -->
+                <div class="p-3 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                   <div class="flex gap-4 items-center">
+                      <div class="flex flex-col items-center justify-center bg-[#F3F4F6] text-[#6B7280] w-14 h-14 rounded-xl shrink-0">
+                         <span class="text-[10px] font-bold uppercase tracking-wider">Tom</span>
+                         <span class="font-display text-lg font-bold leading-tight">6 PM</span>
+                      </div>
+                      <div>
+                         <h4 class="font-display font-semibold text-[var(--ink)] text-sm sm:text-base mb-0.5">Masterclass: Deep Dive</h4>
+                         <p class="text-xs text-[#6B7280] flex items-center gap-1.5"><i class="far fa-clock"></i> 6:00 PM - 7:30 PM (IST)</p>
+                      </div>
+                   </div>
+                   <button class="shrink-0 bg-[#F3F4F6] text-[#9CA3AF] cursor-not-allowed font-semibold text-xs px-5 py-2 rounded-lg flex items-center justify-center gap-1.5">
+                      Starts Soon
+                   </button>
+                </div>
+             </div>
+          </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+           <h2 class="font-display font-bold text-lg sm:text-xl text-[var(--ink)] mb-4">Upgrade to Placement Track</h2>
+           <a href="details.html" class="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-[#FCD34D] shadow-md hover:shadow-lg transition-all duration-300 group relative">
+             <div class="relative w-full md:w-1/3 h-52 md:h-auto overflow-hidden bg-gray-100">
+               <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Training">
+               <div class="absolute top-3 left-3 bg-[var(--gold)] text-white text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wider rounded shadow-sm">Premium</div>
+             </div>
+             <div class="p-5 md:p-7 flex flex-col justify-center w-full md:w-2/3 bg-gradient-to-r from-amber-50 to-orange-50/30">
+               <div class="flex items-center gap-1.5 mb-2 text-[var(--gold)] text-xs">
+                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                 <span class="text-xs font-semibold text-[var(--ink-soft)] ml-1">(25,000+ Reviews)</span>
                </div>
-               <span class="bg-gray-900 text-white font-bold px-6 py-3 rounded-xl group-hover:bg-amber-600 transition-colors shadow text-center">View Details <i class="fas fa-arrow-right ml-2"></i></span>
+               <h3 class="font-display text-base md:text-lg font-bold text-[var(--ink)] mb-1.5 leading-snug group-hover:text-[var(--gold)] transition-colors">Training cum Placement Program</h3>
+               <p class="text-[var(--ink-soft)] text-xs md:text-sm mb-5 leading-relaxed max-w-xl">Secure your dream tech job with our intensive, job-guaranteed training track. Gain hands-on project experience and direct interview opportunities.</p>
+               <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto gap-3 border-t border-amber-200/50 pt-4">
+                 <div class="flex items-baseline space-x-2">
+                   <span class="font-display text-2xl font-bold text-[var(--ink)]">₹25,000</span>
+                 </div>
+                 <span class="bg-[var(--ink)] text-white font-semibold text-xs px-5 py-2 rounded-lg group-hover:bg-[var(--gold)] transition-colors shadow text-center flex items-center justify-center gap-1.5">View Details <i class="fas fa-arrow-right text-[10px]"></i></span>
+               </div>
              </div>
-           </div>
-         </a>
-      </section>
+           </a>
+        </section>
 
-      <section class="bg-gray-100 py-16 border-t border-gray-200 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative group">
-          <h2 class="text-2xl font-black text-gray-900 mb-2">Because you enrolled in "${course.title}"</h2>
-          <p class="text-gray-500 font-medium mb-8">Expand your skill set with these related courses.</p>
-          
-          <button onclick="scrollCarousel('learning-carousel', 'left')" class="absolute left-0 top-1/2 -ml-2 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
-            <i class="fas fa-chevron-left text-xl"></i>
-          </button>
-          
-          <div id="learning-carousel" class="flex overflow-x-auto space-x-6 pb-6 pt-2 px-2 scrollbar-hide snap-x relative z-0 scroll-smooth">
-            ${recommendationHtml}
+        <section class="bg-white py-10 border-t border-[var(--line)] relative">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative group">
+            <h2 class="font-display text-lg sm:text-xl font-bold text-[var(--ink)] mb-1">Because you enrolled in "${course.title}"</h2>
+            <p class="text-xs text-[var(--ink-soft)] mb-5">Expand your skill set with these related courses.</p>
+            
+            <button onclick="scrollCarousel('learning-carousel', 'left')" class="absolute left-0 top-1/2 -ml-3 z-10 bg-white border border-[var(--line)] text-[var(--ink)] w-10 h-10 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:border-[var(--purple)]">
+              <i class="fas fa-chevron-left text-sm"></i>
+            </button>
+            
+            <div id="learning-carousel" class="flex overflow-x-auto space-x-4 pb-4 pt-1 px-1 scrollbar-hide snap-x relative z-0 scroll-smooth">
+              ${recommendationHtml}
+            </div>
+            
+            <button onclick="scrollCarousel('learning-carousel', 'right')" class="absolute right-0 top-1/2 -mr-3 z-10 bg-white border border-[var(--line)] text-[var(--ink)] w-10 h-10 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:border-[var(--purple)]">
+              <i class="fas fa-chevron-right text-sm"></i>
+            </button>
           </div>
-          
-          <button onclick="scrollCarousel('learning-carousel', 'right')" class="absolute right-0 top-1/2 -mr-2 z-10 bg-gray-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-udemy-purple hover:scale-110">
-            <i class="fas fa-chevron-right text-xl"></i>
-          </button>
+        </section>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- QUIZ SECTION FOR PAID USERS (ALL PROGRAMMING TOPICS & COURSE QUIZZES) -->
+      <!-- ==================================================== -->
+      <section id="quiz-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Header -->
+        <div class="bg-gradient-to-br from-[#1E1136] via-[#1A1429] to-[var(--ink)] rounded-2xl p-5 sm:p-7 text-white shadow-xl mb-6 relative overflow-hidden border border-purple-900/40">
+          <div class="absolute -right-16 -top-16 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 max-w-3xl">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-yellow-400 to-amber-500 text-purple-950 uppercase tracking-wider mb-2.5 shadow-sm">
+              <i class="fas fa-shield-alt text-purple-900"></i> Paid Student VIP Benefit
+            </span>
+            <h2 class="font-display font-bold text-xl sm:text-2xl text-white mb-2 leading-tight">
+              Comprehensive Quiz Arena & Practice
+            </h2>
+            <p class="text-purple-200 text-xs sm:text-[13px] leading-relaxed mb-5 max-w-2xl">
+              Welcome to your dedicated assessment center! Test and validate your knowledge across <strong>all 12 Academy Course Quizzes</strong> and <strong>11 Core CS Programming Question Topics</strong>. Includes real-time countdown timers, interactive question palettes, and in-depth explanations for every answer.
+            </p>
+
+            <!-- Quick Stats Counters -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-purple-800/40">
+              <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 border border-white/10 flex flex-col justify-between">
+                <span class="block text-lg sm:text-xl font-display font-bold text-white" id="quiz-stat-available">23</span>
+                <span class="text-[10px] text-purple-300 font-medium uppercase tracking-wide">Available Quizzes</span>
+              </div>
+              <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 border border-white/10 flex flex-col justify-between">
+                <span class="block text-lg sm:text-xl font-display font-bold text-emerald-400" id="quiz-stat-completed">0</span>
+                <span class="text-[10px] text-purple-300 font-medium uppercase tracking-wide">Completed</span>
+              </div>
+              <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 border border-white/10 flex flex-col justify-between">
+                <span class="block text-lg sm:text-xl font-display font-bold text-yellow-300" id="quiz-stat-avg">0%</span>
+                <span class="text-[10px] text-purple-300 font-medium uppercase tracking-wide">Average Score</span>
+              </div>
+              <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 border border-white/10 flex flex-col justify-between">
+                <span class="block text-lg sm:text-xl font-display font-bold text-cyan-300" id="quiz-stat-remaining">23</span>
+                <span class="text-[10px] text-purple-300 font-medium uppercase tracking-wide">Remaining Topics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter and Search Toolbar -->
+        <div class="bg-white rounded-xl border border-[var(--line)] p-3 sm:p-4 mb-5 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          <!-- Category Filter Pills -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button data-quiz-filter="all" onclick="window.AGS_QUIZ_ENGINE.setCategoryFilter('all')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--purple)] text-white shadow-xs transition">
+              All Quizzes (23)
+            </button>
+            <button data-quiz-filter="course" onclick="window.AGS_QUIZ_ENGINE.setCategoryFilter('course')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-[var(--ink-soft)] border border-[var(--line)] hover:border-purple-300 transition">
+              <i class="fas fa-graduation-cap mr-1 text-[11px]"></i> Course Quizzes (12)
+            </button>
+            <button data-quiz-filter="programming" onclick="window.AGS_QUIZ_ENGINE.setCategoryFilter('programming')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-[var(--ink-soft)] border border-[var(--line)] hover:border-purple-300 transition">
+              <i class="fas fa-code mr-1 text-[11px]"></i> Programming Topics (11)
+            </button>
+          </div>
+
+          <!-- Difficulty Dropdown & Instant Search -->
+          <div class="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+            <select id="quiz-level-filter" onchange="window.AGS_QUIZ_ENGINE.setLevelFilter(this.value)" class="bg-white border border-[var(--line)] text-xs font-medium rounded-lg px-2.5 py-1.5 text-[var(--ink)] focus:outline-none focus:ring-1 focus:ring-[var(--purple)] cursor-pointer">
+              <option value="all">All Difficulties</option>
+              <option value="Beginner">Beginner Level</option>
+              <option value="Intermediate">Intermediate Level</option>
+              <option value="Advanced">Advanced Level</option>
+            </select>
+
+            <div class="relative w-full sm:w-64">
+              <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              <input type="text" id="quiz-search-input" oninput="window.AGS_QUIZ_ENGINE.setSearchQuery(this.value)" placeholder="Search topic (e.g. Python, SQL, C++)..." class="w-full pl-8 pr-3 py-1.5 bg-[var(--paper)] border border-[var(--line)] rounded-lg text-xs text-[var(--ink)] focus:outline-none focus:ring-1 focus:ring-[var(--purple)] focus:bg-white transition placeholder-gray-400">
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz Cards Grid Container -->
+        <div id="quiz-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          <!-- Populated dynamically by AGS_QUIZ_ENGINE -->
         </div>
       </section>
     `;
-    setTimeout(() => {
-      const pbar = document.querySelector('[data-progress]');
-      if(pbar) pbar.style.width = pbar.getAttribute('data-progress') + '%';
-    }, 100);
-    
-    const navSearchInput = document.querySelector('nav input[type="text"]');
-    if(navSearchInput) {
-      navSearchInput.addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') {
-          e.preventDefault();
-          const q = e.target.value.toLowerCase();
-          document.getElementById('learning-carousel').innerHTML = courseCatalog.filter(c => c.title.toLowerCase().includes(q) || c.instructor.toLowerCase().includes(q)).map((c, i) => createStorefrontCard(c, i)).join('');
-          document.getElementById('learning-carousel').scrollIntoView({behavior: 'smooth', block: 'center'});
-        }
-      });
+
+    // Initialize Quiz Engine to render the grid
+    if (window.AGS_QUIZ_ENGINE) {
+      window.AGS_QUIZ_ENGINE.init();
     }
+  }
+
+  function switchDashboardTab(tab) {
+    window.currentDashboardTab = tab;
+    const coursesSection = document.getElementById('my-courses-section');
+    const quizSection = document.getElementById('quiz-section');
+    const tabCoursesBtn = document.getElementById('tab-btn-courses');
+    const tabQuizBtn = document.getElementById('tab-btn-quizzes');
+
+    if (tab === 'quizzes') {
+      if (coursesSection) coursesSection.classList.add('hidden');
+      if (quizSection) quizSection.classList.remove('hidden');
+      if (tabCoursesBtn) {
+        tabCoursesBtn.className = 'pb-3 border-b-2 border-transparent text-[#B9B7C2] hover:text-white transition flex items-center gap-2';
+      }
+      if (tabQuizBtn) {
+        tabQuizBtn.className = 'pb-3 border-b-2 border-[var(--purple)] text-white font-bold flex items-center gap-2 transition';
+      }
+      if (window.AGS_QUIZ_ENGINE) window.AGS_QUIZ_ENGINE.renderQuizGrid();
+      quizSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      if (coursesSection) coursesSection.classList.remove('hidden');
+      if (quizSection) quizSection.classList.remove('hidden'); // allow scrolling down
+      if (tabCoursesBtn) {
+        tabCoursesBtn.className = 'pb-3 border-b-2 border-[var(--purple)] text-white font-bold flex items-center gap-2 transition';
+      }
+      if (tabQuizBtn) {
+        tabQuizBtn.className = 'pb-3 border-b-2 border-transparent text-[#B9B7C2] hover:text-white transition flex items-center gap-2';
+      }
+      coursesSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function handleQuizNavClick() {
+    if (window.isUserPaid || (!window.userEmail && localStorage.getItem('isPaidUser') === 'true')) {
+      const quizSection = document.getElementById('quiz-section');
+      if (quizSection) {
+        switchDashboardTab('quizzes');
+      } else {
+        renderMyLearning(window.userName || 'Student', 'frontend');
+        setTimeout(() => {
+          switchDashboardTab('quizzes');
+        }, 100);
+      }
+    } else {
+      const modal = document.getElementById('premium-modal');
+      const title = modal.querySelector('h3');
+      const desc = modal.querySelector('p');
+      if (title) title.textContent = 'Quiz Arena - Paid Student Feature';
+      if (desc) desc.textContent = 'The Quiz Section contains all 12 course quizzes and 11 core programming question topics with real-time scoring and solutions. Enroll in any course to unlock full access!';
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        if (modal.children[1]) {
+          modal.children[1].classList.remove('scale-95');
+          modal.children[1].classList.add('scale-100');
+        }
+      }, 10);
+    }
+  }
+
+  function togglePaidSimulation() {
+    const current = localStorage.getItem('isPaidUser') === 'true';
+    const next = !current;
+    localStorage.setItem('isPaidUser', next ? 'true' : 'false');
+    alert(`Simulation switched: You are now viewing as ${next ? 'PAID STUDENT (Quiz Arena & Courses Unlocked)' : 'FREE USER (Storefront View)'}`);
+    initializeDashboard();
   }
 
   async function initializeDashboard() {
     let name = 'Student';
     let isPaid = false;
     let enrolledCourseName = null;
+    let userEmail = '';
     try {
-      const res = await fetch('http://localhost:5000/api/me', { credentials: 'include' });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch('/api/me', { credentials: 'include', signal: controller.signal });
+      clearTimeout(timeoutId);
       if(res.ok) {
         const data = await res.json();
         if (data.user) {
           name = data.user.displayName || data.user.name || 'Student';
           window.userName = name;
-          if ((data.user.course && data.user.course.trim() !== '') || data.user.email === 'gokuleshkumar878@gmail.com') {
+          userEmail = (data.user.email || '').toLowerCase().trim();
+          window.userEmail = userEmail;
+
+          // ONLY gokuleshkumar878@gmail.com is paid, all other accounts are unpaid
+          if (userEmail === 'gokuleshkumar878@gmail.com') {
             isPaid = true;
-            enrolledCourseName = data.user.course || 'frontend'; // Default to a course so renderMyLearning doesn't fail
+            enrolledCourseName = data.user.course || 'frontend'; 
+            localStorage.setItem('isPaidUser', 'true');
+          } else {
+            isPaid = false;
+            localStorage.removeItem('isPaidUser');
           }
         }
       }
     } catch (err) {
-      console.error('Error fetching user:', err);
       if(localStorage.getItem('username')) name = localStorage.getItem('username');
     }
-    const displayName = name.split(' ')[0]; 
-    document.getElementById('nav-username').textContent = displayName;
-    if(displayName && displayName.length > 0) document.getElementById('nav-initial').textContent = displayName.charAt(0).toUpperCase();
+
+    // Only allow simulation if no specific user email is logged in or if email is gokuleshkumar878@gmail.com
+    if (userEmail && userEmail !== 'gokuleshkumar878@gmail.com') {
+      isPaid = false;
+      localStorage.removeItem('isPaidUser');
+    } else if (!userEmail && localStorage.getItem('isPaidUser') === 'true') {
+      isPaid = true;
+      if (!enrolledCourseName) enrolledCourseName = 'frontend';
+    }
+
+    const displayName = (name || 'Student').split(' ')[0]; 
+    const navUserEl = document.getElementById('nav-username');
+    if (navUserEl) navUserEl.textContent = displayName;
+
+    const dropdownDisplay = document.getElementById('dropdown-user-display');
+    if (dropdownDisplay) dropdownDisplay.textContent = name;
+
+    const statusBadge = document.getElementById('dropdown-status-badge');
+    if (statusBadge) {
+      if (isPaid) {
+        statusBadge.className = 'inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+        statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Paid Member (VIP)';
+      } else {
+        statusBadge.className = 'inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600';
+        statusBadge.innerHTML = '<i class="fas fa-user"></i> Free User';
+      }
+    }
+
+    const navInitialEl = document.getElementById('nav-initial');
+    if (navInitialEl && displayName && displayName.length > 0) {
+      navInitialEl.textContent = displayName.charAt(0).toUpperCase();
+    }
+
     window.isUserPaid = isPaid;
-    if (isPaid) renderMyLearning(displayName, enrolledCourseName);
-    else renderStorefront(displayName);
+
+    if (isPaid) {
+      renderMyLearning(displayName, enrolledCourseName);
+    } else {
+      renderStorefront(displayName);
+    }
   }
 
   function handleForumClick() {
-    if (window.isUserPaid) {
-      // Redirect to the AI Education Mini Project, passing autoLogin and name parameters
+    if (window.isUserPaid || (!window.userEmail && localStorage.getItem('isPaidUser') === 'true')) {
       const nameParam = window.userName ? encodeURIComponent(window.userName) : 'Student';
       window.open(`http://localhost:8001/?autoLogin=true&name=${nameParam}`, "_blank");
     } else {
       const modal = document.getElementById('premium-modal');
+      const title = modal.querySelector('h3');
+      const desc = modal.querySelector('p');
+      if (title) title.textContent = 'AI Discuss & Doubt Forum';
+      if (desc) desc.textContent = 'The AI Discuss & Doubt Forum is an exclusive feature for enrolled students. Upgrade your learning journey to unlock 24/7 AI assistance!';
       modal.classList.remove('hidden');
       setTimeout(() => {
-        modal.children[1].classList.remove('scale-95');
-        modal.children[1].classList.add('scale-100');
+        if (modal.children[1]) {
+          modal.children[1].classList.remove('scale-95');
+          modal.children[1].classList.add('scale-100');
+        }
       }, 10);
     }
   }
 
-  window.addEventListener('DOMContentLoaded', initializeDashboard);
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initializeDashboard);
+  } else {
+    initializeDashboard();
+  }
 </script>
+
   <!-- Premium Required Modal -->
   <div id="premium-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('premium-modal').classList.add('hidden')"></div>
-    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full relative z-10 transform scale-95 transition-transform duration-300">
-      <button onclick="document.getElementById('premium-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full relative z-10 transform scale-95 transition-transform duration-300 shadow-xl">
+      <button onclick="document.getElementById('premium-modal').classList.add('hidden')" class="absolute top-4 right-4 text-[#B9B7C2] hover:text-[var(--ink)] transition">
         <i class="fas fa-times text-xl"></i>
       </button>
-      <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
-        <i class="fas fa-crown text-3xl text-udemy-purple"></i>
+      <div class="w-16 h-16 bg-[var(--purple-pale)] rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-crown text-3xl text-[var(--purple-deep)]"></i>
       </div>
-      <h3 class="text-2xl font-black text-center text-gray-900 mb-2">Premium Feature</h3>
-      <p class="text-center text-gray-600 mb-8 font-medium leading-relaxed">The AI Discuss & Doubt Forum is an exclusive feature for enrolled students. Upgrade your learning journey to unlock 24/7 AI assistance!</p>
-      <button onclick="document.getElementById('premium-modal').classList.add('hidden'); document.getElementById('storefront-carousel')?.scrollIntoView({behavior: 'smooth', block: 'center'})" class="w-full py-4 bg-udemy-purple hover:bg-purple-800 text-white rounded-xl font-bold text-lg transition-colors shadow-lg">
+      <h3 class="font-display text-2xl font-700 text-center text-[var(--ink)] mb-2">Premium Feature</h3>
+      <p class="text-center text-[var(--ink-soft)] mb-8">The AI Discuss & Doubt Forum is an exclusive feature for enrolled students. Upgrade your learning journey to unlock 24/7 AI assistance!</p>
+      <button onclick="document.getElementById('premium-modal').classList.add('hidden'); document.getElementById('storefront-carousel')?.scrollIntoView({behavior: 'smooth', block: 'center'})" class="w-full py-3 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white rounded-lg font-semibold transition">
         Explore Courses
       </button>
     </div>
   </div>
 
   <!-- Gopu Chatbot UI -->
-  <button id="gopu-chatbot-toggle" class="fixed bottom-24 right-6 w-14 h-14 bg-udemy-purple hover:bg-udemy-dark text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 z-50">
+  <button id="gopu-chatbot-toggle" class="fixed bottom-24 right-6 w-14 h-14 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 z-50">
     <i class="fa-solid fa-message text-xl"></i>
   </button>
 
-  <div id="gopu-chatbot-container" class="hidden fixed bottom-40 right-6 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden z-50 flex flex-col border border-gray-100" style="height: 500px; max-height: 75vh;">
-    <!-- Header -->
-    <div class="bg-udemy-purple text-white p-4 flex items-center justify-between">
+  <div id="gopu-chatbot-container" class="hidden fixed bottom-40 right-6 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden z-50 flex flex-col border border-[var(--line)]" style="height: 500px; max-height: 75vh;">
+    <div class="bg-[var(--purple)] text-white p-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
            <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix&backgroundColor=ffffff" alt="Gopu" class="w-10 h-10">
         </div>
         <div>
-          <h3 class="font-bold text-lg leading-tight">Gopu</h3>
-          <p class="text-xs text-indigo-200">AGS Academy Assistant</p>
+          <h3 class="font-display font-700 text-lg leading-tight">Gopu</h3>
+          <p class="text-xs text-[var(--purple-pale)]">AGS Academy Assistant</p>
         </div>
       </div>
       <button id="gopu-chatbot-close" class="text-white hover:text-gray-200 transition">
@@ -590,30 +1293,250 @@
       </button>
     </div>
     
-    <!-- Messages Area -->
-    <div id="gopu-chatbot-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-2">
-      <!-- Welcome Message -->
+    <div id="gopu-chatbot-messages" class="flex-1 p-4 overflow-y-auto bg-[var(--paper)] flex flex-col gap-2">
       <div class="flex w-full mb-4 justify-start">
           <div class="flex items-end gap-2 max-w-[80%]">
-              <div class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 mb-1 overflow-hidden">
+              <div class="w-8 h-8 rounded-full bg-white border border-[var(--line)] flex items-center justify-center shrink-0 mb-1 overflow-hidden">
                   <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix&backgroundColor=ffffff" alt="Gopu" class="w-8 h-8">
               </div>
-              <div class="bg-gray-100 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2 text-sm shadow-sm">
+              <div class="bg-white text-[var(--ink)] border border-[var(--line)] rounded-2xl rounded-tl-sm px-4 py-2 text-sm shadow-sm">
                   Hi there! I'm Gopu, your personal assistant at AGS Academy. You can ask me about courses, timings, cohorts, fees, or help!
               </div>
           </div>
       </div>
     </div>
     
-    <!-- Input Area -->
-    <div class="p-3 bg-white border-t border-gray-100 flex gap-2">
-      <input type="text" id="gopu-chatbot-input" placeholder="Type your message..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-udemy-purple">
-      <button id="gopu-chatbot-send" class="w-10 h-10 rounded-full bg-udemy-purple text-white flex items-center justify-center hover:bg-udemy-dark transition">
+    <div class="p-3 bg-white border-t border-[var(--line)] flex gap-2">
+      <input type="text" id="gopu-chatbot-input" placeholder="Type your message..." class="flex-1 bg-[var(--paper)] border border-[var(--line)] rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--purple)]">
+      <button id="gopu-chatbot-send" class="w-10 h-10 rounded-full bg-[var(--purple)] text-white flex items-center justify-center hover:bg-[var(--purple-deep)] transition">
         <i class="fa-solid fa-paper-plane text-sm"></i>
       </button>
     </div>
   </div>
 
+  <!-- ==================================================== -->
+  <!-- QUIZ RUNNER INTERACTIVE DIALOG (Native HTML5 <dialog> with closedby="any") -->
+  <!-- ==================================================== -->
+  <dialog id="quiz-runner-dialog" closedby="any" aria-labelledby="quiz-modal-title">
+    <div class="bg-white rounded-2xl shadow-xl border border-[var(--line)] overflow-hidden flex flex-col max-h-[90vh] w-full">
+      <!-- Modal Top Navigation Bar -->
+      <div class="px-4 sm:px-5 py-2.5 bg-[var(--ink)] text-white flex items-center justify-between border-b border-gray-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-purple-600/30 text-purple-400 border border-purple-500/40 flex items-center justify-center text-xs">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div>
+            <h3 id="quiz-modal-title" class="font-display font-semibold text-sm sm:text-[15px] leading-tight text-white line-clamp-1">Quiz Arena</h3>
+            <p id="quiz-question-counter" class="text-[11px] text-purple-300 font-medium">Question 1 of 5</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <div id="quiz-timer-display" class="font-mono text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full">
+            10:00
+          </div>
+          <button onclick="window.AGS_QUIZ_ENGINE.exitQuiz()" class="text-gray-400 hover:text-white transition w-7 h-7 rounded-lg flex items-center justify-center hover:bg-white/10" title="Exit Quiz">
+            <i class="fas fa-times text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Linear Progress Bar -->
+      <div class="w-full bg-gray-100 h-1 overflow-hidden">
+        <div id="quiz-progress-bar" class="bg-gradient-to-r from-[var(--purple)] to-indigo-500 h-full transition-all duration-300" style="width: 20%;"></div>
+      </div>
+
+      <!-- Question Palette / Jump Numbers -->
+      <div class="px-4 sm:px-5 py-1.5 bg-gray-50 border-b border-gray-200/80 flex items-center justify-between gap-2 overflow-x-auto">
+        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider shrink-0 mr-1">Questions:</span>
+        <div id="quiz-palette-container" class="flex items-center gap-1 overflow-x-auto py-0.5"></div>
+      </div>
+
+      <!-- Question Body (Dynamic Question, Code, Options, Results, Review) -->
+      <div id="quiz-question-body" class="p-4 sm:p-5 overflow-y-auto flex-1 bg-[var(--paper)]">
+        <!-- Injected dynamically by quiz-engine.js -->
+      </div>
+
+      <!-- Footer Action Bar -->
+      <div class="px-4 sm:px-5 py-2.5 bg-white border-t border-[var(--line)] flex items-center justify-between gap-2.5">
+        <button id="quiz-btn-prev" onclick="window.AGS_QUIZ_ENGINE.prevQuestion()" class="px-3.5 py-1.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-[var(--ink)] font-semibold text-xs transition flex items-center gap-1.5">
+          <i class="fas fa-chevron-left text-[10px]"></i> Previous
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button id="quiz-btn-next" onclick="window.AGS_QUIZ_ENGINE.nextQuestion()" class="px-4 py-1.5 rounded-lg bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white font-semibold text-xs shadow-xs transition flex items-center gap-1.5">
+            Next <i class="fas fa-chevron-right text-[10px]"></i>
+          </button>
+          <button id="quiz-btn-submit" onclick="window.AGS_QUIZ_ENGINE.submitQuiz(false)" class="hidden px-5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition flex items-center gap-1.5">
+            <i class="fas fa-check-circle text-xs"></i> Submit Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+ 
+  <!-- ==================================================== -->
+  <!-- 2-MINUTE COURSE DEMO INTRO VIDEO MODAL DIALOG -->
+  <!-- ==================================================== -->
+  <dialog id="course-demo-dialog" closedby="any" aria-labelledby="demo-modal-title">
+    <div class="bg-[#100C1A] text-white rounded-2xl shadow-2xl border border-purple-800/40 overflow-hidden flex flex-col max-h-[92vh] w-full relative">
+      
+      <!-- Top Header Bar -->
+      <div class="px-4 sm:px-6 py-3 bg-[#1A1429] border-b border-purple-900/40 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shrink-0 shadow-md">
+            <i class="fas fa-play text-white text-xs ml-0.5"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <span id="demo-modal-badge" class="text-[9px] font-bold uppercase tracking-wider bg-purple-900/80 text-purple-200 border border-purple-500/30 px-2 py-0.5 rounded-full">Demo Preview</span>
+              <span class="text-[10px] text-amber-300 font-semibold flex items-center gap-1 bg-amber-950/70 border border-amber-600/30 px-2 py-0.5 rounded-full mr-1">
+                <i class="fas fa-bolt text-yellow-400 animate-pulse text-[9px]"></i> Energetic Promo Audio
+              </span>
+              <span class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 2-Min Edited Intro
+              </span>
+            </div>
+            <h3 id="demo-modal-title" class="font-display font-bold text-sm sm:text-base text-white truncate mt-0.5">
+              Course Title
+            </h3>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <div id="demo-time-counter" class="font-mono text-xs font-bold text-purple-300 bg-purple-950/80 border border-purple-700/50 px-2.5 py-1 rounded-lg">
+            00:00 / 02:00
+          </div>
+          <button onclick="closeCourseDemoModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition flex items-center justify-center" title="Close Preview">
+            <i class="fas fa-times text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Video Display Container: Dynamic Animated Canvas Stage -->
+      <div id="demo-video-stage" class="relative bg-[#0A0713] w-full aspect-video max-h-[50vh] flex items-center justify-center overflow-hidden select-none">
+        <!-- High Performance 60FPS Animated Canvas -->
+        <canvas id="course-demo-canvas" width="960" height="540" class="w-full h-full object-contain"></canvas>
+
+        <!-- Big Center Play/Replay Overlay Button -->
+        <button id="demo-center-play-btn" onclick="toggleDemoPlayback()" class="absolute inset-0 m-auto w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110 z-10 border-2 border-white/60">
+          <i id="demo-center-play-icon" class="fas fa-play text-xl ml-1"></i>
+        </button>
+
+        <!-- Video Player Bottom Controls Overlay Bar -->
+        <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col gap-1.5 z-10">
+          <!-- Scrubber Progress Bar -->
+          <div class="relative w-full h-1.5 bg-white/20 hover:h-2 rounded-full cursor-pointer transition-all" onclick="handleScrubberClick(event)">
+            <div id="demo-scrubber-fill" class="h-full bg-gradient-to-r from-purple-500 to-amber-400 rounded-full transition-all" style="width: 0%;"></div>
+          </div>
+          
+          <div class="flex items-center justify-between text-white text-xs pt-1">
+            <div class="flex items-center gap-3">
+              <button onclick="toggleDemoPlayback()" class="text-white hover:text-purple-300 transition">
+                <i id="demo-ctrl-play-icon" class="fas fa-play"></i>
+              </button>
+              <button onclick="toggleDemoMute()" class="text-white hover:text-purple-300 transition flex items-center gap-1">
+                <i id="demo-ctrl-volume-icon" class="fas fa-volume-high"></i>
+              </button>
+              <span id="demo-ctrl-time" class="font-mono text-[11px] text-purple-200">00:00 / 02:00</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-amber-300 font-bold bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Live 60FPS Animated Video &bull; Female Host
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <audio id="course-demo-audio" src="./videos/energetic_promo.wav" preload="auto" loop></audio>
+        <audio id="course-demo-voice" src="./videos/narrator_default.mp3" preload="auto"></audio>
+
+        <!-- Dynamic Live Subtitles Bar Overlay -->
+        <div id="demo-subtitles-bar" class="absolute bottom-11 left-4 right-4 sm:left-10 sm:right-10 text-center pointer-events-none z-10">
+          <span id="demo-subtitles-text" class="inline-block bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-purple-500/30 text-xs sm:text-[13px] font-semibold text-purple-100 shadow-xl">
+            ⚡ Welcome to AGS Academy!
+          </span>
+        </div>
+
+        <!-- Watermark / Brand Badge Overlay in Top Left -->
+        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-md border border-white/15 text-[11px] text-white font-semibold flex items-center gap-1.5 pointer-events-none z-10">
+          <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+          <span id="demo-watermark-title">AGS Academy &bull; Course Intro</span>
+        </div>
+
+        <!-- 2-Minute Completion End Screen Overlay -->
+        <div id="demo-end-overlay" class="hidden absolute inset-0 bg-black/92 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-3xl shadow-xl mb-3 animate-bounce">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h4 class="font-display font-bold text-xl text-white mb-1.5">2-Minute Course Intro Complete!</h4>
+          <p class="text-xs sm:text-sm text-purple-200 max-w-md mb-5 leading-relaxed">
+            Ready to become a certified professional? Unlock full curriculum access, mentor guidance, real-world portfolio tasks, and placement recruitment drives today!
+          </p>
+          <div class="flex items-center gap-3">
+            <button onclick="replayDemoVideo()" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs rounded-xl transition flex items-center gap-1.5">
+              <i class="fas fa-redo text-xs"></i> Replay 2-Min Intro
+            </button>
+            <a id="demo-end-enroll-btn" href="#" class="px-7 py-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-purple-950 font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5">
+              Enroll in Full Course <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Seek Chapter Markers Bar -->
+      <div class="px-4 sm:px-6 py-2.5 bg-[#140F22] border-y border-purple-900/40 flex items-center justify-between gap-2 overflow-x-auto">
+        <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
+          <i class="fas fa-bookmark text-[9px]"></i> 2-Min Chapters:
+        </span>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="seekDemoVideo(0)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
+            <span class="font-mono text-[10px] text-yellow-300">0:00</span> Overview
+          </button>
+          <button onclick="seekDemoVideo(30)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
+            <span class="font-mono text-[10px] text-yellow-300">0:30</span> Live Tech Demo
+          </button>
+          <button onclick="seekDemoVideo(65)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
+            <span class="font-mono text-[10px] text-yellow-300">1:05</span> Capstone Projects
+          </button>
+          <button onclick="seekDemoVideo(95)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
+            <span class="font-mono text-[10px] text-yellow-300">1:35</span> Career Roadmaps
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Panel: Course Highlights & CTA -->
+      <div class="p-4 sm:p-5 bg-[#1A1429] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="min-w-0">
+          <p id="demo-modal-tagline" class="text-xs text-purple-200/90 leading-relaxed mb-2.5">
+            Course tagline will appear here.
+          </p>
+          <div id="demo-modal-topics" class="flex flex-wrap gap-1.5">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 shrink-0 sm:self-center border-t sm:border-t-0 border-purple-900/40 pt-3 sm:pt-0">
+          <div class="text-right">
+            <div class="flex items-baseline gap-1.5 justify-end">
+              <span id="demo-modal-price" class="font-display font-black text-lg text-white">₹4,999</span>
+              <span id="demo-modal-oldprice" class="text-xs text-purple-400 line-through">₹8,999</span>
+            </div>
+            <p class="text-[10px] text-emerald-400 font-semibold">Special Intro Offer</p>
+          </div>
+          <a id="demo-modal-enroll-btn" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[var(--purple)] to-purple-600 hover:from-[var(--purple-deep)] hover:to-purple-700 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5">
+            Enroll Now <i class="fas fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </dialog>
+
+  <script src="course-animated-video.js"></script>
   <script src="gopu-chatbot.js"></script>
 </body>
 </html>
+

@@ -295,18 +295,29 @@ sendEmailOtpBtn.addEventListener("click", async () => {
     emailOtpSection.classList.remove("hidden");
     
     try {
-        const res = await fetch("http://localhost:5000/api/send-email-otp", {
+        const apiUrl = "/api/send-email-otp";
+        const res = await fetch(apiUrl, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email })
         });
         const data = await res.json();
         
-        if (res.ok) {
+        if (res.ok && data.success) {
             sendEmailOtpBtn.textContent = "Resend OTP";
             sendEmailOtpBtn.disabled = false;
-            emailStatus.textContent = "Code sent to your email.";
-            emailStatus.className = "text-xs mt-2 text-green-600 font-medium";
-            showToast("OTP sent to your email.");
+            if (data.emailSent) {
+                emailStatus.textContent = "✅ Code sent to " + email + ". Check your inbox & spam.";
+                emailStatus.className = "text-xs mt-2 text-green-600 font-medium";
+                showToast("OTP sent to your email.");
+            } else {
+                emailStatus.textContent = `📧 Dev OTP: ${data.otp} (SMTP unauthenticated - auto-filled)`;
+                emailStatus.className = "text-xs mt-2 text-amber-600 font-bold";
+                const otpInput = document.getElementById("emailOtp");
+                if (otpInput && data.otp) {
+                    otpInput.value = data.otp;
+                }
+                showToast(`OTP auto-filled: ${data.otp}`, "success");
+            }
         } else {
             sendEmailOtpBtn.disabled = false;
             sendEmailOtpBtn.textContent = "Send OTP";
@@ -328,7 +339,7 @@ verifyEmailOtpBtn.addEventListener("click", async () => {
     verifyEmailOtpBtn.textContent = "Verifying...";
     
     try {
-        const res = await fetch("http://localhost:5000/api/verify-email-otp", {
+        const res = await fetch("/api/verify-email-otp", {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp })
         });
@@ -379,7 +390,7 @@ document.getElementById("enrollForm").addEventListener("submit", async (e) => {
     submitBtn.textContent = "Processing...";
     
     try {
-        const res = await fetch("http://localhost:5000/enroll", {
+        const res = await fetch("/enroll", {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, mobile, course })
         });
