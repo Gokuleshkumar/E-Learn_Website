@@ -236,10 +236,85 @@ if (transporter) {
 }
 
 // ==========================================================
+// BREVO (SENDINBLUE) HTTPS EMAIL SENDER (PORT 443)
+// ==========================================================
+
+async function sendViaBrevo(toEmail, subject, htmlContent) {
+    const apiKey = (process.env.BREVO_API_KEY || '').trim();
+    if (!apiKey) return null;
+
+    try {
+        const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'api-key': apiKey,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                sender: {
+                    name: 'AGS Academy',
+                    email: (process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com').trim()
+                },
+                to: [{ email: toEmail }],
+                subject: subject,
+                htmlContent: htmlContent
+            })
+        });
+
+        const data = await response.json();
+        if (response.ok && (data.messageId || data.id)) {
+            console.log(`✅ Brevo: Email sent successfully to ${toEmail} (ID: ${data.messageId || data.id})`);
+            return { success: true, messageId: data.messageId || data.id };
+        } else {
+            console.warn(`⚠️ Brevo API responded with error:`, data.message || JSON.stringify(data));
+            return { success: false, error: data.message || JSON.stringify(data) };
+        }
+    } catch (err) {
+        console.warn(`⚠️ Brevo network error:`, err.message);
+        return { success: false, error: err.message };
+    }
+}
+
+// ==========================================================
 // SEND OTP EMAIL
 // ==========================================================
 
 async function sendOtpEmail(email, otp) {
+    const htmlBody = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
+            <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academy</h2>
+            <p style="font-size: 16px; color: #333333; line-height: 1.5;">Hello,</p>
+            <p style="font-size: 16px; color: #333333; line-height: 1.5;">
+                Thank you for choosing <strong>AGS Academy</strong>! To complete your verification process and secure your account, please use the One-Time Password (OTP) provided below.
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+                <span style="font-size: 32px; font-weight: bold; background-color: #f8f9fa; padding: 15px 25px; border-radius: 6px; letter-spacing: 4px; color: #0056b3; border: 1px solid #ddd;">
+                    ${otp}
+                </span>
+            </div>
+            <p style="font-size: 14px; color: #555555; line-height: 1.5;">
+                This OTP is valid for the next 5 minutes. For your security, please do not share this code with anyone.
+            </p>
+            <p style="font-size: 14px; color: #555555; line-height: 1.5;">
+                If you did not request this OTP, please ignore this email or contact our support team if you have concerns.
+            </p>
+            <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
+            <p style="font-size: 14px; color: #333333; margin: 0;">Best regards,</p>
+            <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academy Team</p>
+        </div>
+    `;
+
+    // 1. Prioritize Brevo HTTPS API (port 443, never blocked on Render)
+    if (process.env.BREVO_API_KEY) {
+        const brevoRes = await sendViaBrevo(email, 'Your AGS Academy OTP Verification Code', htmlBody);
+        if (brevoRes && brevoRes.success) {
+            console.log(`✅ Real OTP email delivered to ${email} via Brevo`);
+            return { success: true, provider: 'brevo' };
+        }
+    }
+
+    // 2. Fallback to Gmail SMTP (port 465, works on local development)
     if (!transporter) {
         initTransporter();
     }
@@ -250,40 +325,18 @@ async function sendOtpEmail(email, otp) {
                 from: `"AGS Academy" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
                 to: email,
                 subject: 'Your AGS Academy OTP Verification Code',
-                html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
-                    <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academy</h2>
-                    <p style="font-size: 16px; color: #333333; line-height: 1.5;">Hello,</p>
-                    <p style="font-size: 16px; color: #333333; line-height: 1.5;">
-                        Thank you for choosing <strong>AGS Academy</strong>! To complete your verification process and secure your account, please use the One-Time Password (OTP) provided below.
-                    </p>
-                    <div style="text-align: center; margin: 30px 0;">
-                        <span style="font-size: 32px; font-weight: bold; background-color: #f8f9fa; padding: 15px 25px; border-radius: 6px; letter-spacing: 4px; color: #0056b3; border: 1px solid #ddd;">
-                            ${otp}
-                        </span>
-                    </div>
-                    <p style="font-size: 14px; color: #555555; line-height: 1.5;">
-                        This OTP is valid for the next 5 minutes. For your security, please do not share this code with anyone.
-                    </p>
-                    <p style="font-size: 14px; color: #555555; line-height: 1.5;">
-                        If you did not request this OTP, please ignore this email or contact our support team if you have concerns.
-                    </p>
-                    <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
-                    <p style="font-size: 14px; color: #333333; margin: 0;">Best regards,</p>
-                    <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academy Team</p>
-                </div>
-                `
+                html: htmlBody
             });
-            console.log(`✅ Real OTP email delivered to ${email}`);
-            return { success: true };
+            console.log(`✅ Real OTP email delivered to ${email} via SMTP`);
+            return { success: true, provider: 'smtp' };
         } catch (mailErr) {
             console.warn(`⚠️ SMTP sendMail failed for ${email} (${mailErr.message}).`);
-            return { success: false, error: mailErr.message };
         }
     }
 
+    // 3. Fallback to Dev Mode if email providers fail
     console.log(`💡 DEV OTP for ${email}: ${otp}`);
-    return { success: false, reason: 'SMTP unauthenticated' };
+    return { success: false, reason: 'Email delivery failed' };
 }
 
 
@@ -651,28 +704,65 @@ app.post(
 
 
 // ==========================================================
-// SMTP VERIFY STATUS ENDPOINT
+// EMAIL SERVICE VERIFY STATUS ENDPOINT
 // ==========================================================
 
 app.get('/api/smtp-verify', async (req, res) => {
+    // 1. If Brevo API Key is configured, test Brevo
+    if (process.env.BREVO_API_KEY) {
+        try {
+            const brevoCheck = await fetch('https://api.brevo.com/v3/account', {
+                headers: {
+                    'accept': 'application/json',
+                    'api-key': process.env.BREVO_API_KEY.trim()
+                }
+            });
+            const data = await brevoCheck.json();
+            if (brevoCheck.ok) {
+                return res.json({
+                    success: true,
+                    provider: 'Brevo (HTTPS API)',
+                    email: data.email || process.env.EMAIL_FROM || 'agsacademys@gmail.com',
+                    message: `Brevo API connected and ready!`
+                });
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    provider: 'Brevo',
+                    code: data.code || 'UNAUTHORIZED',
+                    message: data.message || 'Brevo authentication failed'
+                });
+            }
+        } catch (err) {
+            return res.status(500).json({
+                success: false,
+                provider: 'Brevo',
+                message: err.message
+            });
+        }
+    }
+
+    // 2. Otherwise test SMTP
     try {
         const t = initTransporter();
         if (!t) {
             return res.status(400).json({
                 success: false,
-                message: 'EMAIL_USER or EMAIL_PASS not configured in .env'
+                message: 'No email credentials (BREVO_API_KEY or EMAIL_PASS) configured in .env'
             });
         }
         await t.verify();
         transporter = t;
         return res.json({
             success: true,
+            provider: 'SMTP',
             user: process.env.EMAIL_USER,
             message: `SMTP verified successfully for ${process.env.EMAIL_USER}!`
         });
     } catch (err) {
         return res.status(401).json({
             success: false,
+            provider: 'SMTP',
             code: err.code || 'EAUTH',
             message: err.message,
             fix: 'Please generate a new 16-character App Password at https://myaccount.google.com/apppasswords and update EMAIL_PASS in .env'
