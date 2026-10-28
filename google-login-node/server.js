@@ -21,7 +21,12 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const Razorpay = require('razorpay');
 
-const Enrollment = require('./models/Enrollment');
+let Enrollment;
+try {
+    Enrollment = require('./models/Enrollment');
+} catch (_) {
+    Enrollment = require('./models/enrollment');
+}
 
 
 // ==========================================================

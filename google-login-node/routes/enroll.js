@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const Enrollment = require("../models/Enrollment");
+let Enrollment;
+try {
+    Enrollment = require("../models/Enrollment");
+} catch (_) {
+    Enrollment = require("../models/enrollment");
+}
 
 
 // ==========================================================
