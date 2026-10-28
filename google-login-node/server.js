@@ -206,7 +206,10 @@ function initTransporter() {
                   auth: {
                       user: emailUser,
                       pass: cleanPass
-                  }
+                  },
+                  connectionTimeout: 10000,
+                  greetingTimeout: 10000,
+                  socketTimeout: 15000
               }
             : {
                   host: process.env.EMAIL_HOST,
@@ -215,7 +218,10 @@ function initTransporter() {
                   auth: {
                       user: emailUser,
                       pass: cleanPass
-                  }
+                  },
+                  connectionTimeout: 10000,
+                  greetingTimeout: 10000,
+                  socketTimeout: 15000
               }
     );
 
