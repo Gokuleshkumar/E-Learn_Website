@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "postinstall": "npm --prefix google-login-node install",
     "build": "npm --prefix google-login-node install",
-    "start": "npm --prefix google-login-node start"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=22.0.0"
