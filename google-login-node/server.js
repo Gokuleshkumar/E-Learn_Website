@@ -253,7 +253,7 @@ async function sendViaBrevo(toEmail, subject, htmlContent) {
             body: JSON.stringify({
                 sender: {
                     name: 'AGS Academy',
-                    email: (process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com').trim()
+                    email: (process.env.EMAIL_FROM || 'noreply@agsacademys.online').trim()
                 },
                 to: [{ email: toEmail }],
                 subject: subject,
