@@ -217,7 +217,7 @@ function initTransporter() {
 
 // Initial email service check on startup
 if (process.env.BREVO_API_KEY) {
-    console.log('✅ Brevo HTTPS API configured. Real emails will be sent from:', process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com');
+    console.log('✅ Brevo HTTPS API configured. Real emails will be sent from:', process.env.EMAIL_FROM || 'no-reply@agsacademys.online');
 } else {
     initTransporter();
     if (transporter) {
@@ -253,7 +253,7 @@ async function sendViaBrevo(toEmail, subject, htmlContent) {
             body: JSON.stringify({
                 sender: {
                     name: 'AGS Academy',
-                    email: (process.env.EMAIL_FROM || 'noreply@agsacademys.online').trim()
+                    email: (process.env.EMAIL_FROM || 'no-reply@agsacademys.online').trim()
                 },
                 to: [{ email: toEmail }],
                 subject: subject,
