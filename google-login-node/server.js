@@ -835,7 +835,8 @@ app.post(
                 name,
                 email,
                 password,
-                otp
+                otp,
+                phone
             } = req.body;
 
 
@@ -915,31 +916,33 @@ app.post(
                 );
 
 
-            const newUser =
-                await User.create({
+            const userData = {
 
-                    name:
-                        name,
+                name:
+                    name,
 
-                    displayName:
-                        name,
+                displayName:
+                    name,
 
-                    email:
-                        email.toLowerCase().trim(),
+                email:
+                    email.toLowerCase().trim(),
 
-                    password:
-                        hashed,
+                password:
+                    hashed,
 
-                    phone:
-                        phone || null,
+                authProvider:
+                    'local',
 
-                    authProvider:
-                        'local',
+                lastLogin:
+                    new Date()
 
-                    lastLogin:
-                        new Date()
+            };
 
-                });
+            if (phone) {
+                userData.phone = phone;
+            }
+
+            const newUser = await User.create(userData);
 
 
             // Record initial login log
@@ -1014,7 +1017,7 @@ app.post(
                 .json({
 
                     message:
-                        'Server error!'
+                        err.message || 'Server error!'
 
                 });
 

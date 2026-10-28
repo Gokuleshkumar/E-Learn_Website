@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
-      default: null
+      default: undefined
     },
     authProvider: {
       type: String,
