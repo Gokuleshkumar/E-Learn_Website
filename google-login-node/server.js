@@ -20,6 +20,7 @@ const path = require('path');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const Razorpay = require('razorpay');
+const MongoStore = require('connect-mongo');
 
 let Enrollment;
 try {
@@ -93,26 +94,34 @@ app.use(
 
 
 // ==========================================================
-// SESSION
+// SESSION (PERSISTENT MONGODB STORE - NO MEMORY LEAKS)
 // ==========================================================
+
+const Store = MongoStore.default || MongoStore;
+const sessionStore = Store.create({
+    clientPromise: new Promise(resolve => {
+        if (mongoose.connection.readyState === 1) {
+            resolve(mongoose.connection.getClient());
+        } else {
+            mongoose.connection.once('connected', () => resolve(mongoose.connection.getClient()));
+        }
+    }),
+    collectionName: 'sessions',
+    ttl: 14 * 24 * 60 * 60
+});
 
 app.use(
     session({
-
+        store: sessionStore,
         secret:
             process.env.SESSION_SECRET ||
             'your_secret_key',
-
         resave: false,
-
         saveUninitialized: false,
-
         cookie: {
-
-            secure: false
-
+            secure: false,
+            maxAge: 14 * 24 * 60 * 60 * 1000
         }
-
     })
 );
 
