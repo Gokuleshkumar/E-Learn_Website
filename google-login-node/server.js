@@ -240,60 +240,6 @@ if (transporter) {
 // ==========================================================
 
 async function sendOtpEmail(email, otp) {
-    const emailHtml = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
-        <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academy</h2>
-        <p style="font-size: 16px; color: #333333; line-height: 1.5;">Hello,</p>
-        <p style="font-size: 16px; color: #333333; line-height: 1.5;">
-            Thank you for choosing <strong>AGS Academy</strong>! To complete your verification process and secure your account, please use the One-Time Password (OTP) provided below.
-        </p>
-        <div style="text-align: center; margin: 30px 0;">
-            <span style="font-size: 32px; font-weight: bold; background-color: #f8f9fa; padding: 15px 25px; border-radius: 6px; letter-spacing: 4px; color: #0056b3; border: 1px solid #ddd;">
-                ${otp}
-            </span>
-        </div>
-        <p style="font-size: 14px; color: #555555; line-height: 1.5;">
-            This OTP is valid for the next 5 minutes. For your security, please do not share this code with anyone.
-        </p>
-        <p style="font-size: 14px; color: #555555; line-height: 1.5;">
-            If you did not request this OTP, please ignore this email or contact our support team if you have concerns.
-        </p>
-        <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
-        <p style="font-size: 14px; color: #333333; margin: 0;">Best regards,</p>
-        <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academy Team</p>
-    </div>
-    `;
-
-    // 1. Try Resend via HTTPS (Works on Render without SMTP port blocking!)
-    const resendKey = (process.env.RESEND_API_KEY || '').trim();
-    if (resendKey) {
-        try {
-            const res = await fetch('https://api.resend.com/emails', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${resendKey}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    from: process.env.RESEND_FROM || 'AGS Academy <onboarding@resend.dev>',
-                    to: [email],
-                    subject: 'Your AGS Academy OTP Verification Code',
-                    html: emailHtml
-                })
-            });
-            const data = await res.json();
-            if (res.ok && data.id) {
-                console.log(`✅ Resend: Real OTP email delivered to ${email} (ID: ${data.id})`);
-                return { success: true };
-            } else {
-                console.warn(`⚠️ Resend notice for ${email}:`, data.message || data);
-            }
-        } catch (resendErr) {
-            console.warn('⚠️ Resend error:', resendErr.message);
-        }
-    }
-
-    // 2. Try Nodemailer SMTP (Fallback)
     if (!transporter) {
         initTransporter();
     }
@@ -304,17 +250,40 @@ async function sendOtpEmail(email, otp) {
                 from: `"AGS Academy" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
                 to: email,
                 subject: 'Your AGS Academy OTP Verification Code',
-                html: emailHtml
+                html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
+                    <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academy</h2>
+                    <p style="font-size: 16px; color: #333333; line-height: 1.5;">Hello,</p>
+                    <p style="font-size: 16px; color: #333333; line-height: 1.5;">
+                        Thank you for choosing <strong>AGS Academy</strong>! To complete your verification process and secure your account, please use the One-Time Password (OTP) provided below.
+                    </p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <span style="font-size: 32px; font-weight: bold; background-color: #f8f9fa; padding: 15px 25px; border-radius: 6px; letter-spacing: 4px; color: #0056b3; border: 1px solid #ddd;">
+                            ${otp}
+                        </span>
+                    </div>
+                    <p style="font-size: 14px; color: #555555; line-height: 1.5;">
+                        This OTP is valid for the next 5 minutes. For your security, please do not share this code with anyone.
+                    </p>
+                    <p style="font-size: 14px; color: #555555; line-height: 1.5;">
+                        If you did not request this OTP, please ignore this email or contact our support team if you have concerns.
+                    </p>
+                    <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
+                    <p style="font-size: 14px; color: #333333; margin: 0;">Best regards,</p>
+                    <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academy Team</p>
+                </div>
+                `
             });
-            console.log(`✅ SMTP: Real OTP email sent successfully to ${email}`);
+            console.log(`✅ Real OTP email delivered to ${email}`);
             return { success: true };
         } catch (mailErr) {
             console.warn(`⚠️ SMTP sendMail failed for ${email} (${mailErr.message}).`);
+            return { success: false, error: mailErr.message };
         }
     }
 
     console.log(`💡 DEV OTP for ${email}: ${otp}`);
-    return { success: false, reason: 'Dev Mode auto-fill' };
+    return { success: false, reason: 'SMTP unauthenticated' };
 }
 
 
