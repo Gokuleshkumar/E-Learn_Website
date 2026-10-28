@@ -215,24 +215,23 @@ function initTransporter() {
     return transporter;
 }
 
-// Initial transporter check on startup
-initTransporter();
-
-if (transporter) {
-    transporter
-        .verify()
-        .then(() => {
-            console.log('✅ SMTP transporter ready. Emails will be sent from:', process.env.EMAIL_USER);
-        })
-        .catch(err => {
-            console.warn('⚠️ SMTP verification failed: Gmail rejected EMAIL_PASS (BadCredentials).');
-            console.log('ℹ️ Switched to local Dev Mode: OTP codes will be auto-filled in the web page and printed below.');
-            console.log('💡 To enable real Gmail emails:');
-            console.log('   1. Ensure 2-Step Verification is ON at https://myaccount.google.com/security');
-            console.log('   2. Generate an App Password at https://myaccount.google.com/apppasswords');
-            console.log('   3. Set EMAIL_PASS=your-16-char-code in .env');
-            transporter = null;
-        });
+// Initial email service check on startup
+if (process.env.BREVO_API_KEY) {
+    console.log('✅ Brevo HTTPS API configured. Real emails will be sent from:', process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com');
+} else {
+    initTransporter();
+    if (transporter) {
+        transporter
+            .verify()
+            .then(() => {
+                console.log('✅ SMTP transporter ready. Emails will be sent from:', process.env.EMAIL_USER);
+            })
+            .catch(err => {
+                console.warn('⚠️ SMTP verification failed:', err.message);
+                console.log('ℹ️ Switched to local Dev Mode.');
+                transporter = null;
+            });
+    }
 }
 
 // ==========================================================
