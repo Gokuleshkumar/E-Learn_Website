@@ -187,14 +187,17 @@ function initTransporter() {
         require('dotenv').config();
     } catch (_) {}
 
-    const emailUser = process.env.EMAIL_USER;
+    const emailUser = (process.env.EMAIL_USER || '').replace(/['"\s]/g, '').trim();
     const rawPass = process.env.EMAIL_PASS || '';
-    const cleanPass = rawPass.replace(/\s+/g, '');
+    const cleanPass = rawPass.replace(/['"\s]/g, '').trim();
 
     if (!emailUser || !cleanPass) {
+        console.warn('⚠️ EMAIL_USER or EMAIL_PASS missing or empty.');
         transporter = null;
         return null;
     }
+
+    console.log(`📧 Initializing SMTP for "${emailUser}" (Clean password length: ${cleanPass.length})`);
 
     const isGmail = (process.env.EMAIL_HOST && process.env.EMAIL_HOST.includes('gmail')) ||
                     (emailUser && emailUser.endsWith('@gmail.com'));
@@ -2028,10 +2031,11 @@ const PORT =
 
 const server = app.listen(
     PORT,
+    '0.0.0.0',
     () => {
 
         console.log(
-            `🚀 Server running at http://localhost:${PORT}`
+            `🚀 Server running at http://0.0.0.0:${PORT}`
         );
 
     }
