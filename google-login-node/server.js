@@ -199,34 +199,18 @@ function initTransporter() {
 
     console.log(`📧 Initializing SMTP for "${emailUser}" (Clean password length: ${cleanPass.length})`);
 
-    const isGmail = (process.env.EMAIL_HOST && process.env.EMAIL_HOST.includes('gmail')) ||
-                    (emailUser && emailUser.endsWith('@gmail.com'));
-
-    transporter = nodemailer.createTransport(
-        isGmail
-            ? {
-                  service: 'gmail',
-                  auth: {
-                      user: emailUser,
-                      pass: cleanPass
-                  },
-                  connectionTimeout: 10000,
-                  greetingTimeout: 10000,
-                  socketTimeout: 15000
-              }
-            : {
-                  host: process.env.EMAIL_HOST,
-                  port: parseInt(process.env.EMAIL_PORT || '587'),
-                  secure: process.env.EMAIL_SECURE === 'true',
-                  auth: {
-                      user: emailUser,
-                      pass: cleanPass
-                  },
-                  connectionTimeout: 10000,
-                  greetingTimeout: 10000,
-                  socketTimeout: 15000
-              }
-    );
+    transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+        port: parseInt(process.env.EMAIL_PORT || '465'),
+        secure: (process.env.EMAIL_SECURE !== 'false'),
+        auth: {
+            user: emailUser,
+            pass: cleanPass
+        },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000
+    });
 
     return transporter;
 }
