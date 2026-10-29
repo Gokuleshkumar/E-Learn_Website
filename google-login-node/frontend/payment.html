@@ -68,8 +68,25 @@
         
         <!-- Content -->
         <div class="relative z-10 text-white mt-auto">
-            <div class="w-14 h-14 rounded-2xl bg-white text-[var(--purple-deep)] flex items-center justify-center font-black text-2xl shadow-lg mb-8">
-                GK
+            <div class="mb-8 flex items-center gap-3">
+                <div class="w-14 h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center overflow-hidden border border-white/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+                        <defs>
+                            <linearGradient id="gradLogoPay" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#5624d0" />
+                                <stop offset="100%" stop-color="#401b9c" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradLogoPay)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        <circle cx="45" cy="20" r="8" fill="#401b9c" />
+                        <circle cx="20" cy="70" r="8" fill="#5624d0" />
+                        <circle cx="70" cy="70" r="8" fill="#5624d0" />
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-tight leading-none">AGS</span>
+                    <span class="text-xl font-bold text-[var(--purple)] leading-none tracking-tight">Academys</span>
+                </div>
             </div>
             <h1 class="text-4xl xl:text-5xl font-extrabold mb-4 leading-tight">Complete your enrollment.</h1>
             <p class="text-white/80 text-lg xl:text-xl max-w-md font-light leading-relaxed">
@@ -99,6 +116,27 @@
         
         <div class="w-full max-w-lg">
             
+            <div class="flex lg:hidden items-center justify-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-white shadow-md flex items-center justify-center overflow-hidden border border-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-7 w-auto">
+                        <defs>
+                            <linearGradient id="gradLogoMobPay" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#5624d0" />
+                                <stop offset="100%" stop-color="#401b9c" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradLogoMobPay)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        <circle cx="45" cy="20" r="8" fill="#401b9c" />
+                        <circle cx="20" cy="70" r="8" fill="#5624d0" />
+                        <circle cx="70" cy="70" r="8" fill="#5624d0" />
+                    </svg>
+                </div>
+                <div class="flex flex-col text-left">
+                    <span class="text-xl font-black tracking-tight leading-none text-gray-900">AGS</span>
+                    <span class="text-lg font-bold text-[var(--purple)] leading-none tracking-tight">Academys</span>
+                </div>
+            </div>
+
             <div class="mb-10 text-center lg:text-left">
                 <p class="text-[var(--purple)] text-xs font-bold tracking-widest uppercase mb-2">SECURE CHECKOUT</p>
                 <h2 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">Payment Method</h2>
