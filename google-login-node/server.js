@@ -20,7 +20,7 @@ const path = require('path');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const Razorpay = require('razorpay');
-const { sendWelcomeEmailViaBrevo, syncContactToBrevo } = require('./brevo-service');
+const { sendWelcomeEmailViaBrevo, sendPaidUserWelcomeEmailViaBrevo, syncContactToBrevo } = require('./brevo-service');
 
 let Enrollment;
 try {
@@ -1545,6 +1545,15 @@ app.post(
                     enrollment._id
                 );
 
+                // Send automated VIP confirmation email with AI Discuss access via Brevo
+                sendPaidUserWelcomeEmailViaBrevo({
+                    email: enrollment.email,
+                    name: enrollment.name,
+                    courseName: enrollment.course
+                }).catch(err => {
+                    console.error('⚠️ [Brevo VIP] Error sending VIP welcome email:', err.message);
+                });
+
             }
 
 
@@ -1586,8 +1595,29 @@ app.post(
 
         }
 
+// Test endpoint to trigger paid VIP email on demand
+app.post('/api/send-test-paid-email', async (req, res) => {
+    try {
+        const { email, name, course } = req.body || {};
+        const targetEmail = email || 'gokuleshkumar878@gmail.com';
+        const targetName = name || 'Gokuleshkumar';
+        const targetCourse = course || 'Full Stack & AI Specialization';
+
+        const result = await sendPaidUserWelcomeEmailViaBrevo({
+            email: targetEmail,
+            name: targetName,
+            courseName: targetCourse
+        });
+
+        if (result) {
+            return res.json({ success: true, message: `VIP email sent to ${targetEmail}`, data: result });
+        } else {
+            return res.status(500).json({ success: false, message: 'Failed to send VIP email via Brevo' });
+        }
+    } catch (err) {
+        return res.status(500).json({ success: false, error: err.message });
     }
-);
+});
 
 
 // ==========================================================

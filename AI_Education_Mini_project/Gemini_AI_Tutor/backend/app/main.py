@@ -75,10 +75,15 @@ app.add_middleware(
 )
 
 # Serve frontend static files
-FRONTEND_DIR = Path(__file__).parent.parent.parent / "frontend"
-if not FRONTEND_DIR.exists():
-    # Alternative path when project has subfolder structure
-    FRONTEND_DIR = Path(__file__).parent.parent.parent / "Gemini_AI_Tutor" / "frontend"
+_candidates = [
+    Path(__file__).resolve().parent.parent / "frontend",
+    Path(__file__).resolve().parent.parent.parent / "frontend",
+    Path(__file__).resolve().parent.parent.parent / "Gemini_AI_Tutor" / "frontend",
+    Path.cwd() / "frontend",
+    Path.cwd() / "backend" / "frontend",
+    Path.cwd() / "AI_Education_Mini_project" / "Gemini_AI_Tutor" / "frontend",
+]
+FRONTEND_DIR = next((p for p in _candidates if p.exists() and (p / "index.html").exists()), _candidates[0])
 
 @app.middleware("http")
 async def add_no_cache_headers(request, call_next):

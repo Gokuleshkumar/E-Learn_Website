@@ -344,7 +344,8 @@
         localStorage.removeItem("gopu_profile");
         document.body.classList.remove("theme-pink", "theme-blue");
         // Redirect to the main dashboard
-        window.location.href = "http://localhost:5000/dash.html";
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        window.location.href = isLocal ? "http://localhost:5000/dash.html" : "https://www.agsacademys.online/dash.html";
     }
 
     function applyTheme(gender) {

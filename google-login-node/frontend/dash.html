@@ -1246,7 +1246,9 @@
   function handleForumClick() {
     if (window.isUserPaid || (!window.userEmail && localStorage.getItem('isPaidUser') === 'true')) {
       const nameParam = window.userName ? encodeURIComponent(window.userName) : 'Student';
-      window.open(`http://localhost:8001/?autoLogin=true&name=${nameParam}`, "_blank");
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const targetBase = window.AI_DISCUSS_URL || (isLocal ? 'http://localhost:8001' : 'https://ags-ai-discuss.onrender.com');
+      window.open(`${targetBase}/?autoLogin=true&name=${nameParam}`, "_blank");
     } else {
       const modal = document.getElementById('premium-modal');
       const title = modal.querySelector('h3');

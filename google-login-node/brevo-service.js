@@ -26,6 +26,8 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
     const senderName = 'AGS Academys';
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdO-haDMMXqIXGIv0jzONdO0vbjwZcqbzzV0UZXuwg3B9KB-Q/viewform?usp=sharing&ouid=103364429695066988656';
     const personalizedDashboardUrl = `https://www.agsacademys.online/dash.html?user=${encodeURIComponent(studentName)}&email=${encodeURIComponent(cleanEmail)}`;
+    const AI_DISCUSS_URL = process.env.AI_DISCUSS_URL || 'https://ags-ai-discuss.onrender.com';
+    const personalizedAiDiscussUrl = `${AI_DISCUSS_URL}/?autoLogin=true&name=${encodeURIComponent(studentName)}`;
 
     const htmlContent = `
 <!DOCTYPE html>
@@ -192,9 +194,14 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
           <p class="feature-desc">Test your real-world coding knowledge across 12 course specializations and 11 core CS topics with live scorecards.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card" style="border-left: 3px solid #8B5CF6;">
           <div class="feature-title">🤖 24/7 AI Discuss & Doubt Forum</div>
           <p class="feature-desc">Instant doubt clearing, automated code reviews, and structured career guidance whenever you need it.</p>
+          <div style="margin-top: 12px;">
+            <a href="${personalizedAiDiscussUrl}" target="_blank" style="display: inline-block; padding: 8px 16px; background: linear-gradient(135deg, #7C3AED, #9333EA); color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);">
+              🚀 Launch AI Discuss Now →
+            </a>
+          </div>
         </div>
 
         <!-- Secondary CTA: Student Dashboard -->
@@ -325,7 +332,152 @@ async function syncContactToBrevo({ email, name, phone }) {
     }
 }
 
+/**
+ * Send VIP enrollment confirmation email to Paid Students via Brevo HTTPS API.
+ * Includes direct AI Discuss access button and personalized dashboard button.
+ * @param {Object} params
+ * @param {string} params.email - Student email
+ * @param {string} params.name - Student name
+ * @param {string} [params.courseName] - Enrolled course title
+ * @param {number|string} [params.amount] - Payment amount
+ * @returns {Promise<Object|null>}
+ */
+async function sendPaidUserWelcomeEmailViaBrevo({ email, name, courseName, amount }) {
+    const apiKey = process.env.BREVO_API_KEY;
+    if (!apiKey) {
+        console.warn('⚠️ BREVO_API_KEY is not defined in environment variables. Skipping paid welcome email.');
+        return null;
+    }
+
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const studentName = (name || 'Student').trim();
+    const courseTitle = courseName || 'Full Stack & AI Specialization';
+    const senderEmail = process.env.EMAIL_FROM || 'no-reply@agsacademys.online';
+    const senderName = 'AGS Academys';
+    const AI_DISCUSS_URL = process.env.AI_DISCUSS_URL || 'https://ags-ai-discuss.onrender.com';
+    const personalizedAiDiscussUrl = `${AI_DISCUSS_URL}/?autoLogin=true&name=${encodeURIComponent(studentName)}`;
+    const personalizedDashboardUrl = `https://www.agsacademys.online/dash.html?user=${encodeURIComponent(studentName)}&email=${encodeURIComponent(cleanEmail)}`;
+
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIP Access Unlocked - AGS Academys</title>
+  <style>
+    body { margin: 0; padding: 0; background-color: #0B0813; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #E0E7FF; }
+    .wrapper { width: 100%; max-width: 620px; margin: 0 auto; background-color: #120F1D; border-radius: 20px; overflow: hidden; border: 1px solid #3B2A63; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); }
+    .header { background: linear-gradient(135deg, #1E1238 0%, #3B166A 50%, #1E1238 100%); padding: 36px 24px; text-align: center; border-bottom: 2px solid #A855F7; }
+    .vip-tag { display: inline-block; padding: 4px 14px; background: rgba(250, 204, 21, 0.18); border: 1px solid #FACC15; color: #FDE047; border-radius: 9999px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+    .logo-text { font-size: 28px; font-weight: 800; color: #FFFFFF; }
+    .content { padding: 36px 30px; background-color: #120F1D; }
+    .hero-btn { display: block; width: 100%; box-sizing: border-box; text-align: center; padding: 18px 24px; background: linear-gradient(135deg, #7C3AED 0%, #9333EA 50%, #C026D3 100%); color: #FFFFFF !important; font-size: 16px; font-weight: 800; border-radius: 12px; text-decoration: none; box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45); }
+    .feature-card { background: #181427; border: 1px solid #28203E; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+    .feature-title { font-weight: 700; color: #FFFFFF; font-size: 14px; margin-bottom: 4px; }
+    .feature-desc { font-size: 13px; color: #A5A0BA; margin: 0; line-height: 1.45; }
+    .footer { padding: 24px 30px 32px; background-color: #0E0B17; text-align: center; font-size: 12px; color: #6E6885; border-top: 1px solid #1E1A2C; }
+    .footer a { color: #A78BFA; text-decoration: none; margin: 0 6px; }
+  </style>
+</head>
+<body>
+  <div style="background-color: #0B0813; padding: 30px 15px;">
+    <div class="wrapper">
+      <div class="header">
+        <span class="vip-tag">👑 VIP STUDENT ACCESS</span>
+        <div class="logo-text">AGS <span style="color: #A78BFA;">Academys</span></div>
+        <p style="margin: 6px 0 0; color: #DDD6FE; font-size: 13px;">Premium Tech Education & Live AI Support</p>
+      </div>
+
+      <div class="content">
+        <h1 style="color: #FFFFFF; font-size: 22px; margin: 0 0 12px;">🎉 Welcome to VIP Learning, ${studentName}!</h1>
+        <p style="color: #D4D0E2; font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
+          Your enrollment in <strong>${courseTitle}</strong> is officially confirmed! You now have unrestricted lifetime access to our <strong>24/7 AI Discuss & Doubt Forum</strong>, full course curriculum, and all quiz tracks.
+        </p>
+
+        <!-- Primary CTA: Direct AI Discuss Launch -->
+        <div style="margin: 28px 0; text-align: center;">
+          <a href="${personalizedAiDiscussUrl}" class="hero-btn" target="_blank">
+            🤖 Open 24/7 AI Discuss & Doubt Forum →
+          </a>
+          <p style="margin: 8px 0 0; font-size: 12px; color: #A78BFA;">*Auto-authenticates you as ${studentName} with zero extra logins required.</p>
+        </div>
+
+        <h3 style="color: #FFFFFF; font-size: 15px; margin: 28px 0 12px;">Your Unlocked VIP Privileges:</h3>
+
+        <div class="feature-card" style="border-left: 3px solid #8B5CF6;">
+          <div class="feature-title">🤖 24/7 AI Discuss & Doubt Forum</div>
+          <p class="feature-desc">Speak in real-time or upload code & homework screenshots for instant explanations from your personal AI tutor.</p>
+        </div>
+
+        <div class="feature-card" style="border-left: 3px solid #F59E0B;">
+          <div class="feature-title">⚡ VIP Quiz Arena (All 23 Tracks Unlocked)</div>
+          <p class="feature-desc">Master industry interview questions across 12 course tracks and 11 programming domains with real-time scoring.</p>
+        </div>
+
+        <div class="feature-card" style="border-left: 3px solid #10B981;">
+          <div class="feature-title">🎓 Accredited Course Curriculum & Certificate</div>
+          <p class="feature-desc">Interactive modules, downloadable source code, capstone projects, and industry-recognized completion certificate.</p>
+        </div>
+
+        <!-- Secondary CTA: Student Dashboard -->
+        <div style="margin-top: 24px; text-align: center;">
+          <a href="${personalizedDashboardUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; background: #1E1733; border: 1px solid #7C3AED; color: #DDD6FE; font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 10px;">
+            Visit Your Student Dashboard →
+          </a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p style="margin: 0 0 8px 0; font-weight: 600; color: #9A95B0;">AGS Academys — Empowering Your Future With Modern Tech Skills</p>
+        <p style="margin: 0 0 12px 0;">© 2026 AGS Academys. All rights reserved.</p>
+        <p style="margin: 0;">
+          <a href="${personalizedDashboardUrl}">Dashboard</a> · 
+          <a href="${personalizedAiDiscussUrl}">AI Discuss</a> · 
+          <a href="https://www.agsacademys.online/Aboutus.html">About Us</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+    `;
+
+    const payload = {
+        sender: { name: senderName, email: senderEmail },
+        to: [{ email: cleanEmail, name: studentName }],
+        subject: `👑 VIP Access Activated: Welcome to ${courseTitle} + 24/7 AI Discuss!`,
+        htmlContent: htmlContent
+    };
+
+    try {
+        const response = await fetch(`${BREVO_API_URL}/smtp/email`, {
+            method: 'POST',
+            headers: {
+                'api-key': apiKey,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log(`✅ [Brevo VIP] Paid user confirmation email delivered to ${cleanEmail} (MessageId: ${data.messageId})`);
+            return data;
+        } else {
+            console.warn(`⚠️ [Brevo VIP] Failed to send paid user email to ${cleanEmail}:`, data);
+            return null;
+        }
+    } catch (err) {
+        console.error(`🔥 [Brevo VIP] Network error sending paid user email to ${cleanEmail}:`, err.message);
+        return null;
+    }
+}
+
 module.exports = {
     sendWelcomeEmailViaBrevo,
+    sendPaidUserWelcomeEmailViaBrevo,
     syncContactToBrevo
 };
+
