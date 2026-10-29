@@ -289,30 +289,7 @@
       }
     }
 
-    // 3. Header Branding Bar (Always AGS Academys - NEVER EduNova)
-    ctx.save();
-    ctx.fillStyle = '#F59E0B';
-    ctx.font = 'bold 12px Inter, sans-serif';
-    ctx.letterSpacing = '2px';
-    ctx.textAlign = 'center';
-    ctx.fillText('⚡ AGS ACADEMYS • OFFICIAL 2026 MASTERCLASS PREVIEW', 480, 38);
-
-    // Dynamic EXACT Course Title
-    const courseTitle = currentCourse ? currentCourse.title : 'Professional Tech Masterclass';
-    const titleGrad = ctx.createLinearGradient(200, 48, 760, 78);
-    titleGrad.addColorStop(0, '#FFFFFF');
-    titleGrad.addColorStop(0.4, '#E9D5FF');
-    titleGrad.addColorStop(1, '#FCD34D');
-
-    ctx.fillStyle = titleGrad;
-    ctx.font = 'bold 22px Inter, "Outfit", sans-serif';
-    ctx.shadowColor = 'rgba(168, 85, 247, 0.45)';
-    ctx.shadowBlur = 14;
-    ctx.fillText(courseTitle, 480, 72);
-    ctx.shadowBlur = 0;
-    ctx.restore();
-
-    // 4. Render Active Scene based on currentTime
+    // 3. Render Active Scene based on currentTime
     // Scene 0: 0:00 - 0:30 (Launch & Tech Orbit Matrix)
     // Scene 1: 0:30 - 1:05 (Live IDE Code Studio & Terminal)
     // Scene 2: 1:05 - 1:35 (Capstone Projects & Cloud Telemetry)

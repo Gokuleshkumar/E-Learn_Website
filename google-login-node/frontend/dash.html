@@ -1388,13 +1388,7 @@
             <i class="fas fa-play text-white text-xs ml-0.5"></i>
           </div>
           <div class="min-w-0">
-            <div class="flex items-center gap-2">
-              <span id="demo-modal-badge" class="text-[9px] font-bold uppercase tracking-wider bg-purple-900/80 text-purple-200 border border-purple-500/30 px-2 py-0.5 rounded-full">Demo Preview</span>
-              <span class="text-[10px] text-amber-300 font-semibold flex items-center gap-1 bg-amber-950/70 border border-amber-600/30 px-2 py-0.5 rounded-full">
-                <i class="fas fa-bolt text-yellow-400 animate-pulse text-[9px]"></i> Energetic Promo Audio
-              </span>
-            </div>
-            <h3 id="demo-modal-title" class="font-display font-bold text-sm sm:text-base text-white truncate mt-0.5">
+            <h3 id="demo-modal-title" class="font-display font-bold text-base sm:text-lg text-white truncate">
               Course Title
             </h3>
           </div>
@@ -1410,9 +1404,9 @@
         </div>
       </div>
 
-      <!-- Video Display Container: Dynamic Animated Canvas Stage -->
-      <div id="demo-video-stage" class="relative bg-[#0A0713] w-full aspect-video max-h-[50vh] flex items-center justify-center overflow-hidden select-none">
-        <!-- High Performance 60FPS Animated Canvas -->
+      <!-- Video & Audio Display Container -->
+      <div id="demo-video-stage" class="relative bg-[#0A0713] w-full aspect-video max-h-[52vh] flex items-center justify-center overflow-hidden select-none">
+        <!-- 60FPS Video Canvas -->
         <canvas id="course-demo-canvas" width="960" height="540" class="w-full h-full object-contain"></canvas>
 
         <!-- Big Center Play/Replay Overlay Button -->
@@ -1420,7 +1414,7 @@
           <i id="demo-center-play-icon" class="fas fa-play text-xl ml-1"></i>
         </button>
 
-        <!-- Video Player Bottom Controls Overlay Bar -->
+        <!-- Video & Audio Controls Bar -->
         <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col gap-1.5 z-10">
           <!-- Scrubber Progress Bar -->
           <div class="relative w-full h-1.5 bg-white/20 hover:h-2 rounded-full cursor-pointer transition-all" onclick="handleScrubberClick(event)">
@@ -1437,43 +1431,21 @@
               </button>
               <span id="demo-ctrl-time" class="font-mono text-[11px] text-purple-200">00:00 / 02:00</span>
             </div>
-
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] text-amber-300 font-bold bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Live 60FPS Animated Video &bull; Female Host
-              </span>
-            </div>
           </div>
         </div>
 
         <audio id="course-demo-audio" src="./videos/energetic_promo.wav" preload="auto" loop></audio>
         <audio id="course-demo-voice" src="./videos/narrator_default.mp3" preload="auto"></audio>
 
-        <!-- Dynamic Live Subtitles Bar Overlay -->
-        <div id="demo-subtitles-bar" class="absolute bottom-11 left-4 right-4 sm:left-10 sm:right-10 text-center pointer-events-none z-10">
-          <span id="demo-subtitles-text" class="inline-block bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-purple-500/30 text-xs sm:text-[13px] font-semibold text-purple-100 shadow-xl">
-            ⚡ Welcome to AGS Academys!
-          </span>
-        </div>
-
-        <!-- Watermark / Brand Badge Overlay in Top Left -->
-        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-md border border-white/15 text-[11px] text-white font-semibold flex items-center gap-1.5 pointer-events-none z-10">
-          <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-          <span id="demo-watermark-title">AGS Academys &bull; Course Intro</span>
-        </div>
-
-        <!-- Course Preview Completion End Screen Overlay -->
+        <!-- End Screen Completion Overlay -->
         <div id="demo-end-overlay" class="hidden absolute inset-0 bg-black/92 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20">
           <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-3xl shadow-xl mb-3 animate-bounce">
             <i class="fas fa-graduation-cap"></i>
           </div>
-          <h4 class="font-display font-bold text-xl text-white mb-1.5">Course Preview Complete!</h4>
-          <p class="text-xs sm:text-sm text-purple-200 max-w-md mb-5 leading-relaxed">
-            Ready to become a certified professional? Unlock full curriculum access, mentor guidance, real-world portfolio tasks, and placement recruitment drives today!
-          </p>
+          <h4 class="font-display font-bold text-xl text-white mb-2">Ready to Master This Course?</h4>
           <div class="flex items-center gap-3">
             <button onclick="replayDemoVideo()" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs rounded-xl transition flex items-center gap-1.5">
-              <i class="fas fa-redo text-xs"></i> Replay Preview
+              <i class="fas fa-redo text-xs"></i> Replay Audio
             </button>
             <a id="demo-end-enroll-btn" href="#" class="px-7 py-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-purple-950 font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5">
               Enroll in Full Course <i class="fas fa-arrow-right text-xs"></i>
@@ -1482,48 +1454,24 @@
         </div>
       </div>
 
-      <!-- Quick Seek Chapter Markers Bar -->
-      <div class="px-4 sm:px-6 py-2.5 bg-[#140F22] border-y border-purple-900/40 flex items-center justify-between gap-2 overflow-x-auto">
-        <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
-          <i class="fas fa-bookmark text-[9px]"></i> Chapters:
-        </span>
-        <div class="flex items-center gap-2 shrink-0">
-          <button onclick="seekDemoVideo(0)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
-            <span class="font-mono text-[10px] text-yellow-300">0:00</span> Overview
-          </button>
-          <button onclick="seekDemoVideo(30)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
-            <span class="font-mono text-[10px] text-yellow-300">0:30</span> Live Tech Demo
-          </button>
-          <button onclick="seekDemoVideo(65)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
-            <span class="font-mono text-[10px] text-yellow-300">1:05</span> Capstone Projects
-          </button>
-          <button onclick="seekDemoVideo(95)" class="px-2.5 py-1 rounded-md bg-purple-950/70 hover:bg-purple-800/80 border border-purple-700/40 text-[11px] text-purple-200 font-medium transition flex items-center gap-1.5">
-            <span class="font-mono text-[10px] text-yellow-300">1:35</span> Career Roadmaps
-          </button>
-        </div>
-      </div>
-
-      <!-- Bottom Panel: Course Highlights & CTA -->
-      <div class="p-4 sm:p-5 bg-[#1A1429] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="min-w-0">
-          <p id="demo-modal-tagline" class="text-xs text-purple-200/90 leading-relaxed mb-2.5">
-            Course tagline will appear here.
+      <!-- Bottom Panel: Course Description & CTA -->
+      <div class="p-4 sm:p-6 bg-[#1A1429] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="min-w-0 max-w-xl">
+          <p id="demo-modal-tagline" class="text-sm text-purple-100/90 leading-relaxed font-normal">
+            Course description will appear here.
           </p>
-          <div id="demo-modal-topics" class="flex flex-wrap gap-1.5">
-            <!-- Injected dynamically -->
-          </div>
         </div>
 
         <div class="flex items-center gap-3 shrink-0 sm:self-center border-t sm:border-t-0 border-purple-900/40 pt-3 sm:pt-0">
           <div class="text-right">
             <div class="flex items-baseline gap-1.5 justify-end">
-              <span id="demo-modal-price" class="font-display font-black text-lg text-white">₹4,999</span>
+              <span id="demo-modal-price" class="font-display font-black text-xl text-white">₹4,999</span>
               <span id="demo-modal-oldprice" class="text-xs text-purple-400 line-through">₹8,999</span>
             </div>
-            <p class="text-[10px] text-emerald-400 font-semibold">Special Intro Offer</p>
+            <p class="text-[10px] text-emerald-400 font-semibold">Special Offer</p>
           </div>
-          <a id="demo-modal-enroll-btn" href="#" class="px-5 py-2.5 bg-gradient-to-r from-[var(--purple)] to-purple-600 hover:from-[var(--purple-deep)] hover:to-purple-700 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5">
-            Enroll Now <i class="fas fa-arrow-right text-[10px]"></i>
+          <a id="demo-modal-enroll-btn" href="#" class="px-6 py-2.5 bg-gradient-to-r from-[var(--purple)] to-purple-600 hover:from-[var(--purple-deep)] hover:to-purple-700 text-white font-bold text-sm rounded-xl shadow-lg transition flex items-center gap-1.5">
+            Enroll Now <i class="fas fa-arrow-right text-xs"></i>
           </a>
         </div>
 
