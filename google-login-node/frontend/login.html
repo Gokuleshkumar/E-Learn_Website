@@ -346,6 +346,14 @@
     }, 3000);
   }
 
+  // Display errors if redirected with ?error= (e.g. from Google auth failure)
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('error')) {
+    const errorMsg = decodeURIComponent(urlParams.get('error'));
+    showToast(errorMsg, 'error');
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // Handle login
   const form = document.getElementById('loginForm');
   form.addEventListener('submit', async (e) => {

@@ -382,43 +382,41 @@ if (
 
                 try {
 
-                    const email =
+                    const email = (
                         profile.emails &&
-                        profile.emails[0]
-                            .value;
+                        profile.emails[0] &&
+                        profile.emails[0].value
+                    ) ? profile.emails[0].value.toLowerCase().trim() : null;
 
+                    if (!email) {
+                        return done(null, false, { message: 'No email found in your Google account.' });
+                    }
 
-                    let user =
-                        await User.findOne({
-                            email
-                        });
+                    let user = await User.findOne({ email });
 
+                    const googleName = profile.displayName || (profile.name && `${profile.name.givenName || ''} ${profile.name.familyName || ''}`.trim()) || email.split('@')[0];
 
                     if (!user) {
-
-                        return done(
-                            null,
-                            false,
-                            {
-                                message:
-                                    'Please signup first!'
-                            }
-                        );
-
+                        user = await User.create({
+                            name: googleName,
+                            displayName: googleName,
+                            email: email,
+                            googleId: profile.id,
+                            authProvider: 'google',
+                            lastLogin: new Date()
+                        });
+                        console.log(`✅ New user registered via Google: ${email}`);
+                    } else {
+                        if (!user.googleId) {
+                            user.googleId = profile.id;
+                        }
+                        if (!user.displayName) {
+                            user.displayName = googleName;
+                        }
+                        user.lastLogin = new Date();
+                        await user.save();
+                        console.log(`✅ Existing user logged in via Google: ${email}`);
                     }
-
-
-                    if (
-                        !user.googleId
-                    ) {
-
-                        user.googleId =
-                            profile.id;
-
-                    }
-
-                    user.lastLogin = new Date();
-                    await user.save();
 
                     try {
                         await LoginLog.create({
@@ -429,20 +427,11 @@ if (
                         });
                     } catch (_) {}
 
-
-                    return done(
-                        null,
-                        user
-                    );
-
+                    return done(null, user);
 
                 } catch (err) {
-
-                    return done(
-                        err,
-                        null
-                    );
-
+                    console.error('🔥 Google auth strategy error:', err);
+                    return done(err, null);
                 }
 
             }
@@ -532,43 +521,39 @@ app.get(
         passport.authenticate(
             'google',
 
-            (err, user) => {
+            (err, user, info) => {
 
                 if (err) {
-
+                    console.error('🔥 Google OAuth callback error:', err);
                     return res.redirect(
                         `/login.html?error=${encodeURIComponent(
-                            err.message
+                            err.message || 'Google authentication error'
                         )}`
                     );
-
                 }
-
 
                 if (!user) {
-
+                    const failMsg = (info && info.message) ? info.message : 'Google login failed';
+                    console.warn('⚠️ Google OAuth user verification failed:', failMsg);
                     return res.redirect(
-                        '/login.html?error=Login failed'
+                        `/login.html?error=${encodeURIComponent(failMsg)}`
                     );
-
                 }
-
 
                 req.login(
                     user,
                     loginErr => {
 
                         if (loginErr) {
-
+                            console.error('🔥 Google req.login session error:', loginErr);
                             return res.redirect(
-                                '/login.html?error=Login failed'
+                                '/login.html?error=Session login failed'
                             );
-
                         }
 
-
+                        const userDisp = encodeURIComponent(user.displayName || user.name || user.email);
                         return res.redirect(
-                            '/dash.html'
+                            `/dash.html?login=google&user=${userDisp}`
                         );
 
                     }

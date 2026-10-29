@@ -1145,6 +1145,18 @@
     let isPaid = false;
     let enrolledCourseName = null;
     let userEmail = '';
+
+    // Check if redirected from Google login with user parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('user')) {
+      const googleUser = decodeURIComponent(urlParams.get('user'));
+      if (googleUser) {
+        localStorage.setItem('username', googleUser);
+        name = googleUser;
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2000);
