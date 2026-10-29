@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /dash.html
+Disallow: /enroll.html
+Disallow: /payment.html
+Disallow: /profile.html
+Disallow: /reset-password.html
+Disallow: /reset.html
+Disallow: /forgot-password.html
+Disallow: /api/
+
+Sitemap: https://agsacademys.online/sitemap.xml
