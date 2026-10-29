@@ -1595,6 +1595,9 @@ app.post(
 
         }
 
+    }
+);
+
 // Test endpoint to trigger paid VIP email on demand
 app.post('/api/send-test-paid-email', async (req, res) => {
     try {
