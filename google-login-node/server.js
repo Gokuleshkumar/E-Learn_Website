@@ -20,6 +20,7 @@ const path = require('path');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const Razorpay = require('razorpay');
+const { sendWelcomeEmailViaBrevo, syncContactToBrevo } = require('./brevo-service');
 
 let Enrollment;
 try {
@@ -406,6 +407,10 @@ if (
                             lastLogin: new Date()
                         });
                         console.log(`✅ New user registered via Google: ${email}`);
+
+                        // Send automated Brevo welcome email & sync contact
+                        sendWelcomeEmailViaBrevo({ email: user.email, name: user.displayName || user.name }).catch(e => console.error('Brevo welcome err:', e));
+                        syncContactToBrevo({ email: user.email, name: user.displayName || user.name }).catch(e => console.error('Brevo sync err:', e));
                     } else {
                         if (!user.googleId) {
                             user.googleId = profile.id;
@@ -1013,7 +1018,6 @@ app.post(
 
             const newUser = await User.create(userData);
 
-
             // Record initial login log
             try {
                 await LoginLog.create({
@@ -1026,6 +1030,18 @@ app.post(
                 });
             } catch (_) {}
 
+            // Send automated Brevo welcome email & sync to Brevo CRM Contacts
+            sendWelcomeEmailViaBrevo({
+                email: newUser.email,
+                name: newUser.name || newUser.displayName,
+                phone: newUser.phone
+            }).catch(e => console.error('Brevo welcome err:', e));
+
+            syncContactToBrevo({
+                email: newUser.email,
+                name: newUser.name || newUser.displayName,
+                phone: newUser.phone
+            }).catch(e => console.error('Brevo sync err:', e));
 
             await Otp.deleteMany({
                 email
