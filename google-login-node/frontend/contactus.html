@@ -5,15 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us - AGS Academys</title>
   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    body { font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root {
+      --ink: #141417;
+      --ink-soft: #3c3d42;
+      --purple: #7C3AED;
+      --purple-deep: #5B21B6;
+      --purple-pale: #F1EBFE;
+      --paper: #FAFAFB;
+      --line: #E7E5EA;
+      --gold: #B4690E;
+      --green: #0F7B4F;
+    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, .font-display { font-family: 'Sora', sans-serif; }
+    .font-800 { font-weight: 800; }
     .bg-udemy-dark { background-color: #1c1d1f; }
-    .text-udemy-purple { color: #5624d0; }
-    .bg-udemy-purple { background-color: #5624d0; }
-    .hover-bg-udemy-purple:hover { background-color: #401b9c; }
+    .text-udemy-purple { color: #7C3AED; }
+    .bg-udemy-purple { background-color: #7C3AED; }
+    .hover-bg-udemy-purple:hover { background-color: #5B21B6; }
     
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -47,7 +64,7 @@
     .input-container textarea:not(:placeholder-shown) + label {
       top: 0.25rem;
       font-size: 0.75rem;
-      color: #5624d0;
+      color: #7C3AED;
       font-weight: bold;
     }
   
@@ -60,34 +77,41 @@
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased flex flex-col min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md border-b border-gray-100 py-4 px-6 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center space-x-6">
-      <a href="index.html" class="flex items-center gap-2 shrink-0">
-        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+  <!-- Header / Navbar matching dash.html -->
+  <header class="sticky top-0 z-50 bg-[var(--ink)]">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center justify-between gap-6">
+      <a href="dash.html" class="flex items-center gap-2 shrink-0">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
           <defs>
-            <linearGradient id="gradDash" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#5624d0" />
-              <stop offset="100%" stop-color="#401b9c" />
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#1d4ed8" />
             </linearGradient>
           </defs>
-          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradDash)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-          <circle cx="45" cy="20" r="8" fill="#401b9c" />
-          <circle cx="20" cy="70" r="8" fill="#5624d0" />
-          <circle cx="70" cy="70" r="8" fill="#5624d0" />
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+          <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+          <circle cx="70" cy="70" r="8" fill="#3b82f6" />
         </svg>
-        <div class="flex items-baseline gap-0.5">
-          <span class="text-2xl font-black tracking-tight text-gray-900">AGS</span>
-          <span class="text-2xl font-black tracking-tight text-udemy-purple">Academys</span>
+        <div class="flex items-baseline gap-1">
+          <span class="font-display text-2xl font-800 text-white hidden sm:block">AGS</span>
+          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academys</span>
         </div>
       </a>
+
+      <nav class="flex items-center gap-5 sm:gap-6 text-[15px] font-semibold">
+        <a href="dash.html" class="text-white hover:text-gray-300 transition">Dashboard</a>
+        <a href="Aboutus.html" class="text-white hover:text-gray-300 transition">About Us</a>
+        <a href="contactus.html" class="text-white hover:text-gray-300 transition border-b-2 border-[var(--purple)] pb-0.5">Contact Us</a>
+      </nav>
+
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="dash.html" class="px-4 py-2 text-sm font-semibold text-white bg-[#232327] hover:bg-[#2e2e33] border border-[#3c3d42] rounded-full transition flex items-center gap-2">
+          <i class="fas fa-th-large text-[var(--purple)]"></i> All Courses
+        </a>
+      </div>
     </div>
-    <div class="flex items-center space-x-5">
-      <a href="dash.html" class="text-sm font-medium text-gray-700 hover:text-udemy-purple transition">Dashboard</a>
-      <a href="Aboutus.html" class="text-sm font-medium text-gray-700 hover:text-udemy-purple transition">About Us</a>
-      <a href="contactus.html" class="text-sm font-bold text-udemy-purple transition border-b-2 border-udemy-purple pb-1">Contact Us</a>
-    </div>
-  </nav>
+  </header>
 
   <!-- Main Content -->
   <main class="flex-grow flex items-center justify-center py-16 px-6">
@@ -191,21 +215,21 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
       <div class="mb-6 md:mb-0">
         <div class="flex items-center gap-2">
-          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
             <defs>
               <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#5624d0" />
-                <stop offset="100%" stop-color="#401b9c" />
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1d4ed8" />
               </linearGradient>
             </defs>
             <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-            <circle cx="45" cy="20" r="8" fill="#401b9c" />
-            <circle cx="20" cy="70" r="8" fill="#5624d0" />
-            <circle cx="70" cy="70" r="8" fill="#5624d0" />
+            <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+            <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+            <circle cx="70" cy="70" r="8" fill="#3b82f6" />
           </svg>
-          <div class="flex items-baseline gap-0.5">
-            <span class="text-2xl font-black tracking-tight text-white">AGS</span>
-            <span class="text-2xl font-black tracking-tight text-udemy-purple">Academys</span>
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-2xl font-800 text-white">AGS</span>
+            <span class="font-display text-2xl font-800 text-[var(--purple)]">Academys</span>
           </div>
         </div>
         <p class="text-sm text-gray-400 mt-2">Empowering your future with modern skills.</p>
