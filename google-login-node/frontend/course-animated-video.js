@@ -1,5 +1,5 @@
 /**
- * AGS Academy - Dynamic 60FPS Animated Course Intro Video & Audio Engine
+ * AGS Academys - Dynamic 60FPS Animated Course Intro Video & Audio Engine
  * Features:
  * - Authentic, studio-grade neural female voiceover (en-US-AvaNeural) tailored for each course
  * - 128 BPM electronic music track running in lockstep
@@ -27,7 +27,7 @@
         '  const [skills, setSkills] = useState(["React", "TypeScript"]);',
         '  return (',
         '    <div className="p-8 bg-slate-900 rounded-2xl shadow-xl">',
-        '      <h1 className="text-3xl font-black text-purple-400">AGS Academy</h1>',
+        '      <h1 className="text-3xl font-black text-purple-400">AGS Academys</h1>',
         '      <SkillGrid items={skills} liveUpdates={true} />',
         '    </div>',
         '  );',
@@ -108,7 +108,7 @@
         'import numpy as np',
         'df = pd.read_csv("student_career_outcomes.csv")',
         'placement_rate = df["hired"].mean() * 100',
-        'print(f"AGS Academy Placement Success: {placement_rate:.1f}%")'
+        'print(f"AGS Academys Placement Success: {placement_rate:.1f}%")'
       ],
       terminalCmd: 'python evaluate_pipeline.py',
       terminalOutput: '✓ Model Accuracy: 96.8% • AUC-ROC: 0.982 • Data Pipeline Active'
@@ -144,7 +144,7 @@
       tags: ['100% Placement Track', 'Direct MNC Hiring', '1-on-1 Mentorship', 'Mock Interviews', 'Full Stack Capstone'],
       codeLang: 'JavaScript (PlacementCareer.js)',
       codeLines: [
-        '// AGS Academy Guaranteed Placement Track',
+        '// AGS Academys Guaranteed Placement Track',
         'const candidate = await Mentorship.train(student, {',
         '  technicalSkills: ["FullStack", "DSA", "SystemDesign"],',
         '  mockInterviews: 12,',
@@ -162,7 +162,7 @@
     tags: ['Full Stack Curriculum', 'Production Architecture', 'Live Projects', 'Mentorship', 'Certification'],
     codeLang: 'Code Studio (Architecture.ts)',
     codeLines: [
-      '// AGS Academy Interactive Engineering Track',
+      '// AGS Academys Interactive Engineering Track',
       'const careerPath = new EngineeringTrack({ certified: true });',
       'careerPath.master({ concepts: "Deep Mastery", projects: "Production Ready" });',
       'careerPath.onComplete(() => {',
@@ -175,7 +175,7 @@
 
   // --- Subtitles Timeline (2-Minute Continuous Content) ---
   const subtitlesTimeline = [
-    { start: 0, end: 7, text: '👋 Hey there, future tech superstar! Welcome to AGS Academy!' },
+    { start: 0, end: 7, text: '👋 Hey there, future tech superstar! Welcome to AGS Academys!' },
     { start: 7, end: 15, text: '🚀 Ready to supercharge your tech career with our official masterclass?' },
     { start: 15, end: 23, text: '💡 In 2026, demand for top-tier software engineers is reaching record highs.' },
     { start: 23, end: 30, text: '⚡ We replace outdated theory with modern, industry-standard production engineering!' },
@@ -289,13 +289,13 @@
       }
     }
 
-    // 3. Header Branding Bar (Always AGS Academy - NEVER EduNova)
+    // 3. Header Branding Bar (Always AGS Academys - NEVER EduNova)
     ctx.save();
     ctx.fillStyle = '#F59E0B';
     ctx.font = 'bold 12px Inter, sans-serif';
     ctx.letterSpacing = '2px';
     ctx.textAlign = 'center';
-    ctx.fillText('⚡ AGS ACADEMY • OFFICIAL 2026 MASTERCLASS PREVIEW', 480, 38);
+    ctx.fillText('⚡ AGS ACADEMYS • OFFICIAL 2026 MASTERCLASS PREVIEW', 480, 38);
 
     // Dynamic EXACT Course Title
     const courseTitle = currentCourse ? currentCourse.title : 'Professional Tech Masterclass';
@@ -410,7 +410,7 @@
     ctx.fillStyle = '#FFFFFF';
     ctx.font = 'bold 16px Inter, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('AGS Academy', 0, -10);
+    ctx.fillText('AGS Academys', 0, -10);
     ctx.fillStyle = '#10B981';
     ctx.font = 'bold 12px Inter, sans-serif';
     ctx.fillText('✓ 100% Industry Verified', 0, 15);
@@ -1015,7 +1015,7 @@
       // Update header watermark
       const watermarkTitle = document.getElementById('demo-watermark-title');
       if (watermarkTitle) {
-        watermarkTitle.textContent = `AGS Academy • ${course.title}`;
+        watermarkTitle.textContent = `AGS Academys • ${course.title}`;
       }
 
       // Initial frame render
