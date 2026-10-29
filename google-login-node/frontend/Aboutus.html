@@ -24,7 +24,15 @@
       --gold: #B4690E;
       --green: #0F7B4F;
     }
-    body { font-family: 'Inter', sans-serif; }
+    html {
+      scroll-behavior: smooth;
+      overflow-x: clip;
+    }
+    body { 
+      font-family: 'Inter', sans-serif;
+      overflow-x: clip;
+      max-width: 100%;
+    }
     h1, h2, h3, h4, .font-display { font-family: 'Sora', sans-serif; }
     .font-800 { font-weight: 800; }
     .bg-udemy-dark { background-color: #1c1d1f; }
@@ -55,7 +63,7 @@
 
   <!-- Header / Navbar matching dash.html -->
   <header class="sticky top-0 z-50 bg-[var(--ink)]">
-    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center justify-between gap-6">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-2.5 flex items-center justify-between gap-2.5 sm:gap-4 lg:gap-5">
       <a href="dash.html" class="flex items-center gap-2 shrink-0">
         <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
           <defs>

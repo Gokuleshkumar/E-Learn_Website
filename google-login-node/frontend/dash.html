@@ -28,11 +28,14 @@
     }
     html {
       scroll-behavior: smooth;
+      overflow-x: clip;
     }
     body {
       font-family: 'Inter', sans-serif;
       color: var(--ink);
       background: var(--paper);
+      overflow-x: clip;
+      max-width: 100%;
     }
     h1, h2, h3, h4, .font-display {
       font-family: 'Sora', sans-serif;
@@ -136,9 +139,9 @@
 <body class="flex flex-col min-h-screen">
 
   <header class="sticky top-0 z-50 bg-[var(--ink)]">
-    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center gap-6">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-2.5 flex items-center justify-between gap-2.5 sm:gap-4 lg:gap-5">
       <a href="dash.html" class="flex items-center gap-2 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-9 sm:h-10 w-auto">
           <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#3b82f6" />
@@ -151,40 +154,40 @@
           <circle cx="70" cy="70" r="8" fill="#3b82f6" />
         </svg>
         <div class="flex items-baseline gap-1">
-          <span class="font-display text-2xl font-800 text-white hidden sm:block">AGS</span>
-          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academys</span>
+          <span class="font-display text-xl sm:text-2xl font-800 text-white hidden sm:block">AGS</span>
+          <span class="font-display text-xl sm:text-2xl font-800 text-[var(--purple)] hidden sm:block">Academys</span>
         </div>
       </a>
 
       <!-- search (desktop) -->
-      <div class="hidden lg:flex w-64 xl:w-80 min-w-[240px] ml-4 shrink-0">
-        <div class="w-full flex items-center bg-[#232327] rounded-full px-4 py-2 text-sm text-[#B9B7C2] focus-within:ring-2 focus-within:ring-[var(--purple)] transition-all">
-          <i class="fas fa-search w-4 h-4 mr-2 shrink-0"></i>
+      <div class="hidden lg:flex flex-1 max-w-[240px] xl:max-w-[280px] min-w-0">
+        <div class="w-full flex items-center bg-[#232327] rounded-full px-3.5 py-1.5 text-sm text-[#B9B7C2] focus-within:ring-2 focus-within:ring-[var(--purple)] transition-all">
+          <i class="fas fa-search w-3.5 h-3.5 mr-2 shrink-0"></i>
           <input type="text" id="desktop-search" placeholder="Search courses..."
-            class="bg-transparent outline-none w-full placeholder-[#8B899A]" onkeyup="if(event.key==='Enter'){ const evt = {preventDefault:()=>{}}; document.getElementById('hero-search') && (document.getElementById('hero-search').value=this.value); handleSearch(evt, 'desktop-search', 'storefront-carousel', true); document.getElementById('storefront-carousel')?.scrollIntoView({behavior: 'smooth', block: 'center'}); }">
+            class="bg-transparent outline-none w-full placeholder-[#8B899A] text-xs sm:text-sm" onkeyup="if(event.key==='Enter'){ const evt = {preventDefault:()=>{}}; document.getElementById('hero-search') && (document.getElementById('hero-search').value=this.value); handleSearch(evt, 'desktop-search', 'storefront-carousel', true); document.getElementById('storefront-carousel')?.scrollIntoView({behavior: 'smooth', block: 'center'}); }">
         </div>
       </div>
 
-      <nav class="hidden lg:flex items-center gap-5 text-[15px] font-semibold mx-3 shrink-0">
+      <nav class="hidden lg:flex items-center gap-3.5 xl:gap-5 text-sm xl:text-[15px] font-semibold shrink-0">
         <a href="Aboutus.html" class="text-white hover:text-gray-300 transition">About Us</a>
         <a href="contactus.html" class="text-white hover:text-gray-300 transition">Contact Us</a>
       </nav>
 
-      <div class="flex items-center ml-auto border border-[#3c3d42] rounded-[30px] pl-2 pr-1 py-1 gap-1">
+      <div class="flex items-center ml-auto border border-[#3c3d42] rounded-[30px] p-1 gap-1 shrink-0">
         <!-- Quiz Arena Nav Button -->
-        <button onclick="handleQuizNavClick()" class="flex px-3 py-1.5 text-xs sm:text-sm font-bold text-white hover:text-purple-200 transition items-center gap-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-sm mr-1">
+        <button onclick="handleQuizNavClick()" class="flex px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-bold text-white hover:text-purple-200 transition items-center gap-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-sm shrink-0">
           <i class="fas fa-brain text-yellow-300"></i> Quizzes <span class="bg-yellow-400 text-purple-950 text-[10px] font-extrabold px-1.5 py-0.2 rounded-full uppercase tracking-wider">VIP</span>
         </button>
 
-        <button onclick="handleForumClick()" class="hidden sm:flex px-2 py-1.5 text-sm font-bold text-white hover:text-gray-300 transition items-center gap-2 mr-2">
-          <i class="fas fa-robot text-[#A78BFA]"></i> AI Discuss
+        <button onclick="handleForumClick()" class="hidden sm:flex px-2 py-1.5 text-xs sm:text-sm font-bold text-white hover:text-gray-300 transition items-center gap-1.5 shrink-0">
+          <i class="fas fa-robot text-[#A78BFA]"></i> <span class="hidden md:inline">AI Discuss</span>
         </button>
         
         <!-- User Profile -->
-        <div class="relative" id="profile-btn-container">
-          <div onclick="toggleDropdown(event)" class="flex items-center justify-center gap-3 px-3 py-1.5 rounded-[30px] hover:bg-[#232327] cursor-pointer transition w-full min-w-[120px]">
-            <span class="text-sm font-bold text-white hidden sm:block truncate">Hi, <span id="nav-username">Student</span></span>
-            <div class="h-9 w-9 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
+        <div class="relative shrink-0" id="profile-btn-container">
+          <div onclick="toggleDropdown(event)" class="flex items-center justify-center gap-2 sm:gap-2.5 px-2 sm:px-2.5 py-1 rounded-[30px] hover:bg-[#232327] cursor-pointer transition shrink-0">
+            <span class="text-xs sm:text-sm font-bold text-white hidden md:block truncate max-w-[100px]">Hi, <span id="nav-username">Student</span></span>
+            <div class="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center font-bold text-sm sm:text-lg shadow-sm shrink-0">
               <span id="nav-initial">S</span>
             </div>
           </div>
