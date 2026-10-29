@@ -278,6 +278,54 @@
       from { transform: translateX(0); opacity: 1; }
       to { transform: translateX(100%); opacity: 0; }
     }
+    /* Inline Login Alert */
+    .login-alert {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 12px;
+      color: #ef4444;
+      font-size: 13.5px;
+      font-weight: 500;
+      animation: alertSlideDown 0.3s ease-out;
+    }
+
+    .login-alert i {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .alert-signup-link {
+      margin-left: auto;
+      background: #7C3AED;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .alert-signup-link:hover {
+      background: #6D28D9;
+      transform: translateY(-1px);
+    }
+
+    .input-field.input-error {
+      border-bottom-color: #ef4444 !important;
+      background: rgba(254, 242, 242, 0.8) !important;
+    }
+
+    @keyframes alertSlideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -287,6 +335,13 @@
   <div class="glass-container">
     <h2 class="title">Welcome Back 👋</h2>
     
+    <!-- Error alert banner -->
+    <div id="loginAlert" class="login-alert" style="display: none;">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="loginAlertText">Email is not registered</span>
+      <a href="signup.html" id="alertSignupLink" class="alert-signup-link">Sign Up</a>
+    </div>
+
     <form id="loginForm">
       <div class="input-group">
         <input id="email" name="email" type="email" class="input-field" placeholder="Email" autocomplete="email" required>
@@ -343,14 +398,43 @@
     setTimeout(() => {
       toast.classList.add('slide-out');
       toast.addEventListener('animationend', () => toast.remove());
-    }, 3000);
+    }, 3500);
   }
 
-  // Display errors if redirected with ?error= (e.g. from Google auth failure)
+  // Alert banner functions
+  const loginAlert = document.getElementById('loginAlert');
+  const loginAlertText = document.getElementById('loginAlertText');
+  const alertSignupLink = document.getElementById('alertSignupLink');
+
+  function showAlert(msg, isNotRegistered = false) {
+    if (!loginAlert) return;
+    loginAlertText.textContent = msg;
+    if (isNotRegistered) {
+      alertSignupLink.style.display = 'inline-block';
+    } else {
+      alertSignupLink.style.display = 'none';
+    }
+    loginAlert.style.display = 'flex';
+  }
+
+  function hideAlert() {
+    if (loginAlert) loginAlert.style.display = 'none';
+    const emailField = document.getElementById('email');
+    if (emailField) emailField.classList.remove('input-error');
+  }
+
+  document.getElementById('email').addEventListener('input', hideAlert);
+  document.getElementById('password').addEventListener('input', hideAlert);
+
+  // Display errors if redirected with ?error= or ?message= (e.g. from Google auth failure or direct link)
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('error')) {
-    const errorMsg = decodeURIComponent(urlParams.get('error'));
+  const redirectError = urlParams.get('error') || urlParams.get('message');
+  if (redirectError) {
+    let errorMsg = decodeURIComponent(redirectError);
+    const isNotReg = errorMsg.toLowerCase().includes('not registered');
+    if (isNotReg) errorMsg = 'Email is not registered';
     showToast(errorMsg, 'error');
+    showAlert(errorMsg, isNotReg);
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 
@@ -358,6 +442,7 @@
   const form = document.getElementById('loginForm');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    hideAlert();
     const formData = new FormData(form);
     const data = { email: formData.get('email'), password: formData.get('password') };
     
@@ -379,11 +464,19 @@
         localStorage.setItem('username', result.username || result.displayName || result.email);
         setTimeout(() => window.location.href = 'dash.html', 1500);
       } else {
-        showToast(result.message || 'Invalid Credentials!', 'error');
+        const errorMsg = result.message || 'Invalid Credentials!';
+        showToast(errorMsg, 'error');
+        const isNotRegistered = errorMsg.toLowerCase().includes('not registered');
+        showAlert(errorMsg, isNotRegistered);
+        if (isNotRegistered) {
+          const emailInput = document.getElementById('email');
+          emailInput.classList.add('input-error');
+          emailInput.focus();
+        }
       }
     } catch (err) {
       console.error(err);
-      showToast('An error occurred.', 'error');
+      showToast('An error occurred. Please try again.', 'error');
     } finally {
       if(btn.innerText === 'Logging in...') {
         btn.innerText = originalText;

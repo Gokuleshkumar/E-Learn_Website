@@ -1639,36 +1639,50 @@ app.post(
                 password
             } = req.body;
 
+            const cleanEmail = (email || '').trim().toLowerCase();
 
-            const user =
-                await User.findOne({
-                    email
-                });
-
-
-            if (
-                !user ||
-                !user.password
-            ) {
-
+            if (!cleanEmail) {
                 return res
                     .status(400)
                     .json({
-
-                        message:
-                            'Invalid credentials!'
-
+                        success: false,
+                        message: 'Email is required'
                     });
-
             }
 
+            const user =
+                await User.findOne({
+                    $or: [
+                        { email: cleanEmail },
+                        { email: (email || '').trim() },
+                        { email: new RegExp(`^${cleanEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') }
+                    ]
+                });
+
+            // If user has not signed up, return specific message "Email is not registered"
+            if (!user) {
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'Email is not registered'
+                    });
+            }
+
+            if (!user.password) {
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'Email is registered with Google. Please sign in with Google or reset password.'
+                    });
+            }
 
             const isMatch =
                 await bcrypt.compare(
                     password,
                     user.password
                 );
-
 
             if (!isMatch) {
 
@@ -1686,10 +1700,8 @@ app.post(
                 return res
                     .status(400)
                     .json({
-
-                        message:
-                            'Invalid credentials!'
-
+                        success: false,
+                        message: 'Invalid credentials!'
                     });
 
             }
