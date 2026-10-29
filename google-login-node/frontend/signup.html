@@ -6,7 +6,8 @@
   <title>Signup - AGS Academys</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary: #4f46e5;
@@ -32,43 +33,51 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px 16px;
     }
 
     .glass-container {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
       border-radius: 24px;
-      padding: 40px;
+      padding: 36px 32px;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       transition: transform 0.3s ease;
     }
 
     .glass-container:hover {
-      transform: translateY(-5px);
+      transform: translateY(-3px);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     .title {
-      font-size: 28px;
-      font-weight: 700;
+      font-size: 26px;
+      font-weight: 800;
       color: var(--text-main);
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
       letter-spacing: -0.5px;
     }
 
     .input-group {
       position: relative;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .input-group.flex-group {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: stretch;
     }
 
@@ -77,13 +86,18 @@
       position: relative;
     }
 
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
     .input-field {
       width: 100%;
-      padding: 16px 14px 8px;
-      font-size: 16px;
+      padding: 16px 42px 8px 14px;
+      font-size: 15px;
       font-family: inherit;
       color: var(--text-main);
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.65);
       border: 2px solid transparent;
       border-bottom: 2px solid var(--input-border);
       border-radius: 12px 12px 0 0;
@@ -91,8 +105,12 @@
       transition: all 0.2s ease;
     }
 
+    .input-field.no-icon {
+      padding-right: 14px;
+    }
+
     .input-field:focus {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-bottom-color: var(--primary);
     }
 
@@ -100,7 +118,7 @@
       position: absolute;
       left: 14px;
       top: 14px;
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-muted);
       pointer-events: none;
       transition: 0.2s ease all;
@@ -109,7 +127,7 @@
 
     .input-field:focus ~ .floating-label,
     .input-field:not(:placeholder-shown) ~ .floating-label {
-      top: 6px;
+      top: 5px;
       left: 14px;
       font-size: 11px;
       font-weight: 600;
@@ -120,9 +138,113 @@
       color: transparent;
     }
 
+    .eye-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px 8px;
+      font-size: 15px;
+      border-radius: 6px;
+      transition: color 0.2s;
+      z-index: 2;
+    }
+
+    .eye-toggle:hover {
+      color: var(--primary);
+    }
+
+    /* Password Strength Meter */
+    .strength-meter-container {
+      margin-top: 8px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .strength-bars {
+      display: flex;
+      gap: 5px;
+      height: 4px;
+      margin-bottom: 6px;
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 100%;
+      background: #e5e7eb;
+      border-radius: 2px;
+      transition: background-color 0.3s ease;
+    }
+
+    .strength-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    /* Password Requirements Checklist */
+    .password-rules {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px 10px;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      margin-top: 6px;
+    }
+
+    .rule-item {
+      font-size: 11px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+
+    .rule-item i {
+      font-size: 7px;
+    }
+
+    .rule-item.valid {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    .rule-item.valid i {
+      font-size: 9px;
+    }
+
+    /* Confirm Password Match Indicator */
+    .match-indicator {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+      padding-left: 4px;
+      min-height: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .match-indicator.match {
+      color: #16a34a;
+    }
+
+    .match-indicator.mismatch {
+      color: #dc2626;
+    }
+
     button {
       font-family: inherit;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       border: none;
@@ -136,34 +258,35 @@
       background: var(--success);
       color: white;
       box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4);
+      margin-top: 10px;
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background: var(--success-hover);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(22, 163, 74, 0.5);
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
+    .btn-primary:disabled {
+      background: #86efac;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
     }
 
     .btn-secondary {
-      padding: 0 20px;
+      padding: 0 18px;
       background: var(--primary);
       color: white;
       white-space: nowrap;
       box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+      font-size: 14px;
     }
 
     .btn-secondary:hover:not(:disabled) {
       background: var(--primary-hover);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
-    }
-    
-    .btn-secondary:active:not(:disabled) {
-      transform: translateY(0);
     }
 
     .btn-secondary:disabled {
@@ -175,15 +298,16 @@
 
     #message {
       text-align: center;
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 14px 0;
       min-height: 20px;
+      line-height: 1.4;
     }
 
     .footer-text {
       text-align: center;
-      margin-top: 24px;
+      margin-top: 20px;
       font-size: 14px;
       color: var(--text-muted);
     }
@@ -199,45 +323,113 @@
       color: var(--primary-hover);
       text-decoration: underline;
     }
-  
-    /* Hide default browser password reveal icon */
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hide browser default password reveal icons */
     input[type="password"]::-ms-reveal,
     input[type="password"]::-ms-clear {
       display: none;
     }
-</style>
+  </style>
 </head>
 <body>
 
 <div class="glass-container">
+  <div class="header-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="height: 38px; width: auto;">
+      <defs>
+        <linearGradient id="gradSignLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4f46e5" />
+          <stop offset="100%" stop-color="#7c3aed" />
+        </linearGradient>
+      </defs>
+      <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradSignLogo)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      <circle cx="45" cy="20" r="8" fill="#7c3aed" />
+      <circle cx="20" cy="70" r="8" fill="#4f46e5" />
+      <circle cx="70" cy="70" r="8" fill="#4f46e5" />
+    </svg>
+    <div style="display: flex; flex-direction: column; text-align: left;">
+      <span style="font-size: 18px; font-weight: 900; line-height: 1; color: #1f2937;">AGS</span>
+      <span style="font-size: 15px; font-weight: 700; line-height: 1; color: #4f46e5;">Academys</span>
+    </div>
+  </div>
+
   <h2 class="title">Create Account</h2>
 
+  <!-- Full Name -->
   <div class="input-group">
-    <input id="name" type="text" class="input-field" placeholder="Name" autocomplete="name" required>
+    <input id="name" type="text" class="input-field no-icon" placeholder="Name" autocomplete="name" required>
     <label class="floating-label">Full Name</label>
   </div>
 
+  <!-- Email Address & Get/Resend OTP -->
   <div class="input-group flex-group">
     <div class="input-wrapper">
-      <input id="email" type="email" class="input-field" placeholder="Email" autocomplete="email" required>
+      <input id="email" type="email" class="input-field no-icon" placeholder="Email" autocomplete="email" required>
       <label class="floating-label">Email Address</label>
     </div>
-    <button id="getOtpBtn" class="btn-secondary">Get OTP</button>
+    <button id="getOtpBtn" class="btn-secondary" type="button">Get OTP</button>
   </div>
 
+  <!-- OTP Verification Code -->
   <div class="input-group">
-    <input id="otp" type="text" class="input-field" placeholder="OTP" autocomplete="one-time-code" required>
-    <label class="floating-label">Verification Code</label>
+    <input id="otp" type="text" class="input-field no-icon" placeholder="OTP" autocomplete="one-time-code" required>
+    <label class="floating-label">Verification Code (15 min validity)</label>
   </div>
 
+  <!-- Create Strong Password -->
   <div class="input-group">
-    <input id="password" type="password" class="input-field" placeholder="Password" autocomplete="new-password" required>
-    <label class="floating-label">Password</label>
+    <div class="password-wrapper">
+      <input id="password" type="password" class="input-field" placeholder="Password" autocomplete="new-password" required>
+      <label class="floating-label">Create Strong Password</label>
+      <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('password', this)" title="Show/Hide Password" aria-label="Toggle password visibility">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+
+    <!-- Password Strength Meter -->
+    <div class="strength-meter-container" id="strengthMeterContainer">
+      <div class="strength-bars">
+        <div class="strength-bar" id="bar1"></div>
+        <div class="strength-bar" id="bar2"></div>
+        <div class="strength-bar" id="bar3"></div>
+        <div class="strength-bar" id="bar4"></div>
+      </div>
+      <div class="strength-label">
+        <span>Password Strength:</span>
+        <span id="strengthText" style="font-weight: 700;">Too Weak</span>
+      </div>
+
+      <!-- Password Requirements Checklist -->
+      <div class="password-rules">
+        <div class="rule-item" id="rule-length"><i class="fas fa-circle"></i> 8+ characters</div>
+        <div class="rule-item" id="rule-upper"><i class="fas fa-circle"></i> 1 uppercase (A-Z)</div>
+        <div class="rule-item" id="rule-lower"><i class="fas fa-circle"></i> 1 lowercase (a-z)</div>
+        <div class="rule-item" id="rule-number"><i class="fas fa-circle"></i> 1 number (0-9)</div>
+        <div class="rule-item" id="rule-special" style="grid-column: span 2;"><i class="fas fa-circle"></i> 1 special symbol (!@#$%^&*)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Repeat Password -->
+  <div class="input-group">
+    <div class="password-wrapper">
+      <input id="confirmPassword" type="password" class="input-field" placeholder="Repeat Password" autocomplete="new-password" required>
+      <label class="floating-label">Repeat Password</label>
+      <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('confirmPassword', this)" title="Show/Hide Password" aria-label="Toggle confirm password visibility">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+    <div id="matchMessage" class="match-indicator"></div>
   </div>
 
   <p id="message"></p>
 
-  <button id="signupBtn" class="btn-primary">Sign Up</button>
+  <button id="signupBtn" class="btn-primary" type="button">Sign Up</button>
 
   <p class="footer-text">
     Already have an account?
@@ -250,33 +442,155 @@ const API_BASE = window.location.origin.includes(":5500") ? "http://localhost:50
 const messageEl = document.getElementById('message');
 const getOtpBtn = document.getElementById('getOtpBtn');
 const signupBtn = document.getElementById('signupBtn');
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirmPassword');
+const strengthContainer = document.getElementById('strengthMeterContainer');
+const matchMessage = document.getElementById('matchMessage');
+
+let resendTimer = null;
 
 function showMessage(msg, color){
   messageEl.textContent = msg;
   messageEl.style.color = color || 'var(--text-main)';
 }
 
-function startOtpCooldown(seconds = 60){
+// Show/Hide Password Toggle
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const icon = btn.querySelector('i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'fas fa-eye-slash';
+  } else {
+    input.type = 'password';
+    icon.className = 'fas fa-eye';
+  }
+}
+
+// 30-Second Resend OTP Timer
+function startOtpCooldown(seconds = 30) {
+  if (resendTimer) clearInterval(resendTimer);
   getOtpBtn.disabled = true;
-  const original = getOtpBtn.innerText;
   let s = seconds;
   getOtpBtn.innerText = `Resend (${s}s)`;
-  const timer = setInterval(()=>{
-    s--;
-    if(s <= 0){
-      clearInterval(timer);
-      getOtpBtn.disabled = false;
-      getOtpBtn.innerText = original;
 
-      document.getElementById('otp').value = "";
-      showMessage("OTP expired. Please request a new one.", "#dc2626"); // Red
+  resendTimer = setInterval(() => {
+    s--;
+    if (s <= 0) {
+      clearInterval(resendTimer);
+      resendTimer = null;
+      getOtpBtn.disabled = false;
+      getOtpBtn.innerText = "Resend OTP";
     } else {
       getOtpBtn.innerText = `Resend (${s}s)`;
     }
   }, 1000);
 }
 
-// Request OTP
+// Password Strength Evaluation
+function evaluatePassword(pw) {
+  const rules = {
+    length: pw.length >= 8,
+    upper: /[A-Z]/.test(pw),
+    lower: /[a-z]/.test(pw),
+    number: /[0-9]/.test(pw),
+    special: /[^A-Za-z0-9]/.test(pw)
+  };
+
+  // Update rule indicators
+  updateRuleItem('rule-length', rules.length);
+  updateRuleItem('rule-upper', rules.upper);
+  updateRuleItem('rule-lower', rules.lower);
+  updateRuleItem('rule-number', rules.number);
+  updateRuleItem('rule-special', rules.special);
+
+  let passedCount = Object.values(rules).filter(Boolean).length;
+  updateStrengthBars(passedCount, pw.length);
+
+  return { rules, passedCount, isStrong: rules.length && rules.upper && rules.lower && (rules.number || rules.special) };
+}
+
+function updateRuleItem(elementId, isValid) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const icon = el.querySelector('i');
+  if (isValid) {
+    el.classList.add('valid');
+    if (icon) icon.className = 'fas fa-check-circle';
+  } else {
+    el.classList.remove('valid');
+    if (icon) icon.className = 'fas fa-circle';
+  }
+}
+
+function updateStrengthBars(score, length) {
+  const bars = [
+    document.getElementById('bar1'),
+    document.getElementById('bar2'),
+    document.getElementById('bar3'),
+    document.getElementById('bar4')
+  ];
+  const textEl = document.getElementById('strengthText');
+
+  bars.forEach(b => { if(b) b.style.backgroundColor = '#e5e7eb'; });
+
+  if (length === 0) {
+    if (textEl) { textEl.textContent = 'Too Weak'; textEl.style.color = '#9ca3af'; }
+    return;
+  }
+
+  if (score <= 1) {
+    bars[0].style.backgroundColor = '#ef4444';
+    if (textEl) { textEl.textContent = 'Weak'; textEl.style.color = '#ef4444'; }
+  } else if (score === 2) {
+    bars[0].style.backgroundColor = '#f97316';
+    bars[1].style.backgroundColor = '#f97316';
+    if (textEl) { textEl.textContent = 'Fair'; textEl.style.color = '#f97316'; }
+  } else if (score === 3 || score === 4) {
+    bars[0].style.backgroundColor = '#eab308';
+    bars[1].style.backgroundColor = '#eab308';
+    bars[2].style.backgroundColor = '#eab308';
+    if (textEl) { textEl.textContent = 'Good'; textEl.style.color = '#ca8a04'; }
+  } else if (score >= 5) {
+    bars.forEach(b => { if(b) b.style.backgroundColor = '#16a34a'; });
+    if (textEl) { textEl.textContent = 'Strong 💪'; textEl.style.color = '#16a34a'; }
+  }
+}
+
+// Real-Time Password Listeners
+passwordInput.addEventListener('input', () => {
+  const val = passwordInput.value;
+  if (val.length > 0) {
+    strengthContainer.style.display = 'block';
+    evaluatePassword(val);
+  } else {
+    strengthContainer.style.display = 'none';
+  }
+  checkPasswordMatch();
+});
+
+confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+function checkPasswordMatch() {
+  const pw = passwordInput.value;
+  const cpw = confirmPasswordInput.value;
+
+  if (!cpw) {
+    matchMessage.textContent = '';
+    matchMessage.className = 'match-indicator';
+    return;
+  }
+
+  if (pw === cpw) {
+    matchMessage.textContent = '✓ Passwords match';
+    matchMessage.className = 'match-indicator match';
+  } else {
+    matchMessage.textContent = '✗ Passwords do not match';
+    matchMessage.className = 'match-indicator mismatch';
+  }
+}
+
+// Request OTP with 30s Cooldown & 15m validity notice
 getOtpBtn.addEventListener('click', async () => {
   const email = document.getElementById('email').value.trim();
   if(!email){ showMessage('Please enter an email address', '#dc2626'); return; }
@@ -293,40 +607,66 @@ getOtpBtn.addEventListener('click', async () => {
     });
     const data = await res.json();
     if(res.ok && data.success){
-      startOtpCooldown(60);
+      startOtpCooldown(30);
       if (data.emailSent) {
-        showMessage(data.message || 'OTP sent successfully to your email!', 'var(--success)');
+        showMessage('✅ OTP sent to your email! Valid for 15 minutes.', 'var(--success)');
       } else {
         const otpInput = document.getElementById('otp');
         if (otpInput && data.otp) {
           otpInput.value = data.otp;
         }
-        showMessage(`Dev Mode: OTP is ${data.otp} (auto-filled)`, 'var(--primary)');
+        showMessage(`Dev Mode: OTP is ${data.otp} (Valid for 15 mins)`, 'var(--primary)');
       }
     } else {
+      getOtpBtn.disabled = false;
+      getOtpBtn.innerText = 'Get OTP';
       showMessage(data.message || 'Error sending OTP', '#dc2626');
     }
   } catch(err){
     console.error(err);
+    getOtpBtn.disabled = false;
+    getOtpBtn.innerText = 'Get OTP';
     showMessage('Server error, please try again!', '#dc2626');
-  } finally {
-    if(!getOtpBtn.disabled){ getOtpBtn.innerText = 'Get OTP'; }
-    else if(getOtpBtn.innerText === 'Sending...'){ getOtpBtn.innerText = 'Get OTP'; }
   }
 });
 
-// Signup
+// Signup Form Submission Validation
 signupBtn.addEventListener('click', async () => {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
+  const password = passwordInput.value.trim();
+  const confirmPassword = confirmPasswordInput.value.trim();
   const otp = document.getElementById('otp').value.trim();
 
-  if(!name || !email || !password || !otp){ showMessage('Please fill in all fields','#dc2626'); return; }
+  if(!name || !email || !password || !confirmPassword || !otp){ 
+    showMessage('Please fill in all fields (Name, Email, OTP, Passwords)', '#dc2626'); 
+    return; 
+  }
+
+  // Password confirmation check
+  if(password !== confirmPassword){
+    showMessage('Passwords do not match. Please verify.', '#dc2626');
+    confirmPasswordInput.focus();
+    return;
+  }
+
+  // Password strength check
+  if(password.length < 8){
+    showMessage('Password must be at least 8 characters long', '#dc2626');
+    passwordInput.focus();
+    return;
+  }
+
+  const evalResult = evaluatePassword(password);
+  if(!evalResult.isStrong){
+    showMessage('Please create a stronger password (include uppercase, lowercase & numbers/symbols)', '#dc2626');
+    passwordInput.focus();
+    return;
+  }
 
   signupBtn.disabled = true;
   signupBtn.innerText = 'Signing up...';
-  showMessage('Creating account...', 'var(--primary)');
+  showMessage('Creating your account...', 'var(--primary)');
 
   try{
     const res = await fetch(`${API_BASE}/api/signup`,{
@@ -336,11 +676,11 @@ signupBtn.addEventListener('click', async () => {
     });
     const data = await res.json();
     if(res.ok){
-      showMessage(data.message || 'Signup successful!', 'var(--success)');
+      showMessage(data.message || 'Account created successfully! Welcome to AGS Academys.', 'var(--success)');
       localStorage.setItem('username', data.username || data.displayName || data.email);
-      setTimeout(()=>window.location.href="dash.html",1500);
+      setTimeout(()=>window.location.href="dash.html", 1500);
     } else {
-      showMessage(data.message || 'Signup failed', '#dc2626');
+      showMessage(data.message || 'Signup failed. Please check OTP or email.', '#dc2626');
     }
   } catch(err){
     console.error(err);

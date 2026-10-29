@@ -299,7 +299,7 @@ async function sendOtpEmail(email, otp) {
                 </span>
             </div>
             <p style="font-size: 14px; color: #555555; line-height: 1.5;">
-                This OTP is valid for the next 5 minutes. For your security, please do not share this code with anyone.
+                This OTP is valid for the next 15 minutes. For your security, please do not share this code with anyone.
             </p>
             <p style="font-size: 14px; color: #555555; line-height: 1.5;">
                 If you did not request this OTP, please ignore this email or contact our support team if you have concerns.
@@ -620,7 +620,7 @@ app.post(
                     (
                         parseInt(
                             process.env.OTP_EXPIRE_MINUTES
-                        ) || 5
+                        ) || 15
                     ) *
 
                     60 *
