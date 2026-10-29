@@ -1146,15 +1146,27 @@
     let enrolledCourseName = null;
     let userEmail = '';
 
-    // Check if redirected from Google login with user parameter
+    // Check if user came from email link or login redirect with user parameters
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('user')) {
-      const googleUser = decodeURIComponent(urlParams.get('user'));
-      if (googleUser) {
-        localStorage.setItem('username', googleUser);
-        name = googleUser;
+    if (urlParams.has('user') || urlParams.has('name')) {
+      const incomingUser = decodeURIComponent(urlParams.get('user') || urlParams.get('name') || '').trim();
+      if (incomingUser && incomingUser.toLowerCase() !== 'student') {
+        localStorage.setItem('username', incomingUser);
+        name = incomingUser;
+        window.userName = incomingUser;
       }
-      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    if (urlParams.has('email')) {
+      const incomingEmail = decodeURIComponent(urlParams.get('email') || '').trim();
+      if (incomingEmail) {
+        userEmail = incomingEmail.toLowerCase();
+        window.userEmail = userEmail;
+      }
+    }
+
+    if (name === 'Student' && localStorage.getItem('username')) {
+      name = localStorage.getItem('username');
+      window.userName = name;
     }
 
     try {
@@ -1164,11 +1176,12 @@
       clearTimeout(timeoutId);
       if(res.ok) {
         const data = await res.json();
-        if (data.user) {
-          name = data.user.displayName || data.user.name || 'Student';
+        if (data && data.user) {
+          name = data.user.displayName || data.user.name || name;
           window.userName = name;
-          userEmail = (data.user.email || '').toLowerCase().trim();
+          userEmail = (data.user.email || userEmail || '').toLowerCase().trim();
           window.userEmail = userEmail;
+          localStorage.setItem('username', name);
 
           // ONLY gokuleshkumar878@gmail.com is paid, all other accounts are unpaid
           if (userEmail === 'gokuleshkumar878@gmail.com') {
@@ -1182,7 +1195,10 @@
         }
       }
     } catch (err) {
-      if(localStorage.getItem('username')) name = localStorage.getItem('username');
+      if(localStorage.getItem('username')) {
+        name = localStorage.getItem('username');
+        window.userName = name;
+      }
     }
 
     // Only allow simulation if no specific user email is logged in or if email is gokuleshkumar878@gmail.com
@@ -1194,7 +1210,8 @@
       if (!enrolledCourseName) enrolledCourseName = 'frontend';
     }
 
-    const displayName = (name || 'Student').split(' ')[0]; 
+    const cleanName = (name || localStorage.getItem('username') || 'Student').trim();
+    const displayName = cleanName.split(' ')[0] || cleanName; 
     const navUserEl = document.getElementById('nav-username');
     if (navUserEl) navUserEl.textContent = displayName;
 

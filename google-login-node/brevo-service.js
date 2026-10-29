@@ -24,8 +24,8 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
     const studentName = (name || 'Student').trim();
     const senderEmail = process.env.EMAIL_FROM || 'no-reply@agsacademys.online';
     const senderName = 'AGS Academys';
-
     const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdO-haDMMXqIXGIv0jzONdO0vbjwZcqbzzV0UZXuwg3B9KB-Q/viewform?usp=sharing&ouid=103364429695066988656';
+    const personalizedDashboardUrl = `https://www.agsacademys.online/dash.html?user=${encodeURIComponent(studentName)}&email=${encodeURIComponent(cleanEmail)}`;
 
     const htmlContent = `
 <!DOCTYPE html>
@@ -199,7 +199,7 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
 
         <!-- Secondary CTA: Student Dashboard -->
         <div class="secondary-cta">
-          <a href="https://www.agsacademys.online/dash.html" class="dashboard-btn" target="_blank">
+          <a href="${personalizedDashboardUrl}" class="dashboard-btn" target="_blank">
             Visit Your Student Dashboard →
           </a>
         </div>
@@ -214,7 +214,7 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
         <p style="margin: 0 0 8px 0; font-weight: 600; color: #9A95B0;">AGS Academys — Empowering Your Future With Modern Tech Skills</p>
         <p style="margin: 0 0 12px 0;">© 2026 AGS Academys. All rights reserved.</p>
         <p style="margin: 0;">
-          <a href="https://www.agsacademys.online/dash.html">Dashboard</a> · 
+          <a href="${personalizedDashboardUrl}">Dashboard</a> · 
           <a href="https://www.agsacademys.online/Aboutus.html">About Us</a> · 
           <a href="https://www.agsacademys.online/contactus.html">Contact Us</a>
         </p>
