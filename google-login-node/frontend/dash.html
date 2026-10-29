@@ -563,31 +563,13 @@
   function createStorefrontCard(course, index, isUnpaid = true) {
     const delayClass = `delay-${((index % 4) + 1) * 100}`; 
     
-    // For unpaid users only: display the demo video badge & play button on the thumbnail
+    // For unpaid users only: display the centered play button on the thumbnail
     const demoMediaOverlay = isUnpaid ? `
-      <!-- Demo Video Badge -->
-      <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 bg-black/75 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20 shadow-xs pointer-events-none">
-        <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
-        <i class="fas fa-play text-[8px] text-yellow-300"></i>
-        <span>Demo Video</span>
-      </div>
-
-      <!-- Video Duration Pill -->
-      <div class="absolute top-2.5 right-2.5 bg-black/75 backdrop-blur-md text-purple-200 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border border-white/10 pointer-events-none">
-        02:00
-      </div>
-
       <!-- Centered Play Button Overlay -->
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[var(--purple-deep)] to-purple-500 text-white flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110 border-2 border-white/80">
           <i class="fas fa-play text-xs ml-0.5 text-white"></i>
         </div>
-      </div>
-
-      <!-- Bottom bar indicator on image -->
-      <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-white/90 text-[10px] font-medium pointer-events-none">
-        <span class="flex items-center gap-1"><i class="fas fa-bolt text-yellow-400 text-[10px]"></i> Energetic Intro</span>
-        <span class="text-yellow-300 font-bold flex items-center gap-0.5">Watch Preview &rarr;</span>
       </div>
     ` : '';
 
@@ -773,22 +755,11 @@
              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
              <div class="absolute top-4 left-4 bg-[var(--gold)] text-white text-xs font-bold px-3 py-1 uppercase tracking-widest rounded shadow">Premium</div>
 
-             <!-- Demo Video Badge -->
-             <div class="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-400/30 flex items-center gap-1.5 shadow">
-               <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-               <i class="fas fa-play text-[9px]"></i> Demo Video
-             </div>
-
              <!-- Centered Play Button Overlay -->
              <div class="absolute inset-0 flex items-center justify-center">
                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-900 flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-115 border-2 border-white">
                  <i class="fas fa-play text-base ml-1"></i>
                </div>
-             </div>
-
-             <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold">
-               <span class="flex items-center gap-1"><i class="fas fa-video text-amber-300 text-xs"></i> Edited Placement Intro</span>
-               <span class="text-amber-300 font-bold">Watch Preview &rarr;</span>
              </div>
            </div>
 
