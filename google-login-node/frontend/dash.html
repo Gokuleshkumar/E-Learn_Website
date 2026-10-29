@@ -563,8 +563,15 @@
   function createStorefrontCard(course, index, isUnpaid = true) {
     const delayClass = `delay-${((index % 4) + 1) * 100}`; 
     
-    // For unpaid users only: display the centered play button on the thumbnail
+    // For unpaid users only: display the top-right 2min Intro badge and centered play button on the thumbnail
     const demoMediaOverlay = isUnpaid ? `
+      <!-- Top Right 2min Intro Badge -->
+      <div class="absolute top-2.5 right-2.5 flex items-center gap-1.5 bg-black/75 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-white/20 shadow-xs pointer-events-none">
+        <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+        <i class="fas fa-play text-[8px] text-yellow-300"></i>
+        <span>2min Intro</span>
+      </div>
+
       <!-- Centered Play Button Overlay -->
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[var(--purple-deep)] to-purple-500 text-white flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110 border-2 border-white/80">
@@ -754,6 +761,12 @@
              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Training">
              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
              <div class="absolute top-4 left-4 bg-[var(--gold)] text-white text-xs font-bold px-3 py-1 uppercase tracking-widest rounded shadow">Premium</div>
+
+             <!-- Top Right 2min Intro Badge -->
+             <div class="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-400/30 flex items-center gap-1.5 shadow pointer-events-none">
+               <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+               <i class="fas fa-play text-[8px]"></i> 2min Intro
+             </div>
 
              <!-- Centered Play Button Overlay -->
              <div class="absolute inset-0 flex items-center justify-center">
