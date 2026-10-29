@@ -19,7 +19,7 @@ const replacement = `<a href="index.html" class="flex items-center gap-2 shrink-
 </svg>
         <div class="flex items-baseline gap-1">
           <span class="font-display text-2xl font-800 text-white hidden sm:block">AGS</span>
-          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academy</span>
+          <span class="font-display text-2xl font-800 text-[var(--purple)] hidden sm:block">Academys</span>
         </div>
       </a>`;
 

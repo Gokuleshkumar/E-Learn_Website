@@ -104,7 +104,7 @@ def make_brand_logo(out_300, out_1200):
     font_sub = ImageFont.truetype(font_path, 32)
     
     text_ags = "AGS "
-    text_academy = "Academy"
+    text_academy = "Academys"
     
     bbox_ags = draw.textbbox((0, 0), text_ags, font=font_main)
     bbox_acad = draw.textbbox((0, 0), text_academy, font=font_main)

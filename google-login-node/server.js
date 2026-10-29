@@ -257,7 +257,7 @@ async function sendViaBrevo(toEmail, subject, htmlContent) {
             },
             body: JSON.stringify({
                 sender: {
-                    name: 'AGS Academy',
+                    name: 'AGS Academys',
                     email: (process.env.EMAIL_FROM || 'no-reply@agsacademys.online').trim()
                 },
                 to: [{ email: toEmail }],
@@ -287,10 +287,10 @@ async function sendViaBrevo(toEmail, subject, htmlContent) {
 async function sendOtpEmail(email, otp) {
     const htmlBody = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
-            <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academy</h2>
+            <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">AGS Academys</h2>
             <p style="font-size: 16px; color: #333333; line-height: 1.5;">Hello,</p>
             <p style="font-size: 16px; color: #333333; line-height: 1.5;">
-                Thank you for choosing <strong>AGS Academy</strong>! To complete your verification process and secure your account, please use the One-Time Password (OTP) provided below.
+                Thank you for choosing <strong>AGS Academys</strong>! To complete your verification process and secure your account, please use the One-Time Password (OTP) provided below.
             </p>
             <div style="text-align: center; margin: 30px 0;">
                 <span style="font-size: 32px; font-weight: bold; background-color: #f8f9fa; padding: 15px 25px; border-radius: 6px; letter-spacing: 4px; color: #0056b3; border: 1px solid #ddd;">
@@ -305,13 +305,13 @@ async function sendOtpEmail(email, otp) {
             </p>
             <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
             <p style="font-size: 14px; color: #333333; margin: 0;">Best regards,</p>
-            <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academy Team</p>
+            <p style="font-size: 14px; color: #333333; font-weight: bold; margin: 5px 0 0 0;">The AGS Academys Team</p>
         </div>
     `;
 
     // 1. Prioritize Brevo HTTPS API (port 443, never blocked on Render)
     if (process.env.BREVO_API_KEY) {
-        const brevoRes = await sendViaBrevo(email, 'Your AGS Academy OTP Verification Code', htmlBody);
+        const brevoRes = await sendViaBrevo(email, 'Your AGS Academys OTP Verification Code', htmlBody);
         if (brevoRes && brevoRes.success) {
             console.log(`✅ Real OTP email delivered to ${email} via Brevo`);
             return { success: true, provider: 'brevo' };
@@ -326,9 +326,9 @@ async function sendOtpEmail(email, otp) {
     if (transporter) {
         try {
             await transporter.sendMail({
-                from: `"AGS Academy" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
+                from: `"AGS Academys" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
                 to: email,
-                subject: 'Your AGS Academy OTP Verification Code',
+                subject: 'Your AGS Academys OTP Verification Code',
                 html: htmlBody
             });
             console.log(`✅ Real OTP email delivered to ${email} via SMTP`);

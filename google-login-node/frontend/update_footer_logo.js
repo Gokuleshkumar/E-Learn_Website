@@ -12,7 +12,7 @@ for (const file of files) {
 
   if (file === 'index.html') {
     content = content.replace(
-      /<h2 class="font-display font-700 text-xl mb-3">AGS Academy<\/h2>/g,
+      /<h2 class="font-display font-700 text-xl mb-3">AGS Academys<\/h2>/g,
       `<a href="#Home" class="flex items-center gap-2 mb-3">
           <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
   <defs>
@@ -28,7 +28,7 @@ for (const file of files) {
 </svg>
           <div class="flex items-baseline gap-1">
             <span class="font-display text-xl font-800 text-white">AGS</span>
-            <span class="font-display text-xl font-800 text-[var(--purple)]">Academy</span>
+            <span class="font-display text-xl font-800 text-[var(--purple)]">Academys</span>
           </div>
         </a>`
     );
@@ -53,10 +53,10 @@ for (const file of files) {
 </svg>
                 <div class="flex items-baseline gap-1">
                   <span class="font-display text-2xl font-800 text-white">AGS</span>
-                  <span class="font-display text-2xl font-800 text-[var(--purple)]">Academy</span>
+                  <span class="font-display text-2xl font-800 text-[var(--purple)]">Academys</span>
                 </div>
             </div>
-            <p class="text-sm">© 2026 AGS Academy. All rights reserved.</p>
+            <p class="text-sm">© 2026 AGS Academys. All rights reserved.</p>
         </div>
     </footer>`
     );
@@ -79,7 +79,7 @@ for (const file of files) {
 </svg>
                 <div class="flex items-baseline gap-1">
                   <span class="font-display text-2xl font-800 text-white">AGS</span>
-                  <span class="font-display text-2xl font-800 text-[var(--purple)]">Academy</span>
+                  <span class="font-display text-2xl font-800 text-[var(--purple)]">Academys</span>
                 </div>
               </a>`
     );
