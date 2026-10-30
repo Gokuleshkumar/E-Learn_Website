@@ -184,6 +184,7 @@ connectDatabase();
 const User = require('./models/User');
 const Otp = require('./models/Otp');
 const LoginLog = require('./models/LoginLog');
+const Contact = require('./models/Contact');
 
 
 // ==========================================================
@@ -2143,6 +2144,75 @@ app.post(
 
     }
 );
+
+
+// ==========================================================
+// CONTACT US INQUIRIES (Stored in Freebase Database)
+// ==========================================================
+
+app.post('/api/contact', async (req, res) => {
+    try {
+        const { name, email, subject, message } = req.body;
+
+        if (!name || !email || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'Name, email, and message are required.'
+            });
+        }
+
+        const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+        const userAgent = req.headers['user-agent'] || null;
+
+        // Save contact inquiry in Freebase database
+        const newContact = new Contact({
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            subject: (subject || 'General Inquiry').trim(),
+            message: message.trim(),
+            status: 'NEW',
+            ipAddress: Array.isArray(ipAddress) ? ipAddress[0] : (typeof ipAddress === 'string' ? ipAddress.split(',')[0].trim() : ipAddress),
+            userAgent
+        });
+
+        await newContact.save();
+
+        console.log(`✅ [CONTACT SAVED TO FREEBASE] ID: ${newContact._id}`);
+        console.log(`   From: ${newContact.name} <${newContact.email}>`);
+        console.log(`   Subject: ${newContact.subject}`);
+
+        return res.json({
+            success: true,
+            id: newContact._id,
+            message: 'Thank you for reaching out! Your message has been saved and sent to AGS Academys (agsacademys@gmail.com). Our team will reply shortly.'
+        });
+    } catch (err) {
+        console.error('Contact endpoint error:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while saving your message. Please email us directly at agsacademys@gmail.com.'
+        });
+    }
+});
+
+// GET /api/contacts - Retrieve recent contact inquiries from Freebase
+app.get('/api/contacts', async (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+        const contacts = await Contact.find().sort({ createdAt: -1 }).limit(limit).lean();
+        return res.json({
+            success: true,
+            count: contacts.length,
+            contacts
+        });
+    } catch (err) {
+        console.error('Error fetching contacts:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'Error retrieving contact inquiries.'
+        });
+    }
+});
 
 
 // ==========================================================

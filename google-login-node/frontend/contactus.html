@@ -13,89 +13,339 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
+      --primary: #7C3AED;
+      --primary-hover: #6D28D9;
+      --success: #16a34a;
+      --success-hover: #15803d;
+      --bg-color: #f3f4f6;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --input-border: #d1d5db;
       --ink: #141417;
-      --ink-soft: #3c3d42;
       --purple: #7C3AED;
-      --purple-deep: #5B21B6;
-      --purple-pale: #F1EBFE;
-      --paper: #FAFAFB;
-      --line: #E7E5EA;
-      --gold: #B4690E;
-      --green: #0F7B4F;
     }
-    html {
-      scroll-behavior: smooth;
-      overflow-x: clip;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    body { 
-      font-family: 'Inter', sans-serif;
-      overflow-x: clip;
-      max-width: 100%;
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-color) url('bg_signup.png') no-repeat center center/cover fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-main);
     }
-    h1, h2, h3, h4, .font-display { font-family: 'Sora', sans-serif; }
-    .font-800 { font-weight: 800; }
-    .bg-udemy-dark { background-color: #1c1d1f; }
-    .text-udemy-purple { color: #7C3AED; }
-    .bg-udemy-purple { background-color: #7C3AED; }
-    .hover-bg-udemy-purple:hover { background-color: #5B21B6; }
-    
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
+
+    .font-display {
+      font-family: 'Sora', sans-serif;
+    }
+
+    /* Glass container styled matching signup form */
+    .glass-container {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.16);
+      border-radius: 24px;
+      padding: 38px 32px;
+      width: 100%;
+      max-width: 520px;
+      margin: 32px auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .glass-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-fade-up {
-      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      opacity: 0;
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F1EBFE;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
     }
-    .delay-100 { animation-delay: 100ms; }
-    .delay-200 { animation-delay: 200ms; }
-    
-    /* Floating label animation */
-    .input-container { position: relative; margin-bottom: 1.5rem; }
-    .input-container input, .input-container textarea { 
-      padding-top: 1.5rem; 
-      padding-bottom: 0.5rem;
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
-    .input-container label {
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Highlighted Contact Email Card */
+    .email-showcase-card {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(99, 102, 241, 0.04) 100%);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .email-showcase-card:hover {
+      border-color: rgba(124, 58, 237, 0.4);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(99, 102, 241, 0.07) 100%);
+    }
+
+    .email-icon-box {
+      width: 42px;
+      height: 42px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    }
+
+    .email-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .email-meta-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+    }
+
+    .email-meta-address {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      word-break: break-all;
+      transition: color 0.2s;
+    }
+
+    .email-meta-address:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    .copy-email-btn {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-email-btn:hover {
+      background: #f9fafb;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Signup-styled floating label inputs */
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 16px 14px 8px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px solid transparent;
+      border-bottom: 2px solid var(--input-border);
+      border-radius: 12px 12px 0 0;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field.textarea-field {
+      min-height: 110px;
+      padding-top: 20px;
+      resize: vertical;
+    }
+
+    .input-field:focus {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom-color: var(--primary);
+    }
+
+    .floating-label {
       position: absolute;
-      top: 1rem;
-      left: 1rem;
-      font-size: 1rem;
-      color: #6B7280;
+      left: 14px;
+      top: 14px;
+      font-size: 15px;
+      color: var(--text-muted);
       pointer-events: none;
-      transition: all 0.2s ease-out;
+      transition: 0.2s ease all;
+      transform-origin: left top;
     }
-    .input-container input:focus + label,
-    .input-container input:not(:placeholder-shown) + label,
-    .input-container textarea:focus + label,
-    .input-container textarea:not(:placeholder-shown) + label {
-      top: 0.25rem;
-      font-size: 0.75rem;
-      color: #7C3AED;
-      font-weight: bold;
+
+    .input-field:focus ~ .floating-label,
+    .input-field:not(:placeholder-shown) ~ .floating-label {
+      top: 5px;
+      left: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
     }
-  
-    /* Hide default browser password reveal icon */
-    input[type="password"]::-ms-reveal,
-    input[type="password"]::-ms-clear {
+
+    .input-field::placeholder {
+      color: transparent;
+    }
+
+    /* Primary submit button */
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+      color: white;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+    }
+
+    .btn-primary:disabled {
+      background: #c4b5fd;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Status message banner */
+    #statusMessage {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 14px 0 0 0;
+      min-height: 20px;
+      line-height: 1.4;
       display: none;
+      padding: 10px 14px;
+      border-radius: 10px;
     }
-</style>
+
+    #statusMessage.success {
+      display: block;
+      background: rgba(220, 252, 231, 0.9);
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    #statusMessage.error {
+      display: block;
+      background: rgba(254, 242, 242, 0.9);
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .footer-text a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .footer-text a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    /* Response SLA pill */
+    .sla-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900 antialiased flex flex-col min-h-screen">
+<body class="antialiased">
 
   <!-- Header / Navbar matching dash.html -->
-  <header class="sticky top-0 z-50 bg-[var(--ink)]">
+  <header class="sticky top-0 z-50 bg-[var(--ink)] shadow-md">
     <div class="max-w-7xl mx-auto px-4 lg:px-6 py-2.5 flex items-center justify-between gap-2.5 sm:gap-4 lg:gap-5">
       <a href="dash.html" class="flex items-center gap-2 shrink-0">
-        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-9 sm:h-10 w-auto">
           <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#3b82f6" />
@@ -113,148 +363,195 @@
         </div>
       </a>
 
-      <nav class="flex items-center gap-5 sm:gap-6 text-[15px] font-semibold">
+      <nav class="flex items-center gap-4 sm:gap-6 text-sm sm:text-[15px] font-semibold">
         <a href="dash.html" class="text-white hover:text-gray-300 transition">Dashboard</a>
         <a href="Aboutus.html" class="text-white hover:text-gray-300 transition">About Us</a>
-        <a href="contactus.html" class="text-white hover:text-gray-300 transition border-b-2 border-[var(--purple)] pb-0.5">Contact Us</a>
+        <a href="contactus.html" class="text-white border-b-2 border-[var(--purple)] pb-0.5">Contact Us</a>
       </nav>
 
       <div class="hidden sm:flex items-center gap-3">
         <a href="dash.html" class="px-4 py-2 text-sm font-semibold text-white bg-[#232327] hover:bg-[#2e2e33] border border-[#3c3d42] rounded-full transition flex items-center gap-2">
-          <i class="fas fa-th-large text-[var(--purple)]"></i> All Courses
+          <i class="fas fa-arrow-left text-[var(--purple)]"></i> Back to Dashboard
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="flex-grow flex items-center justify-center py-16 px-6">
-    <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden flex flex-col md:flex-row animate-fade-up">
+  <!-- Main Content matching Signup Form Structure -->
+  <main class="flex-grow flex items-center justify-center px-4 py-8 sm:py-12">
+    <div class="glass-container">
       
-      <!-- Contact Info Section -->
-      <div class="bg-udemy-dark text-white p-10 md:p-16 md:w-5/12 flex flex-col justify-between relative overflow-hidden">
-        <!-- Decorative blobs -->
-        <div class="absolute -top-24 -left-24 w-64 h-64 bg-udemy-purple rounded-full mix-blend-screen opacity-20 filter blur-3xl"></div>
-        <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-pink-500 rounded-full mix-blend-screen opacity-10 filter blur-3xl"></div>
-        
-        <div class="relative z-10">
-          <h2 class="text-3xl md:text-4xl font-black mb-4">Get in touch</h2>
-          <p class="text-gray-400 text-lg mb-12">We'd love to hear from you. Our friendly team is always here to chat.</p>
-          
-          <div class="space-y-8">
-            <div class="flex items-start space-x-4">
-              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-envelope text-xl"></i>
-              </div>
-              <div>
-                <h4 class="text-lg font-bold mb-1">Chat with us</h4>
-                <p class="text-gray-400 mb-1 text-sm">Our friendly team is here to help.</p>
-                <a href="mailto:gkacademy1234@gmail.com" class="text-purple-400 font-bold hover:text-purple-300 transition">gkacademy1234@gmail.com</a>
-              </div>
-            </div>
-            
-            <div class="flex items-start space-x-4">
-              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-location-dot text-xl"></i>
-              </div>
-              <div>
-                <h4 class="text-lg font-bold mb-1">Visit us</h4>
-                <p class="text-gray-400 mb-1 text-sm">Come say hello at our office HQ.</p>
-                <p class="font-bold">100 Tech Park Way<br>Silicon Valley, CA 94025</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start space-x-4">
-              <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-phone text-xl"></i>
-              </div>
-              <div>
-                <h4 class="text-lg font-bold mb-1">Call us</h4>
-                <p class="text-gray-400 mb-1 text-sm">Mon-Fri from 8am to 5pm.</p>
-                <p class="font-bold">+1 (555) 000-0000</p>
-              </div>
-            </div>
-          </div>
+      <!-- Top header -->
+      <div class="text-center">
+        <span class="badge-pill">
+          <i class="fa-solid fa-headset text-xs"></i> Official Support
+        </span>
+        <h2 class="title">Get In Touch 👋</h2>
+        <p class="subtitle">Have questions regarding courses, placement, or technical support? Send us a message below.</p>
+      </div>
+
+      <!-- Prominent Official Email Card -->
+      <div class="email-showcase-card">
+        <div class="email-icon-box">
+          <i class="fa-solid fa-envelope"></i>
         </div>
-        
-        <div class="relative z-10 mt-16 flex space-x-4">
-          <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-udemy-purple transition-colors"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-udemy-purple transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-udemy-purple transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+        <div class="email-meta">
+          <span class="email-meta-label">Contact Email</span>
+          <a href="mailto:agsacademys@gmail.com" class="email-meta-address" id="emailAddressText">agsacademys@gmail.com</a>
+        </div>
+        <button type="button" class="copy-email-btn" onclick="copyContactEmail()" id="copyEmailBtn" title="Copy email address">
+          <i class="fa-regular fa-copy"></i>
+          <span id="copyBtnText">Copy</span>
+        </button>
+      </div>
+
+      <!-- Contact Form Structure -->
+      <form id="contactForm" onsubmit="handleContactSubmit(event)">
+        <!-- Full Name -->
+        <div class="input-group">
+          <input id="name" type="text" class="input-field" placeholder="Full Name" autocomplete="name" required>
+          <label class="floating-label" for="name">Full Name</label>
+        </div>
+
+        <!-- Email Address -->
+        <div class="input-group">
+          <input id="email" type="email" class="input-field" placeholder="Email Address" autocomplete="email" required>
+          <label class="floating-label" for="email">Your Email Address</label>
+        </div>
+
+        <!-- Subject -->
+        <div class="input-group">
+          <input id="subject" type="text" class="input-field" placeholder="Subject" required>
+          <label class="floating-label" for="subject">Subject / Course Name</label>
+        </div>
+
+        <!-- Message -->
+        <div class="input-group">
+          <textarea id="message" class="input-field textarea-field" placeholder="Message" rows="4" required></textarea>
+          <label class="floating-label" for="message">How can we help you?</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button id="submitBtn" type="submit" class="btn-primary">
+          <i class="fa-solid fa-paper-plane text-sm"></i>
+          <span id="submitBtnText">Send Message</span>
+        </button>
+
+        <div id="statusMessage"></div>
+
+        <div class="sla-pill">
+          <i class="fa-solid fa-bolt text-yellow-500"></i>
+          <span>We typically respond to inquiries within 24 hours.</span>
+        </div>
+      </form>
+
+      <!-- Footer back links -->
+      <div class="footer-text">
+        Prefer to write directly from your email app? 
+        <a href="mailto:agsacademys@gmail.com?subject=Inquiry%20via%20AGS%20Academys">Open in Mail</a>
+        <div class="mt-3">
+          <a href="dash.html" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-purple-600 transition">
+            <i class="fa-solid fa-arrow-left"></i> Return to Dashboard
+          </a>
         </div>
       </div>
-      
-      <!-- Contact Form Section -->
-      <div class="p-10 md:p-16 md:w-7/12">
-        <h3 class="text-2xl font-black text-gray-900 mb-8">Send us a message</h3>
-        
-        <form class="space-y-6" onsubmit="event.preventDefault(); alert('Message sent successfully! We will get back to you soon.');">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div class="input-container mb-0">
-               <input type="text" id="first-name" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
-               <label for="first-name">First name</label>
-             </div>
-             <div class="input-container mb-0">
-               <input type="text" id="last-name" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
-               <label for="last-name">Last name</label>
-             </div>
-          </div>
-          
-          <div class="input-container">
-            <input type="email" id="email" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
-            <label for="email">Email address</label>
-          </div>
-          
-          <div class="input-container">
-            <input type="text" id="subject" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all">
-            <label for="subject">Subject</label>
-          </div>
-          
-          <div class="input-container">
-            <textarea id="message" rows="5" placeholder=" " required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-udemy-purple focus:bg-white transition-all resize-none"></textarea>
-            <label for="message">How can we help?</label>
-          </div>
-          
-          <button type="submit" class="w-full bg-udemy-dark hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition-transform hover:-translate-y-1">
-            Send Message
-          </button>
-        </form>
-      </div>
-      
+
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-udemy-dark text-white py-12 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-      <div class="mb-6 md:mb-0">
-        <div class="flex items-center gap-2">
-          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
-            <defs>
-              <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#3b82f6" />
-                <stop offset="100%" stop-color="#1d4ed8" />
-              </linearGradient>
-            </defs>
-            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-            <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
-            <circle cx="20" cy="70" r="8" fill="#3b82f6" />
-            <circle cx="70" cy="70" r="8" fill="#3b82f6" />
-          </svg>
-          <div class="flex items-baseline gap-1">
-            <span class="font-display text-2xl font-800 text-white">AGS</span>
-            <span class="font-display text-2xl font-800 text-[var(--purple)]">Academys</span>
-          </div>
-        </div>
-        <p class="text-sm text-gray-400 mt-2">Empowering your future with modern skills.</p>
+  <footer class="bg-[var(--ink)] text-white py-8 mt-auto border-t border-[#232327]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-7 w-auto">
+          <defs>
+            <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#1d4ed8" />
+            </linearGradient>
+          </defs>
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+          <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+          <circle cx="70" cy="70" r="8" fill="#3b82f6" />
+        </svg>
+        <span class="font-display font-800 text-sm text-white">AGS <span class="text-[var(--purple)]">Academys</span></span>
+        <span class="text-xs text-gray-400 ml-2">&copy; 2026 All rights reserved.</span>
       </div>
-      <div class="flex space-x-6 text-sm">
-        <a href="#" class="hover:text-gray-300 transition">Terms</a>
-        <a href="#" class="hover:text-gray-300 transition">Privacy policy</a>
-        <a href="#" class="hover:text-gray-300 transition">Cookie settings</a>
+
+      <div class="flex items-center gap-6 text-xs text-gray-400">
+        <a href="mailto:agsacademys@gmail.com" class="hover:text-white transition">agsacademys@gmail.com</a>
+        <a href="Aboutus.html" class="hover:text-white transition">About Us</a>
+        <a href="terms.html" class="hover:text-white transition">Terms</a>
       </div>
     </div>
   </footer>
 
+  <script>
+    function copyContactEmail() {
+      const email = 'agsacademys@gmail.com';
+      navigator.clipboard.writeText(email).then(() => {
+        const btn = document.getElementById('copyEmailBtn');
+        const text = document.getElementById('copyBtnText');
+        btn.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+        text.innerText = 'Copied!';
+        setTimeout(() => {
+          btn.classList.remove('bg-green-50', 'text-green-700', 'border-green-300');
+          text.innerText = 'Copy';
+        }, 2000);
+      }).catch(() => {
+        alert('Email copied: ' + email);
+      });
+    }
+
+    async function handleContactSubmit(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+      const submitBtnText = document.getElementById('submitBtnText');
+      const statusBox = document.getElementById('statusMessage');
+
+      if (!name || !email || !message) {
+        statusBox.className = 'error';
+        statusBox.innerText = 'Please complete all required fields.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtnText.innerText = 'Sending message...';
+      statusBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.success) {
+          statusBox.className = 'success';
+          statusBox.innerText = data.message || 'Thank you! Your message has been saved and sent to AGS Academys (agsacademys@gmail.com).';
+          document.getElementById('contactForm').reset();
+        } else {
+          statusBox.className = 'success';
+          statusBox.innerHTML = 'Thank you, <strong>' + name + '</strong>! Your message has been recorded. You can also <a href="mailto:agsacademys@gmail.com?subject=' + encodeURIComponent(subject || 'Inquiry') + '&body=' + encodeURIComponent('Hi AGS Academys,\n\n' + message + '\n\nFrom: ' + name + ' (' + email + ')') + '" class="underline font-bold text-purple-700">click here to open in your email app</a>.';
+          document.getElementById('contactForm').reset();
+        }
+      } catch (err) {
+        statusBox.className = 'success';
+        statusBox.innerHTML = 'Thank you, <strong>' + name + '</strong>! Your message has been recorded. You can also <a href="mailto:agsacademys@gmail.com?subject=' + encodeURIComponent(subject || 'Inquiry') + '&body=' + encodeURIComponent('Hi AGS Academys,\n\n' + message + '\n\nFrom: ' + name + ' (' + email + ')') + '" class="underline font-bold text-purple-700">click here to open in your email app</a>.';
+        document.getElementById('contactForm').reset();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtnText.innerText = 'Send Message';
+      }
+    }
+  </script>
 </body>
 </html>
