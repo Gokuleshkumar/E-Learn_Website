@@ -49,6 +49,10 @@ app.use(
     )
 );
 
+app.get('/favicon.ico', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'favicon.ico'));
+});
+
 
 app.get(
     '/reset-password.html',
