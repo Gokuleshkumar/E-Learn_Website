@@ -19,46 +19,13 @@
     }
     .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
 
-    /* Seamless Logo Marquee */
-    .logo-marquee-container {
-      overflow: hidden;
-      display: flex;
-      width: 100%;
-      background: white;
-      padding: 2.5rem 0;
-      border-top: 1px solid #f3f4f6;
-    }
-    .logo-marquee-track {
-      display: flex;
-      width: max-content;
-      animation: seamless-logo-marquee 25s linear infinite;
-    }
-    .logo-marquee-track:hover {
-      animation-play-state: paused;
-    }
-    @keyframes seamless-logo-marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .company-logo-card {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 250px;
-      flex-shrink: 0;
-      padding: 0 2rem;
-      transition: transform 0.3s ease;
-    }
-    .company-logo-card:hover {
-      transform: scale(1.1);
-    }
-  
     /* Hide default browser password reveal icon */
     input[type="password"]::-ms-reveal,
     input[type="password"]::-ms-clear {
       display: none;
     }
 </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
@@ -154,161 +121,60 @@
     </div>
   </section>
 
-  <!-- Placement Logos Section -->
-  <section class="bg-white pt-8">
-    <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-sm font-bold text-center text-gray-800 uppercase tracking-widest mb-6">Our students are placed at top companies</h2>
-    </div>
-    <div class="logo-marquee-container">
-      <div class="logo-marquee-track">
-         <!-- Logos (Set 1) -->
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
-             <rect x="0" y="0" width="28" height="28" rx="4" fill="#E22627"/>
-             <rect x="30" y="0" width="28" height="28" rx="4" fill="#32884A"/>
-             <rect x="60" y="0" width="28" height="28" rx="4" fill="#316FBA"/>
-             <rect x="90" y="0" width="28" height="28" rx="4" fill="#F49A2B"/>
-             <text x="6" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">Z</text>
-             <text x="34" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
-             <text x="64" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">H</text>
-             <text x="94" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <div class="flex items-center gap-2">
-             <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
-             <div class="font-black text-xl leading-none text-gray-800 tracking-tight text-left">IUCS<br><span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Consulting</span></div>
-           </div>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
-             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#2563EB" letter-spacing="-1">tcs</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
-             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#007BC0">Infosys</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg">
-             <circle cx="15" cy="15" r="6" fill="#EE2A24"/>
-             <circle cx="28" cy="15" r="6" fill="#F37021"/>
-             <circle cx="41" cy="15" r="6" fill="#F8A51C"/>
-             <circle cx="15" cy="28" r="6" fill="#009640"/>
-             <circle cx="28" cy="28" r="6" fill="#00AEEF"/>
-             <circle cx="41" cy="28" r="6" fill="#0064B3"/>
-             <circle cx="28" cy="41" r="6" fill="#662483"/>
-             <text x="60" y="36" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="#0064B3">wipro</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-8 w-auto" viewBox="0 0 450 135" xmlns="http://www.w3.org/2000/svg">
-             <path fill="#000" d="M129.5 75.3l-59-19 59-18.7v-25L10 50.7v11l119.5 38.6z"/>
-             <path fill="#a100ff" d="M141.2 56h35v11h-35z"/>
-             <text x="0" y="130" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold">accenture</text>
-           </svg>
-         </div>
-         
-         <!-- Logos (Duplicate for Seamless Loop) -->
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
-             <rect x="0" y="0" width="28" height="28" rx="4" fill="#E22627"/>
-             <rect x="30" y="0" width="28" height="28" rx="4" fill="#32884A"/>
-             <rect x="60" y="0" width="28" height="28" rx="4" fill="#316FBA"/>
-             <rect x="90" y="0" width="28" height="28" rx="4" fill="#F49A2B"/>
-             <text x="6" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">Z</text>
-             <text x="34" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
-             <text x="64" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">H</text>
-             <text x="94" y="21" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="white">O</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <div class="flex items-center gap-2">
-             <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
-             <div class="font-black text-xl leading-none text-gray-800 tracking-tight text-left">IUCS<br><span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Consulting</span></div>
-           </div>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
-             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#2563EB" letter-spacing="-1">tcs</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
-             <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#007BC0">Infosys</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-10 w-auto" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg">
-             <circle cx="15" cy="15" r="6" fill="#EE2A24"/>
-             <circle cx="28" cy="15" r="6" fill="#F37021"/>
-             <circle cx="41" cy="15" r="6" fill="#F8A51C"/>
-             <circle cx="15" cy="28" r="6" fill="#009640"/>
-             <circle cx="28" cy="28" r="6" fill="#00AEEF"/>
-             <circle cx="41" cy="28" r="6" fill="#0064B3"/>
-             <circle cx="28" cy="41" r="6" fill="#662483"/>
-             <text x="60" y="36" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="#0064B3">wipro</text>
-           </svg>
-         </div>
-         <div class="company-logo-card">
-           <svg class="h-8 w-auto" viewBox="0 0 450 135" xmlns="http://www.w3.org/2000/svg">
-             <path fill="#000" d="M129.5 75.3l-59-19 59-18.7v-25L10 50.7v11l119.5 38.6z"/>
-             <path fill="#a100ff" d="M141.2 56h35v11h-35z"/>
-             <text x="0" y="130" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold">accenture</text>
-           </svg>
-         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Benefits Section -->
+    <!-- Why Choose AGS Academys Section -->
   <section class="bg-white py-16 shadow-inner border-t border-gray-100">
     <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-10 text-center">Why Choose AGS Academys?</h2>
+      <h2 class="text-3xl font-bold mb-3 text-center text-gray-900">Why Choose AGS Academys?</h2>
+      <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12">Learn live with industry experts, get your doubts cleared 24/7, and graduate job-ready.</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         
-        <!-- Benefit 1 -->
-        <div class="flex items-start gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-blue-600 text-white p-3 rounded-full shrink-0">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        <!-- Benefit 1: Live Interactive Classes -->
+        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
+          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
           </div>
           <div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">100% Placement Support</h3>
-            <p class="text-gray-600 leading-relaxed">Get guaranteed placement assistance in top MNCs. We provide dedicated interview prep, resume building, and mock interviews to make you job-ready.</p>
+            <div class="flex items-center gap-2 mb-1.5">
+              <h3 class="text-xl font-bold text-gray-900">Live Interactive Classes</h3>
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-600 uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>Live</span>
+            </div>
+            <p class="text-gray-600 leading-relaxed text-sm">Experience real-time interactive cohort classes with top industry mentors. Ask questions live, participate in hands-on coding sessions, and learn collaboratively—never pre-recorded video lectures.</p>
           </div>
         </div>
 
-        <!-- Benefit 2 -->
-        <div class="flex items-start gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-blue-600 text-white p-3 rounded-full shrink-0">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <!-- Benefit 2: 24/7 Doubt Clarification -->
+        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
+          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           </div>
           <div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Learn from Global Mentors</h3>
-            <p class="text-gray-600 leading-relaxed">Our instructors are industry veterans with 10+ years of experience from top tech hubs abroad, including the UK and Australia.</p>
+            <div class="flex items-center gap-2 mb-1.5">
+              <h3 class="text-xl font-bold text-gray-900">24/7 Doubt Clarification</h3>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wide">Instant Support</span>
+            </div>
+            <p class="text-gray-600 leading-relaxed text-sm">Never get stuck on an error or difficult problem. Our dedicated teaching assistants and mentors offer round-the-clock 1-on-1 doubt resolution via live call, screen sharing, and dedicated chat.</p>
           </div>
         </div>
 
-        <!-- Benefit 3 -->
-        <div class="flex items-start gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-blue-600 text-white p-3 rounded-full shrink-0">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+        <!-- Benefit 3: 100% Placement Support -->
+        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
+          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           </div>
           <div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Industry Certification</h3>
-            <p class="text-gray-600 leading-relaxed">Earn a globally recognized completion certificate. Validate your skills and stand out to top tech recruiters.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-1.5">100% Placement Support</h3>
+            <p class="text-gray-600 leading-relaxed text-sm">Get guaranteed placement assistance with resume optimization, intensive 1-on-1 mock technical interviews, and direct job recommendations to land top-tier tech roles.</p>
           </div>
         </div>
 
-        <!-- Benefit 4 -->
-        <div class="flex items-start gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-blue-600 text-white p-3 rounded-full shrink-0">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+        <!-- Benefit 4: Real-World Capstone Projects -->
+        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
+          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
           </div>
           <div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Portfolio-Ready Projects</h3>
-            <p class="text-gray-600 leading-relaxed">Don't just watch videos. Build real-world applications that you can show off to recruiters to prove your expertise.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-1.5">Hands-on Capstone Projects</h3>
+            <p class="text-gray-600 leading-relaxed text-sm">Build production-grade applications that demonstrate real engineering skills. Receive detailed code reviews from senior engineers to build a standout portfolio.</p>
           </div>
         </div>
 
@@ -338,7 +204,7 @@
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-2 inline-block">Curriculum & Syllabus</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">There are 6 modules in this course</h2>
-          <p class="text-gray-600 text-sm mt-1">Master practical skills with video lectures, readings, hands-on lab items, and real-world projects.</p>
+          <p class="text-gray-600 text-sm mt-1">Master practical skills with live interactive classes, hands-on coding labs, real-world case studies, and dedicated 24/7 mentor doubt support.</p>
         </div>
         <button type="button" onclick="toggleAllCourseraModules(this)" class="text-xs sm:text-sm font-bold text-[#0056D2] hover:text-[#00419e] transition flex items-center gap-1.5 self-start sm:self-auto py-1 px-3 rounded-lg hover:bg-blue-50 shrink-0">
           <i class="fa-solid fa-arrows-up-down"></i> <span class="expand-all-text">Expand all modules</span>
@@ -381,7 +247,7 @@
               <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
-                  <span class="font-medium text-gray-800">10 videos</span>
+                  <span class="font-medium text-gray-800">10 Live Classes</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
@@ -416,7 +282,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">HTML5, CSS3, TailwindCSS</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
@@ -427,7 +293,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">JavaScript ES6+, DOM Manipulation</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
@@ -438,7 +304,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">Async JS & APIs</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
@@ -492,7 +358,7 @@
               <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
-                  <span class="font-medium text-gray-800">10 videos</span>
+                  <span class="font-medium text-gray-800">10 Live Classes</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
@@ -527,7 +393,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">React Components, Props & Hooks</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
@@ -538,7 +404,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">State Management (Redux Toolkit)</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
@@ -549,7 +415,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">React Router for SPAs</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
@@ -603,7 +469,7 @@
               <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
-                  <span class="font-medium text-gray-800">10 videos</span>
+                  <span class="font-medium text-gray-800">10 Live Classes</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
@@ -638,7 +504,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">Express.js REST APIs</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
@@ -649,7 +515,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">Authentication & Authorization (JWT)</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
@@ -660,7 +526,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">File Uploads & Middleware</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
@@ -714,7 +580,7 @@
               <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
-                  <span class="font-medium text-gray-800">10 videos</span>
+                  <span class="font-medium text-gray-800">10 Live Classes</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
@@ -749,7 +615,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">MongoDB & Mongoose (NoSQL)</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
@@ -760,7 +626,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">PostgreSQL (SQL)</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
@@ -771,7 +637,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">Caching with Redis</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
@@ -825,7 +691,7 @@
               <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
-                  <span class="font-medium text-gray-800">10 videos</span>
+                  <span class="font-medium text-gray-800">10 Live Classes</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
@@ -871,7 +737,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">Docker Basics & Containerization</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
@@ -882,7 +748,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">CI/CD Pipelines</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
@@ -936,7 +802,7 @@
               <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
-                  <span class="font-medium text-gray-800">10 videos</span>
+                  <span class="font-medium text-gray-800">10 Live Classes</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
@@ -971,7 +837,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">Full Stack System Design</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
@@ -982,7 +848,7 @@
                 <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-gray-800 truncate">MERN Stack Interview Questions</p>
-                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                  <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block"></span>Live Class</span>
                 </div>
               </div>
               <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
@@ -1076,7 +942,7 @@
     }
 
     function previewCourseraModule(title) {
-      alert('Module preview: ' + title + '\nEnroll now to access all interactive video lectures, labs, and quizzes.');
+      alert('Module preview: ' + title + '\nEnroll now to join live interactive classes, 24/7 mentor doubt support, and hands-on projects.');
     }
   </script>
 
