@@ -220,74 +220,634 @@
     </section>
 
     <!-- Curriculum Timeline -->
-    <section id="curriculum" class="py-24 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black text-gray-900 mb-4">Curriculum Overview</h2>
-                <p class="text-lg text-gray-500">A clear, actionable roadmap to build your tech career.</p>
-            </div>
+    <!-- ================= COURSERA STYLE COURSE MODULES ================= -->
+  <section id="modules" class="py-16 bg-[#F8F9FA] border-t border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      
+      <!-- Coursera Nav Tabs Bar -->
+      <div class="flex items-center gap-6 sm:gap-8 border-b border-gray-200 text-sm font-semibold mb-8 overflow-x-auto no-scrollbar">
+        <a href="#about" class="text-gray-600 hover:text-gray-900 pb-3 transition-colors shrink-0">About</a>
+        <a href="#outcomes" class="text-gray-600 hover:text-gray-900 pb-3 transition-colors shrink-0">Outcomes</a>
+        <a href="#modules" class="text-[#0056D2] border-b-2 border-[#0056D2] pb-3 shrink-0 flex items-center gap-2">
+          Modules <span class="bg-blue-100 text-[#0056D2] text-xs px-2 py-0.5 rounded-full font-bold">4</span>
+        </a>
+        <a href="#recommendations" class="text-gray-600 hover:text-gray-900 pb-3 transition-colors shrink-0">Recommendations</a>
+        <a href="#testimonials" class="text-gray-600 hover:text-gray-900 pb-3 transition-colors shrink-0">Testimonials</a>
+        <a href="#reviews" class="text-gray-600 hover:text-gray-900 pb-3 transition-colors shrink-0">Reviews</a>
+      </div>
 
-            <div class="relative border-l-2 border-gray-200 ml-3 md:ml-0 md:pl-0 pl-8 space-y-12">
-
-                <!-- Month 1 -->
-                <div class="relative md:ml-8">
-                    <div class="timeline-dot md:-left-10"></div>
-                    <span class="text-[var(--purple)] font-bold tracking-wider uppercase text-sm mb-2 block">Month
-                        1</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Software Development Fundamentals</h3>
-                    <p class="text-gray-600 mb-4">Start with the basics of programming. We'll cover HTML, CSS,
-                        JavaScript, and essential web development practices to build a strong foundation.</p>
-                    <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-                        <strong class="text-sm text-gray-900">Focus:</strong> <span class="text-sm text-gray-500">Clean
-                            Code, Responsive Design, JS Logic.</span>
-                    </div>
-                </div>
-
-                <!-- Month 2 -->
-                <div class="relative md:ml-8">
-                    <div class="timeline-dot md:-left-10"></div>
-                    <span class="text-[var(--purple)] font-bold tracking-wider uppercase text-sm mb-2 block">Month
-                        2</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Problem Solving & DSA</h3>
-                    <p class="text-gray-600 mb-4">Master Data Structures and Algorithms. You'll learn how to write
-                        efficient code and tackle technical interview questions with confidence.</p>
-                    <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-                        <strong class="text-sm text-gray-900">Focus:</strong> <span
-                            class="text-sm text-gray-500">Arrays, Strings, Recursion, Trees, Dynamic Programming.</span>
-                    </div>
-                </div>
-
-                <!-- Month 3 -->
-                <div class="relative md:ml-8">
-                    <div class="timeline-dot md:-left-10"></div>
-                    <span class="text-[var(--purple)] font-bold tracking-wider uppercase text-sm mb-2 block">Month
-                        3</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Artificial Intelligence</h3>
-                    <p class="text-gray-600 mb-4">Dive into the world of AI. Learn the concepts behind machine learning,
-                        model building, and how to integrate AI tools into real-world applications.</p>
-                    <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-                        <strong class="text-sm text-gray-900">Focus:</strong> <span
-                            class="text-sm text-gray-500">Python, Machine Learning Basics, Prompt Engineering.</span>
-                    </div>
-                </div>
-
-                <!-- Month 4 -->
-                <div class="relative md:ml-8">
-                    <div class="timeline-dot md:-left-10"></div>
-                    <span class="text-[var(--purple)] font-bold tracking-wider uppercase text-sm mb-2 block">Month
-                        4</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Placement Drive & Internships</h3>
-                    <p class="text-gray-600 mb-4">Finalize your portfolio, practice with mock interviews, and work
-                        closely with our career team to secure your placement.</p>
-                    <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-                        <strong class="text-sm text-gray-900">Goal:</strong> <span class="text-sm text-gray-500">Get
-                            hired as a software engineer or AI developer.</span>
-                    </div>
-                </div>
-
-            </div>
+      <!-- Header & Expand All Toggle -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-2 inline-block">Curriculum & Syllabus</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">There are 4 modules in this course</h2>
+          <p class="text-gray-600 text-sm mt-1">Master practical skills with video lectures, readings, hands-on lab items, and real-world projects.</p>
         </div>
-    </section>
+        <button type="button" onclick="toggleAllCourseraModules(this)" class="text-xs sm:text-sm font-bold text-[#0056D2] hover:text-[#00419e] transition flex items-center gap-1.5 self-start sm:self-auto py-1 px-3 rounded-lg hover:bg-blue-50 shrink-0">
+          <i class="fa-solid fa-arrows-up-down"></i> <span class="expand-all-text">Expand all modules</span>
+        </button>
+      </div>
+
+      <!-- Modules Accordion List -->
+      <div class="space-y-4">
+
+        <!-- Coursera Module Card: Month 1 -->
+        <div class="coursera-module-card bg-white rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-all mb-5 overflow-hidden" data-module="1">
+          <!-- Module Card Header -->
+          <div class="module-header p-6 sm:p-7 cursor-pointer select-none flex items-start justify-between gap-4" onclick="toggleCourseraModule(this)">
+            <div class="flex-1">
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5 leading-snug">Software Development Fundamentals</h3>
+              <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+                <span class="text-gray-800 font-semibold">Month 1</span>
+                <span>•</span>
+                <span>4 hours to complete</span>
+                <span>•</span>
+                <span class="text-blue-600 font-semibold hover:underline" onclick="event.stopPropagation(); previewCourseraModule('Software Development Fundamentals')">Preview</span>
+              </div>
+            </div>
+            
+            <button type="button" class="module-toggle-btn text-[#0056D2] hover:text-[#00419e] font-semibold text-xs sm:text-sm inline-flex items-center gap-1.5 shrink-0 py-1 transition-colors">
+              <span class="toggle-text">Module details</span>
+              <i class="fa-solid fa-chevron-up text-xs transition-transform duration-300 "></i>
+            </button>
+          </div>
+
+          <!-- Module Body -->
+          <div class="module-body px-6 sm:px-7 pb-7 " style="">
+            <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 border-t border-gray-100 pt-5">
+              In this module, you will explore the essential foundations and industry practices of Software Development Fundamentals. You will examine HTML5 Semantic Markup & Modern CSS3, Tailwind CSS & Responsive Layout Systems, JavaScript ES6+, DOM Manipulation & Events, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
+            </p>
+
+            <!-- What's included Section -->
+            <div class="mb-6">
+              <h5 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">What's included</h5>
+              <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">14 videos</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 readings</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-pen-to-square text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 assignments</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-laptop-code text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 app item</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-star text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 plugin</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Show info about module content -->
+            <div class="module-lessons-wrapper border-t border-gray-100 pt-4">
+              <button type="button" class="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-700 hover:text-[#0056D2] transition-colors" onclick="toggleCourseraLessons(this)">
+                <span class="lessons-btn-text">Show info about module content</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+              </button>
+              
+              <div class="lessons-list mt-4 space-y-2.5 hidden">
+                
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">HTML5 Semantic Markup & Modern CSS3</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Tailwind CSS & Responsive Layout Systems</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">JavaScript ES6+, DOM Manipulation & Events</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Asynchronous JS, Fetch API & JSON Handling</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">40m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Git, GitHub Workflows & Version Control</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">55m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-solid fa-laptop-code text-indigo-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Clean Code Principles & Coding Best Practices</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Hands-on Lab</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">30m</span>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coursera Module Card: Month 2 -->
+        <div class="coursera-module-card bg-white rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-all mb-5 overflow-hidden" data-module="2">
+          <!-- Module Card Header -->
+          <div class="module-header p-6 sm:p-7 cursor-pointer select-none flex items-start justify-between gap-4" onclick="toggleCourseraModule(this)">
+            <div class="flex-1">
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5 leading-snug">Problem Solving, Data Structures & Algorithms</h3>
+              <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+                <span class="text-gray-800 font-semibold">Month 2</span>
+                <span>•</span>
+                <span>5 hours to complete</span>
+                <span>•</span>
+                <span class="text-blue-600 font-semibold hover:underline" onclick="event.stopPropagation(); previewCourseraModule('Problem Solving, Data Structures & Algorithms')">Preview</span>
+              </div>
+            </div>
+            
+            <button type="button" class="module-toggle-btn text-[#0056D2] hover:text-[#00419e] font-semibold text-xs sm:text-sm inline-flex items-center gap-1.5 shrink-0 py-1 transition-colors">
+              <span class="toggle-text">Module details</span>
+              <i class="fa-solid fa-chevron-up text-xs transition-transform duration-300 rotate-180"></i>
+            </button>
+          </div>
+
+          <!-- Module Body -->
+          <div class="module-body px-6 sm:px-7 pb-7 hidden" style="display: none;">
+            <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 border-t border-gray-100 pt-5">
+              In this module, you will explore the essential foundations and industry practices of Problem Solving, Data Structures & Algorithms. You will examine Time & Space Complexity (Big-O Notation), Arrays, Strings & Two-Pointer Techniques, Linked Lists, Stacks & Queues Implementation, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
+            </p>
+
+            <!-- What's included Section -->
+            <div class="mb-6">
+              <h5 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">What's included</h5>
+              <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">14 videos</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 readings</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-pen-to-square text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 assignments</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-laptop-code text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 app item</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-star text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 plugin</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Show info about module content -->
+            <div class="module-lessons-wrapper border-t border-gray-100 pt-4">
+              <button type="button" class="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-700 hover:text-[#0056D2] transition-colors" onclick="toggleCourseraLessons(this)">
+                <span class="lessons-btn-text">Show info about module content</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+              </button>
+              
+              <div class="lessons-list mt-4 space-y-2.5 hidden">
+                
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Time & Space Complexity (Big-O Notation)</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Arrays, Strings & Two-Pointer Techniques</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Linked Lists, Stacks & Queues Implementation</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Recursion, Backtracking & Divide-and-Conquer</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">40m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Trees, Binary Search Trees & Graph Traversals</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">55m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-solid fa-laptop-code text-indigo-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Dynamic Programming & Technical Interview Practice</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Hands-on Lab</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">30m</span>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coursera Module Card: Month 3 -->
+        <div class="coursera-module-card bg-white rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-all mb-5 overflow-hidden" data-module="3">
+          <!-- Module Card Header -->
+          <div class="module-header p-6 sm:p-7 cursor-pointer select-none flex items-start justify-between gap-4" onclick="toggleCourseraModule(this)">
+            <div class="flex-1">
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5 leading-snug">Artificial Intelligence & Modern Full Stack</h3>
+              <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+                <span class="text-gray-800 font-semibold">Month 3</span>
+                <span>•</span>
+                <span>4 hours to complete</span>
+                <span>•</span>
+                <span class="text-blue-600 font-semibold hover:underline" onclick="event.stopPropagation(); previewCourseraModule('Artificial Intelligence & Modern Full Stack')">Preview</span>
+              </div>
+            </div>
+            
+            <button type="button" class="module-toggle-btn text-[#0056D2] hover:text-[#00419e] font-semibold text-xs sm:text-sm inline-flex items-center gap-1.5 shrink-0 py-1 transition-colors">
+              <span class="toggle-text">Module details</span>
+              <i class="fa-solid fa-chevron-up text-xs transition-transform duration-300 rotate-180"></i>
+            </button>
+          </div>
+
+          <!-- Module Body -->
+          <div class="module-body px-6 sm:px-7 pb-7 hidden" style="display: none;">
+            <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 border-t border-gray-100 pt-5">
+              In this module, you will explore the essential foundations and industry practices of Artificial Intelligence & Modern Full Stack. You will examine Python for AI & Scientific Computing, Neural Networks Foundations & Perceptron Models, Building Real-world AI Applications with OpenAI & Gemini APIs, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
+            </p>
+
+            <!-- What's included Section -->
+            <div class="mb-6">
+              <h5 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">What's included</h5>
+              <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">14 videos</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 readings</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-pen-to-square text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 assignments</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-laptop-code text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 app item</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-star text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 plugin</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Show info about module content -->
+            <div class="module-lessons-wrapper border-t border-gray-100 pt-4">
+              <button type="button" class="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-700 hover:text-[#0056D2] transition-colors" onclick="toggleCourseraLessons(this)">
+                <span class="lessons-btn-text">Show info about module content</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+              </button>
+              
+              <div class="lessons-list mt-4 space-y-2.5 hidden">
+                
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Python for AI & Scientific Computing</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Neural Networks Foundations & Perceptron Models</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-solid fa-laptop-code text-indigo-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Building Real-world AI Applications with OpenAI & Gemini APIs</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Hands-on Lab</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">React.js Component Architecture & State Management</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">40m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Node.js & Express RESTful API Development</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">55m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-solid fa-laptop-code text-indigo-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">MongoDB Atlas & Database Schema Design</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Hands-on Lab</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">30m</span>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coursera Module Card: Month 4 -->
+        <div class="coursera-module-card bg-white rounded-2xl border border-gray-200 shadow-xs hover:border-gray-300 transition-all mb-5 overflow-hidden" data-module="4">
+          <!-- Module Card Header -->
+          <div class="module-header p-6 sm:p-7 cursor-pointer select-none flex items-start justify-between gap-4" onclick="toggleCourseraModule(this)">
+            <div class="flex-1">
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5 leading-snug">Internship Placement Drive & Career Launch</h3>
+              <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+                <span class="text-gray-800 font-semibold">Month 4</span>
+                <span>•</span>
+                <span>6 hours to complete</span>
+                <span>•</span>
+                <span class="text-blue-600 font-semibold hover:underline" onclick="event.stopPropagation(); previewCourseraModule('Internship Placement Drive & Career Launch')">Preview</span>
+              </div>
+            </div>
+            
+            <button type="button" class="module-toggle-btn text-[#0056D2] hover:text-[#00419e] font-semibold text-xs sm:text-sm inline-flex items-center gap-1.5 shrink-0 py-1 transition-colors">
+              <span class="toggle-text">Module details</span>
+              <i class="fa-solid fa-chevron-up text-xs transition-transform duration-300 rotate-180"></i>
+            </button>
+          </div>
+
+          <!-- Module Body -->
+          <div class="module-body px-6 sm:px-7 pb-7 hidden" style="display: none;">
+            <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 border-t border-gray-100 pt-5">
+              In this module, you will explore the essential foundations and industry practices of Internship Placement Drive & Career Launch. You will examine Full Stack Capstone Project Deployment (Vercel & Render), CI/CD Pipeline Setup with Docker & Cloud Hosting, ATS-Optimized Tech Resume & LinkedIn Profile Optimization, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
+            </p>
+
+            <!-- What's included Section -->
+            <div class="mb-6">
+              <h5 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">What's included</h5>
+              <div class="flex flex-wrap items-center gap-y-3 gap-x-6 text-xs sm:text-sm text-gray-600">
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-circle-play text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">14 videos</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-file-lines text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 readings</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-pen-to-square text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">4 assignments</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-laptop-code text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 app item</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-star text-gray-500 text-base"></i>
+                  <span class="font-medium text-gray-800">1 plugin</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Show info about module content -->
+            <div class="module-lessons-wrapper border-t border-gray-100 pt-4">
+              <button type="button" class="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-700 hover:text-[#0056D2] transition-colors" onclick="toggleCourseraLessons(this)">
+                <span class="lessons-btn-text">Show info about module content</span>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+              </button>
+              
+              <div class="lessons-list mt-4 space-y-2.5 hidden">
+                
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-solid fa-laptop-code text-indigo-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Full Stack Capstone Project Deployment (Vercel & Render)</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Hands-on Lab</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">35m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">CI/CD Pipeline Setup with Docker & Cloud Hosting</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">45m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">ATS-Optimized Tech Resume & LinkedIn Profile Optimization</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">50m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Live Technical Mock Interviews & System Design Prep</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">40m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-regular fa-circle-play text-blue-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Direct Referrals to Partner Companies & Startups</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Video Lesson</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">55m</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/90 hover:bg-gray-100 transition-colors border border-gray-100">
+              <div class="flex items-center gap-3 min-w-0 pr-3">
+                <i class="fa-solid fa-laptop-code text-indigo-600 text-sm shrink-0"></i>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-800 truncate">Salary Negotiation & Offer Letter Guidance</p>
+                  <span class="text-[11px] text-gray-500 font-medium">Hands-on Lab</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 font-semibold shrink-0">30m</span>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    function toggleCourseraModule(headerEl) {
+      const card = headerEl.closest('.coursera-module-card');
+      const body = card.querySelector('.module-body');
+      const chevron = card.querySelector('.module-toggle-btn i');
+      const isHidden = body.style.display === 'none' || body.classList.contains('hidden');
+
+      if (isHidden) {
+        body.classList.remove('hidden');
+        body.style.display = 'block';
+        chevron.classList.remove('rotate-180');
+      } else {
+        body.classList.add('hidden');
+        body.style.display = 'none';
+        chevron.classList.add('rotate-180');
+      }
+    }
+
+    function toggleCourseraLessons(btn) {
+      const wrapper = btn.closest('.module-lessons-wrapper');
+      const list = wrapper.querySelector('.lessons-list');
+      const chevron = btn.querySelector('i');
+      const isHidden = list.classList.contains('hidden');
+
+      if (isHidden) {
+        list.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+        btn.querySelector('.lessons-btn-text').innerText = 'Hide info about module content';
+      } else {
+        list.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+        btn.querySelector('.lessons-btn-text').innerText = 'Show info about module content';
+      }
+    }
+
+    function toggleAllCourseraModules(btn) {
+      const cards = document.querySelectorAll('.coursera-module-card');
+      const textEl = btn.querySelector('.expand-all-text');
+      const shouldExpand = textEl.innerText.includes('Expand');
+
+      cards.forEach(card => {
+        const body = card.querySelector('.module-body');
+        const chevron = card.querySelector('.module-toggle-btn i');
+        if (shouldExpand) {
+          body.classList.remove('hidden');
+          body.style.display = 'block';
+          chevron.classList.remove('rotate-180');
+        } else {
+          body.classList.add('hidden');
+          body.style.display = 'none';
+          chevron.classList.add('rotate-180');
+        }
+      });
+
+      textEl.innerText = shouldExpand ? 'Collapse all modules' : 'Expand all modules';
+    }
+
+    function previewCourseraModule(title) {
+      alert('Module preview: ' + title + '\nEnroll now to access all interactive video lectures, labs, and quizzes.');
+    }
+  </script>
 
     <!-- Pricing / CTA -->
     <section class="py-24 bg-white">
