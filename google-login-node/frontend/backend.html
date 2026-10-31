@@ -4,1456 +4,1112 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Backend Development - AGS Academys</title>
+  <meta name="description" content="Learn Node.js, Express, Databases, APIs, Authentication, and Deployment to master the server-side.">
+  
   <!-- Favicon / Brand Logo -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="shortcut icon" href="favicon.ico">
+  
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --ink: #141417;
-      --ink-soft: #3c3d42;
-      --purple: #7C3AED;
-      --purple-deep: #5B21B6;
-      --purple-pale: #F1EBFE;
-      --paper: #FAFAFB;
-      --line: #E7E5EA;
-      --gold: #B4690E;
-      --green: #0F7B4F;
-    }
-
-    .font-display {
-      font-family: 'Sora', sans-serif;
-    }
-
-    .font-800 {
-      font-weight: 800;
-    }
-
-    /* Fade Up Animation */
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up { animation: fadeInUp 0.8s ease-out forwards; }
-
-    /* Hide default browser password reveal icon */
-    input[type="password"]::-ms-reveal,
-    input[type="password"]::-ms-clear {
-      display: none;
-    }
-</style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #141417;
+      --ink-soft: #4b4c53;
+      --purple: #7C3AED;
+      --purple-deep: #5B21B6;
+      --purple-pale: #F3EFFE;
+      --line: #E2E0E7;
+      --gold: #B4690E;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+    .font-display {
+      font-family: 'Sora', sans-serif;
+    }
+    .glass-header {
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .month-module-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      transition: all 0.2s ease-in-out;
+    }
+    .month-module-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.06);
+    }
+    .month-module-card.placement-month {
+      border: 2px solid #8b5cf6;
+      background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+      box-shadow: 0 10px 30px -5px rgba(139, 92, 246, 0.15);
+    }
+    .module-header {
+      cursor: pointer;
+      user-select: none;
+    }
+    .pulse-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: pulseDot 1.5s infinite;
+    }
+    @keyframes pulseDot {
+      0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
-  <!-- ================= NAVBAR ================= -->
-  <header class="sticky top-0 z-50 bg-[#141417]">
-      <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center gap-6">
-          <a href="index.html" class="flex items-center gap-2 shrink-0">
-        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
-  <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3b82f6" />
-      <stop offset="100%" stop-color="#1d4ed8" />
-    </linearGradient>
-  </defs>
-  <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-  <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
-  <circle cx="20" cy="70" r="8" fill="#3b82f6" />
-  <circle cx="70" cy="70" r="8" fill="#3b82f6" />
-</svg>
-        <div class="flex items-baseline gap-1">
-          <span class="font-display text-xl sm:text-2xl font-800 text-white">AGS</span>
-          <span class="font-display text-xl sm:text-2xl font-800 text-[var(--purple)]">Academys</span>
+<body class="antialiased flex flex-col min-h-screen">
+
+  <!-- Compact Sticky Navbar -->
+  <nav class="glass-header sticky top-0 z-50 w-full">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex justify-between items-center h-16">
+        <a href="dash.html" class="flex items-center gap-2 shrink-0">
+          <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-8 w-auto">
+            <defs>
+              <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1d4ed8" />
+              </linearGradient>
+            </defs>
+            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#navGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+            <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+            <circle cx="70" cy="70" r="8" fill="#3b82f6" />
+          </svg>
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-lg font-800 text-white">AGS</span>
+            <span class="font-display text-lg font-800 text-[var(--purple)]">Academys</span>
+          </div>
+        </a>
+
+        <div class="flex items-center gap-4 sm:gap-6">
+          <a href="dash.html" class="text-white/80 hover:text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5">
+            <i class="fas fa-arrow-left text-xs"></i> Dashboard
+          </a>
+          <a href="#curriculum" class="hidden sm:inline-block text-white/80 hover:text-white text-xs sm:text-sm font-semibold transition">
+            Curriculum
+          </a>
+          <a href="#benefits" class="hidden sm:inline-block text-white/80 hover:text-white text-xs sm:text-sm font-semibold transition">
+            Benefits
+          </a>
+          <a href="enroll.html?course=backend"
+             class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-xs sm:text-sm hover:from-purple-500 hover:to-indigo-500 transition shadow-sm">
+            Enroll Now
+          </a>
         </div>
-      </a>
-
-          <!-- search (desktop) -->
-          <div class="hidden lg:flex flex-1 max-w-md">
-              <div class="w-full flex items-center bg-[#232327] rounded-full px-4 py-2 text-sm text-[#B9B7C2] focus-within:ring-2 focus-within:ring-[#7C3AED]">
-                  <svg class="w-4 h-4 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <input type="text" placeholder="Search for Python, Java, React..." class="bg-transparent outline-none w-full placeholder-[#8B899A] text-white">
-              </div>
-          </div>
-
-          <nav class="hidden lg:flex items-center gap-6 text-sm font-medium ml-2 text-[#D8D6E0]">
-              <a href="index.html#courses" class="hover:text-white transition">Courses</a>
-              <a href="index.html#demand" class="hover:text-white transition">Career Paths</a>
-              <a href="index.html#reviews" class="hover:text-white transition">Reviews</a>
-          </nav>
-
-          <div class="hidden lg:flex items-center gap-3 ml-auto">
-              <a href="login.html" class="px-4 py-2 text-sm font-semibold text-white border border-[#4A4850] rounded-full hover:border-white transition">Log in</a>
-              <a href="signup.html" class="px-4 py-2 text-sm font-semibold text-[#141417] bg-white rounded-full hover:bg-[#F1EBFE] transition">Sign up</a>
-          </div>
       </div>
-  </header>
+    </div>
+  </nav>
 
-  <!-- Banner -->
-  <div class="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
-    <!-- Background Image -->
-    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2000"
-         alt="Backend Development Banner"
-         class="absolute inset-0 w-full h-full object-cover">
+  <!-- Compact Hero Section (Reduced Height & Width) -->
+  <section class="bg-[#0f172a] text-white pt-10 pb-12 sm:pt-14 sm:pb-14 relative overflow-hidden border-b border-slate-800">
+    <div class="absolute inset-0 pointer-events-none opacity-20">
+      <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-purple-600 blur-[90px]"></div>
+      <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-blue-600 blur-[80px]"></div>
+    </div>
 
-    <!-- Dark Overlay -->
-    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+      
+      <!-- Status Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-4">
+        <span class="pulse-dot"></span>
+        Cohort Enrollment Open &bull; 100% Live Classes
+      </div>
 
-    <!-- Banner Text -->
-    <div class="relative z-10 max-w-3xl px-6 fade-up">
-      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+      <!-- Main Headline -->
+      <h1 class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight max-w-3xl mx-auto">
         Backend Development
       </h1>
-      <p class="text-lg md:text-xl mb-6">
+
+      <p class="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
         Learn Node.js, Express, Databases, APIs, Authentication, and Deployment to master the server-side.
       </p>
-      <a href="enroll.html?course=backend" 
-         class="bg-green-600 hover:opacity-90 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition inline-block">
-        Enroll Now
-      </a>
-    </div>
-  </div>
 
-  <!-- Overview -->
-  <section class="max-w-5xl mx-auto px-6 py-12">
-    <h2 class="text-3xl font-bold mb-6 text-center">Course Overview</h2>
-    <p class="text-lg text-gray-700 text-center mb-10 leading-relaxed">
-      This comprehensive program is designed to take you from fundamentals to advanced concepts. Learn from industry experts and build a powerful portfolio that gets you hired.
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="bg-white shadow-md rounded-xl p-6 text-center">
-        <h3 class="text-xl font-semibold mb-2">📅 Duration</h3>
-        <p>3 Months</p>
+      <!-- Key Highlights Pills -->
+      <div class="mt-6 flex flex-wrap justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-semibold">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+          <i class="fas fa-check-circle text-emerald-400"></i> Live Interactive Cohort
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+          <i class="fas fa-headset text-emerald-400"></i> 24/7 1-on-1 Doubt Clarification
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+          <i class="fas fa-briefcase text-purple-400"></i> Placement &amp; Interview Support
+        </span>
       </div>
-      <div class="bg-white shadow-md rounded-xl p-6 text-center">
-        <h3 class="text-xl font-semibold mb-2">📈 Level</h3>
-        <p>Beginner → Advanced</p>
+
+      <!-- Hero Actions -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto">
+        <a href="enroll.html?course=backend"
+           class="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm sm:text-base transition shadow-md flex items-center justify-center gap-2">
+          <span>Enroll Now</span>
+          <i class="fas fa-arrow-right text-xs"></i>
+        </a>
+        <a href="#curriculum"
+           class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-sm transition text-center">
+          Explore Syllabus
+        </a>
       </div>
-      <div class="bg-white shadow-md rounded-xl p-6 text-center">
-        <h3 class="text-xl font-semibold mb-2">💻 Projects</h3>
-        <p>3</p>
+
+      <!-- Quick Metrics Ribbon -->
+      <div class="mt-10 pt-6 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-4 text-center max-w-3xl mx-auto">
+        <div>
+          <div class="text-xl sm:text-2xl font-black text-white">3 Months</div>
+          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Duration</div>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-black text-purple-400">Beginner → Advanced</div>
+          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Skill Level</div>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400">3 Production</div>
+          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Real Projects</div>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400">100% Live</div>
+          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Cohort Mentorship</div>
+        </div>
       </div>
-    </div>
-  </section>
 
-    <!-- Why Choose AGS Academys Section -->
-  <section class="bg-white py-16 shadow-inner border-t border-gray-100">
-    <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-3 text-center text-gray-900">Why Choose AGS Academys?</h2>
-      <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12">Learn live with industry experts, get your doubts cleared 24/7, and graduate job-ready.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- Benefit 1: Live Interactive Classes -->
-        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <h3 class="text-xl font-bold text-gray-900">Live Interactive Classes</h3>
-              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-600 uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>Live</span>
-            </div>
-            <p class="text-gray-600 leading-relaxed text-sm">Experience real-time interactive cohort classes with top industry mentors. Ask questions live, participate in hands-on coding sessions, and learn collaboratively—never pre-recorded video lectures.</p>
-          </div>
-        </div>
-
-        <!-- Benefit 2: 24/7 Doubt Clarification -->
-        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <h3 class="text-xl font-bold text-gray-900">24/7 Doubt Clarification</h3>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wide">Instant Support</span>
-            </div>
-            <p class="text-gray-600 leading-relaxed text-sm">Never get stuck on an error or difficult problem. Our dedicated teaching assistants and mentors offer round-the-clock 1-on-1 doubt resolution via live call, screen sharing, and dedicated chat.</p>
-          </div>
-        </div>
-
-        <!-- Benefit 3: 100% Placement Support -->
-        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1.5">100% Placement Support</h3>
-            <p class="text-gray-600 leading-relaxed text-sm">Get guaranteed placement assistance with resume optimization, intensive 1-on-1 mock technical interviews, and direct job recommendations to land top-tier tech roles.</p>
-          </div>
-        </div>
-
-        <!-- Benefit 4: Real-World Capstone Projects -->
-        <div class="flex items-start gap-4 p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm transition hover:shadow-md">
-          <div class="bg-purple-600 text-white p-3.5 rounded-2xl shrink-0 flex items-center justify-center shadow-sm">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1.5">Hands-on Capstone Projects</h3>
-            <p class="text-gray-600 leading-relaxed text-sm">Build production-grade applications that demonstrate real engineering skills. Receive detailed code reviews from senior engineers to build a standout portfolio.</p>
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
 
-  <!-- Modern Timeline Syllabus -->
-    <!-- ================= MODERN LIVE COHORT BOOTCAMP TIMELINE (SCALER / NEWTON SCHOOL STYLE) ================= -->
-  <section id="curriculum" class="py-20 bg-[#F8FAFC] border-t border-gray-200 relative overflow-hidden">
-    <!-- Subtle background glows -->
-    <div class="absolute top-0 right-1/4 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-    <div class="absolute bottom-10 left-10 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
-
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-
-      <!-- Section Header -->
-      <div class="text-center mb-12">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-extrabold bg-purple-100 text-purple-800 border border-purple-200 mb-4 shadow-xs">
-          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-          LIVE COHORT BOOTCAMP CURRICULUM
-        </div>
-        <h2 class="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight mb-4">
-          Structured Live Syllabus &amp; Milestones
+  <!-- Benefits Section -->
+  <section id="benefits" class="py-12 sm:py-14 bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-800 uppercase tracking-wider mb-2">
+          <i class="fas fa-star text-[10px]"></i> Learning Experience
+        </span>
+        <h2 class="font-display font-800 text-2xl sm:text-3xl text-slate-900 tracking-tight">
+          Why Learn at AGS Academys?
         </h2>
-        <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Master industry-grade engineering through real-time interactive live sessions, daily 24/7 doubt clearing, hands-on lab sprints, and mentor-verified portfolio projects.
+        <p class="text-slate-600 text-xs sm:text-sm mt-1.5">
+          Real-time interactive engineering with zero fluff. Learn with mentors and graduate interview-ready.
         </p>
       </div>
 
-      <!-- Live Cohort Key Metrics Strip -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
-        <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-base">
-            <i class="fa-solid fa-chalkboard-user"></i>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 transition shadow-2xs">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-chalkboard-user"></i>
           </div>
-          <div>
-            <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Class Format</span>
-            <span class="text-sm font-extrabold text-gray-900">100% Live Interactive</span>
-          </div>
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Live Interactive Cohorts</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            No dry video recordings. Engage in real-time interactive coding sessions with senior engineering mentors.
+          </p>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-base">
-            <i class="fa-solid fa-headset"></i>
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 transition shadow-2xs">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-headset"></i>
           </div>
-          <div>
-            <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Doubt Support</span>
-            <span class="text-sm font-extrabold text-gray-900">24/7 Instant 1-on-1</span>
-          </div>
+          <h4 class="font-bold text-sm text-slate-900 mb-1">24/7 1-on-1 Doubt Support</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Never stay stuck. Teaching assistants join live calls 24/7 to debug your code and resolve errors immediately.
+          </p>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-base">
-            <i class="fa-solid fa-laptop-code"></i>
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 transition shadow-2xs">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-laptop-code"></i>
           </div>
-          <div>
-            <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Practice Labs</span>
-            <span class="text-sm font-extrabold text-gray-900">Hands-on Sprints</span>
-          </div>
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Production-Grade Projects</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Build and deploy scalable real-world applications that showcase verifiable technical competence to recruiters.
+          </p>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 text-base">
-            <i class="fa-solid fa-award"></i>
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 transition shadow-2xs">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-lg mb-3">
+            <i class="fas fa-briefcase"></i>
           </div>
-          <div>
-            <span class="block text-xs font-bold uppercase tracking-wider text-gray-400">Milestones</span>
-            <span class="text-sm font-extrabold text-gray-900">Mentor Verified</span>
-          </div>
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Interview &amp; Career Prep</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            1-on-1 mock interviews, ATS resume reviews, and portfolio audits to fast-track your technical career.
+          </p>
         </div>
+
       </div>
 
-      <!-- Timeline Sub-bar (Module count & Expand/Collapse toggle) -->
-      <div class="flex items-center justify-between mb-8 pb-3 border-b border-gray-200">
+    </div>
+  </section>
+
+  <!-- Redesigned Course Modules UI (Matching Training cum Placement) -->
+  <section id="curriculum" class="py-12 sm:py-14 bg-[#f8fafc]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-800 uppercase tracking-wider mb-2 border border-purple-200">
+          <i class="fas fa-book-open text-[10px]"></i> Curriculum Roadmap
+        </span>
+        <h2 class="font-display font-800 text-2xl sm:text-3xl text-slate-900 tracking-tight">
+          Structured Live Syllabus &amp; Milestones
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm mt-1.5">
+          Hands-on live sessions, real-time code sprints, and mentor-verified portfolio deliverables.
+        </p>
+      </div>
+
+      <!-- Module Count Sub-Bar -->
+      <div class="flex items-center justify-between mb-6 pb-2.5 border-b border-slate-200">
         <div class="flex items-center gap-2">
-          <span class="text-sm font-bold text-gray-900">8 Core Modules</span>
-          <span class="text-gray-300">•</span>
-          <span class="text-xs sm:text-sm font-semibold text-purple-700">35 Live Classes &amp; Labs</span>
+          <span class="text-xs sm:text-sm font-bold text-slate-900">6 Core Modules</span>
+          <span class="text-slate-300">&bull;</span>
+          <span class="text-xs font-semibold text-purple-700">Live Cohort &amp; Practice Labs</span>
         </div>
-        <button type="button" onclick="toggleAllBootcampModules(this)" class="px-4 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs hover:shadow-xs transition">
-          <i class="fa-solid fa-arrows-up-down text-purple-600 text-xs"></i>
+        <button type="button" onclick="toggleAllModules(this)" class="px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition">
+          <i class="fas fa-arrows-up-down text-purple-600 text-[10px]"></i>
           <span class="expand-all-text">Expand All</span>
         </button>
       </div>
 
-      <!-- Vertical Timeline Container -->
-      <div class="relative">
-        <!-- Gradient Vertical Connecting Line -->
-        <div class="absolute left-4 sm:left-6 top-8 bottom-8 w-[3px] bg-gradient-to-b from-purple-500 via-indigo-500 to-purple-600 rounded-full hidden sm:block"></div>
-
-        <!-- Modules Stack -->
-        <div class="space-y-6 sm:pl-16">
-          <!-- Module 1 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="1">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
+      <!-- Modules Accordion List -->
+      <div class="space-y-4">
+        
+      <!-- Module 1 -->
+      <div class="month-module-card p-5 sm:p-6" data-module="1">
+        <div class="module-header flex items-start justify-between gap-4" onclick="toggleCourseModule(1)">
+          <div class="flex items-start gap-3 sm:gap-4">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-100 text-purple-700 font-display font-black text-sm sm:text-base flex items-center justify-center shrink-0 border border-purple-200">
               01
             </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 01 - 02
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>7 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Node.js Fundamentals
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  In this module, you will explore the essential foundations and industry practices of Node.js Fundamentals. You will examine Introduction to Backend Development, V8 Engine & Node Architecture, Modules & NPM Package Management, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs rotate-180"></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white " style="display: block;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Introduction to Backend Development</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">V8 Engine & Node Architecture</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">45m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Modules & NPM Package Management</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">50m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Event Loop & Async Programming</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">40m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">File System (fs) & Streams</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">55m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Buffer & Microtasks</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">30m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Building HTTP Servers from scratch</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Node.js Fundamentals - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
+                  Week 01 - 02
+                </span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                  Live Cohort &bull; 7 Sessions
                 </span>
               </div>
-
+              <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">
+                Node.js Fundamentals
+              </h3>
             </div>
           </div>
+          <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 hover:bg-slate-200 transition">
+            <i id="chevron-1" class="fas fa-chevron-up text-xs transition-transform duration-200"></i>
+          </button>
+        </div>
 
-          <!-- Module 2 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="2">
+        <div id="body-1" class="mt-4 pt-4 border-t border-slate-100 block">
+          <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">Live Interactive Sessions &amp; Labs:</h5>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
             
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              02
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
             </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 03 - 04
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>6 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Express.js Mastery
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  In this module, you will explore the essential foundations and industry practices of Express.js Mastery. You will examine Intro to Express Framework, Advanced Routing & Middleware, Template Engines (EJS/Handlebars), identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Intro to Express Framework</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Advanced Routing & Middleware</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">45m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Template Engines (EJS/Handlebars)</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">50m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">REST API Design Principles</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">40m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Error Handling & Validation</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">55m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">CORS & Helmet for Security</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">30m</span>
-              </div>
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Express.js Mastery - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
-            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Introduction to Backend Development</p>
           </div>
-
-          <!-- Module 3 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="3">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              03
-            </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 05 - 06
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>6 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Databases (SQL & NoSQL)
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  In this module, you will explore the essential foundations and industry practices of Databases (SQL & NoSQL). You will examine MongoDB Basics & Mongoose ODM, Aggregation Pipelines, PostgreSQL & Relational Models, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">MongoDB Basics & Mongoose ODM</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Aggregation Pipelines</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">45m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">PostgreSQL & Relational Models</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">50m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">ACID Properties</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">40m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Database Relationships (1:1, 1:N, N:M)</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">55m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Data Indexing & Performance</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">30m</span>
-              </div>
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Databases (SQL & NoSQL) - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
-            </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
           </div>
-
-          <!-- Module 4 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="4">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              04
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
             </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 07 - 08
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>6 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Authentication & Security
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  In this module, you will explore the essential foundations and industry practices of Authentication & Security. You will examine User Authentication Concepts, JWT (JSON Web Tokens) Implementation, OAuth 2.0 Integration (Google, GitHub), identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">User Authentication Concepts</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">JWT (JSON Web Tokens) Implementation</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">45m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">OAuth 2.0 Integration (Google, GitHub)</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">50m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Session Management & Cookies</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">40m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Password Hashing (bcrypt)</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">55m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Preventing SQL Injection & XSS</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">30m</span>
-              </div>
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Authentication & Security - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
-            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">V8 Engine & Node Architecture</p>
           </div>
-
-          <!-- Module 5 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="5">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              05
-            </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 09 - 10
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>5 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Advanced Backend Concepts
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  In this module, you will explore the essential foundations and industry practices of Advanced Backend Concepts. You will examine Caching with Redis, Message Queues (RabbitMQ/Kafka), WebSockets (Socket.io) for Real-time, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Caching with Redis</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Message Queues (RabbitMQ/Kafka)</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">45m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">WebSockets (Socket.io) for Real-time</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">50m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Microservices Architecture Basics</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">40m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Dockerizing Node.js Apps</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">55m</span>
-              </div>
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Advanced Backend Concepts - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
-            </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">45m</span>
           </div>
-
-          <!-- Module 6 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="6">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              06
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
             </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 11 - 12
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>5 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Placement & Interview Prep
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  In this module, you will explore the essential foundations and industry practices of Placement & Interview Prep. You will examine System Design Basics, Scalability & Load Balancing Concepts, Backend Whiteboard Coding, identify real-world use cases, and gain hands-on experience with production-grade workflows and tools. By the end of this module, you will have a clear understanding of its architecture, limitations, and how to apply these concepts in professional tech roles.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">System Design Basics</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">35m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Scalability & Load Balancing Concepts</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">45m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Backend Whiteboard Coding</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">50m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Resume Building & LinkedIn</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">40m</span>
-              </div>
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 hover:bg-purple-50/50 border border-gray-100 transition">
-                <div class="flex items-center gap-3 min-w-0 pr-3">
-                  <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-sm">
-                    <i class="fa-solid fa-laptop-code"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p class="text-sm font-bold text-gray-900 truncate">Mock Interviews & MNC Strategies</p>
-                    <div class="flex items-center gap-2 mt-0.5">
-                      <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border-indigo-200 px-2 py-0.5 rounded border uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-code text-[9px]"></i>Hands-on Lab
-                      </span>
-                      <span class="text-[11px] text-gray-500 hidden sm:inline">1-on-1 Doubt Clarification Included</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-xs font-bold text-gray-600 shrink-0 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-2xs">55m</span>
-              </div>
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Placement & Interview Prep - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
-            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Modules & NPM Package Management</p>
           </div>
-
-          <!-- Module 7 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="7">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              07
-            </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 13 - 14
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>0 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Module 7
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  Comprehensive live cohort module covering core principles, real-time code-alongs, and hands-on exercises in Module 7.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Module 7 - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
-            </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">50m</span>
           </div>
-
-          <!-- Module 8 -->
-          <div class="bootcamp-module-card bg-white rounded-2xl border border-gray-200 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden relative" data-module="8">
-            
-            <!-- Number Node on Left Timeline (Desktop) -->
-            <div class="hidden sm:flex absolute -left-16 top-5 w-11 h-11 rounded-2xl bg-white border-2 border-purple-500 shadow-md items-center justify-center text-purple-700 font-black text-sm ring-4 ring-purple-50 z-10">
-              08
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
             </div>
-
-            <!-- Card Header -->
-            <div class="bootcamp-header p-5 sm:p-6 cursor-pointer select-none bg-white hover:bg-gray-50/70 transition flex items-start justify-between gap-4" onclick="toggleBootcampModule(this)">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
-                    Week 15 - 16
-                  </span>
-                  <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                    Live Cohort
-                  </span>
-                  <span class="text-xs font-semibold text-gray-500">
-                    <i class="fa-solid fa-chalkboard-user mr-1 text-purple-600"></i>0 Live Sessions &amp; Labs
-                  </span>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  Module 8
-                </h3>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                  Comprehensive live cohort module covering core principles, real-time code-alongs, and hands-on exercises in Module 8.
-                </p>
-              </div>
-              
-              <div class="bootcamp-chevron w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0 border border-purple-100 shadow-2xs transition-transform duration-200">
-                <i class="fa-solid fa-chevron-down text-xs "></i>
-              </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Event Loop & Async Programming</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">40m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
             </div>
-
-            <!-- Card Body -->
-            <div class="bootcamp-body p-5 sm:p-6 pt-0 border-t border-gray-100 bg-white hidden" style="display: none;">
-              
-              <div class="mt-4">
-                <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Live Interactive Sessions</h5>
-                <div class="space-y-2.5">
-
-                </div>
-              </div>
-
-              <!-- Module Milestone Box -->
-              <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
-                    <i class="fa-solid fa-trophy"></i>
-                  </div>
-                  <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700">Hands-on Milestone</span>
-                    <p class="text-sm font-bold text-gray-900">Module 8 - Implementation &amp; Mentor Review</p>
-                  </div>
-                </div>
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-800 border border-purple-200 shadow-2xs whitespace-nowrap">
-                  <i class="fa-solid fa-circle-check text-purple-600 mr-1"></i>Portfolio Deliverable
-                </span>
-              </div>
-
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">File System (fs) & Streams</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">55m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
             </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Buffer & Microtasks</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">30m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Building HTTP Servers from scratch</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
+          </div>
+        </div>
+      
+          </div>
+          <div class="p-3 rounded-lg bg-purple-50/70 border border-purple-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-purple-900"><i class="fas fa-trophy text-purple-600 mr-1.5"></i> Node.js Fundamentals - Implementation & Portfolio Review</span>
+            <span class="text-[10px] font-bold uppercase bg-white text-purple-700 px-2 py-0.5 rounded border border-purple-200">Mentor Reviewed</span>
           </div>
         </div>
       </div>
+    
 
-      <!-- Bottom Cohort CTA Card -->
-      <div class="mt-14 p-8 rounded-3xl bg-gradient-to-r from-[#1E1B4B] via-[#2A175B] to-[#1E1B4B] text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-        <div>
-          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-purple-200 mb-3 border border-white/20">
-            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            Live Cohort Seats Filling
-          </span>
-          <h3 class="text-2xl font-black mb-1.5">Learn Live with Senior Engineers</h3>
-          <p class="text-sm text-purple-200 max-w-xl">Get personalized 1-on-1 mentorship, daily interactive workshops, and 24/7 doubt resolution to land your dream tech role.</p>
+      <!-- Module 2 -->
+      <div class="month-module-card p-5 sm:p-6" data-module="2">
+        <div class="module-header flex items-start justify-between gap-4" onclick="toggleCourseModule(2)">
+          <div class="flex items-start gap-3 sm:gap-4">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-100 text-purple-700 font-display font-black text-sm sm:text-base flex items-center justify-center shrink-0 border border-purple-200">
+              02
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
+                  Week 03 - 04
+                </span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                  Live Cohort &bull; 6 Sessions
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">
+                Express.js Mastery
+              </h3>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 hover:bg-slate-200 transition">
+            <i id="chevron-2" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
         </div>
-        <a href="enroll.html?course=backend" class="px-8 py-3.5 rounded-xl bg-white text-purple-900 font-extrabold text-sm hover:bg-purple-50 hover:shadow-lg transition shrink-0 transform hover:-translate-y-0.5">
-          Enroll in Live Cohort
-        </a>
+
+        <div id="body-2" class="mt-4 pt-4 border-t border-slate-100 hidden">
+          <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">Live Interactive Sessions &amp; Labs:</h5>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+            
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Intro to Express Framework</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Advanced Routing & Middleware</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">45m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Template Engines (EJS/Handlebars)</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">50m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">REST API Design Principles</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">40m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Error Handling & Validation</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">55m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">CORS & Helmet for Security</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">30m</span>
+          </div>
+        </div>
+      
+          </div>
+          <div class="p-3 rounded-lg bg-purple-50/70 border border-purple-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-purple-900"><i class="fas fa-trophy text-purple-600 mr-1.5"></i> Express.js Mastery - Implementation & Portfolio Review</span>
+            <span class="text-[10px] font-bold uppercase bg-white text-purple-700 px-2 py-0.5 rounded border border-purple-200">Mentor Reviewed</span>
+          </div>
+        </div>
+      </div>
+    
+
+      <!-- Module 3 -->
+      <div class="month-module-card p-5 sm:p-6" data-module="3">
+        <div class="module-header flex items-start justify-between gap-4" onclick="toggleCourseModule(3)">
+          <div class="flex items-start gap-3 sm:gap-4">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-100 text-purple-700 font-display font-black text-sm sm:text-base flex items-center justify-center shrink-0 border border-purple-200">
+              03
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
+                  Week 05 - 06
+                </span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                  Live Cohort &bull; 6 Sessions
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">
+                Databases (SQL & NoSQL)
+              </h3>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 hover:bg-slate-200 transition">
+            <i id="chevron-3" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+        </div>
+
+        <div id="body-3" class="mt-4 pt-4 border-t border-slate-100 hidden">
+          <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">Live Interactive Sessions &amp; Labs:</h5>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+            
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">MongoDB Basics & Mongoose ODM</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Aggregation Pipelines</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">45m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">PostgreSQL & Relational Models</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">50m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">ACID Properties</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">40m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Database Relationships (1:1, 1:N, N:M)</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">55m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Data Indexing & Performance</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">30m</span>
+          </div>
+        </div>
+      
+          </div>
+          <div class="p-3 rounded-lg bg-purple-50/70 border border-purple-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-purple-900"><i class="fas fa-trophy text-purple-600 mr-1.5"></i> Databases (SQL & NoSQL) - Implementation & Portfolio Review</span>
+            <span class="text-[10px] font-bold uppercase bg-white text-purple-700 px-2 py-0.5 rounded border border-purple-200">Mentor Reviewed</span>
+          </div>
+        </div>
+      </div>
+    
+
+      <!-- Module 4 -->
+      <div class="month-module-card p-5 sm:p-6" data-module="4">
+        <div class="module-header flex items-start justify-between gap-4" onclick="toggleCourseModule(4)">
+          <div class="flex items-start gap-3 sm:gap-4">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-100 text-purple-700 font-display font-black text-sm sm:text-base flex items-center justify-center shrink-0 border border-purple-200">
+              04
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
+                  Week 07 - 08
+                </span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                  Live Cohort &bull; 6 Sessions
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">
+                Authentication & Security
+              </h3>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 hover:bg-slate-200 transition">
+            <i id="chevron-4" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+        </div>
+
+        <div id="body-4" class="mt-4 pt-4 border-t border-slate-100 hidden">
+          <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">Live Interactive Sessions &amp; Labs:</h5>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+            
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">User Authentication Concepts</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">JWT (JSON Web Tokens) Implementation</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">45m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">OAuth 2.0 Integration (Google, GitHub)</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">50m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Session Management & Cookies</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">40m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Password Hashing (bcrypt)</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">55m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Preventing SQL Injection & XSS</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">30m</span>
+          </div>
+        </div>
+      
+          </div>
+          <div class="p-3 rounded-lg bg-purple-50/70 border border-purple-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-purple-900"><i class="fas fa-trophy text-purple-600 mr-1.5"></i> Authentication & Security - Implementation & Portfolio Review</span>
+            <span class="text-[10px] font-bold uppercase bg-white text-purple-700 px-2 py-0.5 rounded border border-purple-200">Mentor Reviewed</span>
+          </div>
+        </div>
+      </div>
+    
+
+      <!-- Module 5 -->
+      <div class="month-module-card p-5 sm:p-6" data-module="5">
+        <div class="module-header flex items-start justify-between gap-4" onclick="toggleCourseModule(5)">
+          <div class="flex items-start gap-3 sm:gap-4">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-100 text-purple-700 font-display font-black text-sm sm:text-base flex items-center justify-center shrink-0 border border-purple-200">
+              05
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 uppercase tracking-wider">
+                  Week 09 - 10
+                </span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                  Live Cohort &bull; 5 Sessions
+                </span>
+              </div>
+              <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">
+                Advanced Backend Concepts
+              </h3>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 hover:bg-slate-200 transition">
+            <i id="chevron-5" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+        </div>
+
+        <div id="body-5" class="mt-4 pt-4 border-t border-slate-100 hidden">
+          <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5">Live Interactive Sessions &amp; Labs:</h5>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+            
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Caching with Redis</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Message Queues (RabbitMQ/Kafka)</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">45m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">WebSockets (Socket.io) for Real-time</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">50m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Microservices Architecture Basics</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">40m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Dockerizing Node.js Apps</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">55m</span>
+          </div>
+        </div>
+      
+          </div>
+          <div class="p-3 rounded-lg bg-purple-50/70 border border-purple-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-purple-900"><i class="fas fa-trophy text-purple-600 mr-1.5"></i> Advanced Backend Concepts - Implementation & Portfolio Review</span>
+            <span class="text-[10px] font-bold uppercase bg-white text-purple-700 px-2 py-0.5 rounded border border-purple-200">Mentor Reviewed</span>
+          </div>
+        </div>
+      </div>
+    
+
+        <!-- Final Placement & Interview Prep Module (Highlighted) -->
+        <div class="month-module-card placement-month p-5 sm:p-6" data-module="6">
+          <div class="module-header flex items-start justify-between gap-4" onclick="toggleCourseModule(6)">
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-display font-black text-sm sm:text-base flex items-center justify-center shrink-0 shadow-sm">
+                06
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold bg-purple-600 text-white uppercase tracking-wider shadow-xs">
+                    ★ Career Milestone &bull; Week 11 - 12
+                  </span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                    Placement &amp; Interview Prep
+                  </span>
+                </div>
+                <h3 class="font-display font-black text-base sm:text-lg text-purple-950">
+                  Placement & Interview Prep
+                </h3>
+                <p class="text-xs text-purple-800/80 mt-0.5 font-medium">
+                  Direct mock interviews, ATS resume clearance, portfolio audits, and referral support to crack tech interviews.
+                </p>
+              </div>
+            </div>
+            <button class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 hover:bg-purple-200 transition">
+              <i id="chevron-6" class="fas fa-chevron-up text-xs transition-transform duration-200"></i>
+            </button>
+          </div>
+
+          <div id="body-6" class="mt-4 pt-4 border-t border-purple-200/80 block">
+            <h5 class="text-[11px] font-bold text-purple-900 uppercase tracking-wider mb-2.5">Placement Sprint Curriculum:</h5>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+              
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">System Design Basics</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">35m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Scalability & Load Balancing Concepts</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">45m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Backend Whiteboard Coding</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">50m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Resume Building & LinkedIn</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">40m</span>
+          </div>
+        </div>
+      
+        <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-50 hover:bg-purple-50/50 border border-slate-100 transition">
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 text-xs">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 truncate">Mock Interviews & MNC Strategies</p>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded uppercase tracking-wider hidden sm:inline">Lab</span>
+            <span class="text-[11px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">55m</span>
+          </div>
+        </div>
+      
+            </div>
+            <div class="p-3 rounded-lg bg-gradient-to-r from-purple-700 to-indigo-700 text-white flex items-center justify-between text-xs shadow-xs">
+              <span class="font-bold flex items-center gap-2">
+                <i class="fas fa-award text-yellow-300"></i> Milestone: Portfolio Defense &amp; Tech Interview Clearance
+              </span>
+              <span class="text-[10px] font-extrabold uppercase bg-white/20 px-2 py-0.5 rounded border border-white/30">Verified</span>
+            </div>
+          </div>
+        </div>
+      
       </div>
 
     </div>
   </section>
 
-  <script>
-    function toggleBootcampModule(headerEl) {
-      const card = headerEl.closest('.bootcamp-module-card');
-      const body = card.querySelector('.bootcamp-body');
-      const chevron = card.querySelector('.bootcamp-chevron i');
-      const isHidden = body.style.display === 'none' || body.classList.contains('hidden');
+  <!-- Course Format Specifications -->
+  <section class="py-10 bg-white border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Format</span>
+          <span class="text-sm font-extrabold text-slate-900">100% Live Online</span>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Duration</span>
+          <span class="text-sm font-extrabold text-slate-900">3 Months</span>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Schedule</span>
+          <span class="text-sm font-extrabold text-slate-900">5 Days / Week</span>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Languages</span>
+          <span class="text-sm font-extrabold text-slate-900">English, Tamil</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Final Enrollment CTA -->
+  <section class="py-12 sm:py-14 bg-[#0f172a] text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="font-display font-black text-2xl sm:text-3xl text-white mb-3">
+        Ready to Master Backend Development?
+      </h2>
+      <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mb-6">
+        Join our live cohort, learn directly with experienced software engineers, and graduate with verified portfolio projects.
+      </p>
+      <a href="enroll.html?course=backend"
+         class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm sm:text-base transition shadow-md hover:shadow-lg">
+        <span>Enroll in Live Cohort</span>
+        <i class="fas fa-arrow-right text-xs"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Compact Footer -->
+  <footer class="bg-[#0b0f19] text-slate-400 py-8 border-t border-slate-800 mt-auto">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div class="flex items-center justify-center gap-2 mb-3">
+        <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-6 w-auto">
+          <defs>
+            <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#1d4ed8" />
+            </linearGradient>
+          </defs>
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#footerGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
+          <circle cx="20" cy="70" r="8" fill="#3b82f6" />
+          <circle cx="70" cy="70" r="8" fill="#3b82f6" />
+        </svg>
+        <div class="flex items-baseline gap-1">
+          <span class="font-display text-base font-800 text-white">AGS</span>
+          <span class="font-display text-base font-800 text-[var(--purple)]">Academys</span>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500">
+        &copy; 2026 AGS Academys. Quality Education gives Peace of mind. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Script for Interactive Module Collapsibles -->
+  <script>
+    function toggleCourseModule(modNum) {
+      const body = document.getElementById('body-' + modNum);
+      const chevron = document.getElementById('chevron-' + modNum);
+      if (!body) return;
+
+      const isHidden = body.classList.contains('hidden');
       if (isHidden) {
         body.classList.remove('hidden');
-        body.style.display = 'block';
-        chevron.classList.add('rotate-180');
+        body.classList.add('block');
+        if (chevron) {
+          chevron.classList.remove('fa-chevron-down');
+          chevron.classList.add('fa-chevron-up');
+        }
       } else {
         body.classList.add('hidden');
-        body.style.display = 'none';
-        chevron.classList.remove('rotate-180');
+        body.classList.remove('block');
+        if (chevron) {
+          chevron.classList.remove('fa-chevron-up');
+          chevron.classList.add('fa-chevron-down');
+        }
       }
     }
 
-    function toggleAllBootcampModules(btn) {
-      const cards = document.querySelectorAll('.bootcamp-module-card');
+    function toggleAllModules(btn) {
+      const bodies = document.querySelectorAll('[id^="body-"]');
       const textEl = btn.querySelector('.expand-all-text');
       const shouldExpand = textEl.innerText.toLowerCase().includes('expand');
 
-      cards.forEach(card => {
-        const body = card.querySelector('.bootcamp-body');
-        const chevron = card.querySelector('.bootcamp-chevron i');
+      bodies.forEach(body => {
+        const idNum = body.id.replace('body-', '');
+        const chevron = document.getElementById('chevron-' + idNum);
         if (shouldExpand) {
           body.classList.remove('hidden');
-          body.style.display = 'block';
-          chevron.classList.add('rotate-180');
+          body.classList.add('block');
+          if (chevron) {
+            chevron.classList.remove('fa-chevron-down');
+            chevron.classList.add('fa-chevron-up');
+          }
         } else {
           body.classList.add('hidden');
-          body.style.display = 'none';
-          chevron.classList.remove('rotate-180');
+          body.classList.remove('block');
+          if (chevron) {
+            chevron.classList.remove('fa-chevron-up');
+            chevron.classList.add('fa-chevron-down');
+          }
         }
       });
 
@@ -1461,83 +1117,5 @@
     }
   </script>
 
-  <!-- Course Details Grid -->
-  <section class="py-16 bg-white border-t border-gray-200">
-    <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-3xl font-bold text-center mb-12 text-[#141417]">Course Details</h2>
-      
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <!-- Detail 1 -->
-        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
-          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Format</h4>
-          <p class="text-lg font-bold text-gray-900">Live Online</p>
-        </div>
-        <!-- Detail 2 -->
-        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
-          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Duration</h4>
-          <p class="text-lg font-bold text-gray-900">3 Months</p>
-        </div>
-        <!-- Detail 3 -->
-        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
-          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Schedule</h4>
-          <p class="text-lg font-bold text-gray-900">5 Days / Week</p>
-        </div>
-        <!-- Detail 4 -->
-        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-200 text-center flex flex-col items-center justify-center hover:shadow-md transition duration-300">
-          <svg class="w-8 h-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-          <h4 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Languages</h4>
-          <p class="text-lg font-bold text-gray-900">English, Tamil</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="text-center py-20 bg-gray-50 flex-1 border-t border-gray-200">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Master Backend?</h2>
-    <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Join thousands of students and start your journey towards becoming a professional today.</p>
-    <a href="enroll.html?course=backend" 
-       class="bg-green-600 hover:opacity-90 text-white px-10 py-4 rounded-xl font-bold shadow-xl transition transform hover:-translate-y-1 inline-block">
-      Enroll Now
-    </a>
-  </section>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="bg-[#141417] text-[#8B899A] py-12 mt-auto">
-      <div class="max-w-7xl mx-auto px-4 lg:px-6">
-          <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-[#232327] pb-8 mb-8">
-              <a href="index.html" class="flex items-center gap-2">
-                <svg xmlns="http://www.svg.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto">
-  <defs>
-    <linearGradient id="gradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3b82f6" />
-      <stop offset="100%" stop-color="#1d4ed8" />
-    </linearGradient>
-  </defs>
-  <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-  <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
-  <circle cx="20" cy="70" r="8" fill="#3b82f6" />
-  <circle cx="70" cy="70" r="8" fill="#3b82f6" />
-</svg>
-                <div class="flex items-baseline gap-1">
-                  <span class="font-display text-2xl font-800 text-white">AGS</span>
-                  <span class="font-display text-2xl font-800 text-[var(--purple)]">Academys</span>
-                </div>
-              </a>
-              <div class="flex gap-6 text-sm font-medium">
-                  <a href="#" class="hover:text-white transition">About</a>
-                  <a href="#" class="hover:text-white transition">Careers</a>
-                  <a href="#" class="hover:text-white transition">Privacy</a>
-                  <a href="#" class="hover:text-white transition">Terms</a>
-              </div>
-          </div>
-          <div class="text-sm text-center md:text-left">
-              &copy; 2026 AGS Academys, Inc. All rights reserved.
-          </div>
-      </div>
-  </footer>
 </body>
 </html>
