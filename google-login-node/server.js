@@ -1997,11 +1997,21 @@ app.get(
 
             const userEmail = (userObj.email || '').toLowerCase().trim();
 
-            // Check if user has an enrollment with paymentStatus: 'PAID'
-            const paidEnrollment = await Enrollment.findOne({
-                email: { $regex: new RegExp(`^${userEmail}$`, 'i') },
-                paymentStatus: 'PAID'
-            });
+            // Check if user has an enrollment with paymentStatus: 'PAID' (exact match avoids unsupported $regex in MongoDB emulators/Freebase)
+            let paidEnrollment = null;
+            if (userEmail) {
+                paidEnrollment = await Enrollment.findOne({
+                    email: userEmail,
+                    paymentStatus: 'PAID'
+                });
+
+                if (!paidEnrollment && userObj.email && userObj.email !== userEmail) {
+                    paidEnrollment = await Enrollment.findOne({
+                        email: userObj.email,
+                        paymentStatus: 'PAID'
+                    });
+                }
+            }
 
             if (paidEnrollment && paidEnrollment.course) {
                 userObj.course = paidEnrollment.course;
