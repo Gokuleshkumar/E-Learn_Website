@@ -24,7 +24,7 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
     const studentName = (name || 'Student').trim();
     const senderEmail = process.env.EMAIL_FROM || 'no-reply@agsacademys.online';
     const senderName = 'AGS Academys';
-    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdO-haDMMXqIXGIv0jzONdO0vbjwZcqbzzV0UZXuwg3B9KB-Q/viewform?usp=sharing&ouid=103364429695066988656';
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdO-haDMMXqIXGIv0jzONdO0vbjwZcqbzzV0UZXuwg3B9KB-Q/viewform?usp=preview';
     const personalizedDashboardUrl = `https://www.agsacademys.online/dash.html?user=${encodeURIComponent(studentName)}&email=${encodeURIComponent(cleanEmail)}`;
     const AI_DISCUSS_URL = process.env.AI_DISCUSS_URL || 'https://ags-ai-discuss.onrender.com';
     const personalizedAiDiscussUrl = `${AI_DISCUSS_URL}/?autoLogin=true&name=${encodeURIComponent(studentName)}`;
