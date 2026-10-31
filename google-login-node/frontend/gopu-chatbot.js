@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Fees, Pricing & Refunds
         if (/fee|price|cost|pay|how much/.test(text)) {
-            return "Our flagship Training cum Placement Program is currently discounted to ₹25,000. 💳 Standalone skill courses usually run under ₹10,000. It's a great investment in your career!";
+            return "Our flagship Training cum Placement Program is currently discounted to ₹14,999. 💳 Standalone skill courses usually run under ₹10,000. It's a great investment in your career!";
         }
         if (/refund|cancel|money back/.test(text)) {
             return "Please note that we have a strict no-refund policy for all our courses and programs. We encourage you to review the curriculum carefully before enrolling! ⚠️";

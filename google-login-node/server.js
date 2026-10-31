@@ -1256,7 +1256,7 @@ app.post(
                 "machine-learning": 9499,
                 "quantum-computing": 11999,
                 "problem-solving-dsa": 4999,
-                "training-placement": 25000,
+                "training-placement": 14999,
                 "default": 4499
             };
 
