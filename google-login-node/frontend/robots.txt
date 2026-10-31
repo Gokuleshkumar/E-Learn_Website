@@ -10,4 +10,29 @@ Disallow: /reset.html
 Disallow: /forgot-password.html
 Disallow: /api/
 
+User-agent: Bingbot
+Allow: /
+Disallow: /admin.html
+Disallow: /dash.html
+Disallow: /enroll.html
+Disallow: /payment.html
+Disallow: /profile.html
+Disallow: /reset-password.html
+Disallow: /reset.html
+Disallow: /forgot-password.html
+Disallow: /api/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin.html
+Disallow: /dash.html
+Disallow: /enroll.html
+Disallow: /payment.html
+Disallow: /profile.html
+Disallow: /reset-password.html
+Disallow: /reset.html
+Disallow: /forgot-password.html
+Disallow: /api/
+
+Sitemap: https://www.agsacademys.online/sitemap.xml
 Sitemap: https://agsacademys.online/sitemap.xml
