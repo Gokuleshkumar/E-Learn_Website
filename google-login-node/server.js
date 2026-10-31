@@ -2229,9 +2229,10 @@ const server = app.listen(
     '0.0.0.0',
     () => {
 
-        console.log(
-            `🚀 Server running at http://0.0.0.0:${PORT}`
-        );
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`👉 Open locally:  http://localhost:${PORT}`);
+        console.log(`👉 Loopback IP:   http://127.0.0.1:${PORT}`);
+        console.log(`👉 Signup Page:   http://localhost:${PORT}/signup.html`);
 
     }
 );
