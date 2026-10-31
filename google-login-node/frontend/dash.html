@@ -140,6 +140,64 @@
       from { opacity: 0; transform: scale(0.96) translateY(12px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
+
+    /* Wall Sticker Quotes Style */
+    .wall-sticker {
+      position: relative;
+      background: #FFFFFF;
+      border-radius: 18px;
+      box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08), 0 6px 12px -4px rgba(0, 0, 0, 0.04), inset 0 0 0 1px rgba(226, 232, 240, 0.85);
+      padding: 30px 26px 22px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .wall-sticker::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 90px;
+      height: 22px;
+      background: rgba(253, 224, 71, 0.75);
+      border-left: 2px dashed rgba(202, 138, 4, 0.45);
+      border-right: 2px dashed rgba(202, 138, 4, 0.45);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(1px);
+      z-index: 2;
+    }
+    .wall-sticker.sticker-lavender::before {
+      background: rgba(216, 180, 254, 0.75);
+      border-color: rgba(147, 51, 234, 0.45);
+      transform: translateX(-50%) rotate(1.5deg);
+    }
+    .wall-sticker:hover {
+      transform: translateY(-4px) rotate(0.2deg);
+      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+    }
+    .wall-sticker-quote {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16.5px;
+      line-height: 1.65;
+      font-weight: 600;
+      color: #1E293B;
+      font-style: italic;
+    }
+    .wall-sticker-quote mark {
+      background: #FEF08A;
+      color: #854D0E;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-style: normal;
+      font-weight: 800;
+    }
+    .wall-sticker-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px dashed #E2E8F0;
+    }
   </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -830,30 +888,66 @@
         </div>
       </section>
 
-      <!-- Locked Quiz Arena Teaser for Unpaid Users -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[var(--line)]">
-        <div class="bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 rounded-2xl p-5 sm:p-7 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-          <div class="max-w-2xl relative z-10">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-yellow-400 text-purple-950 uppercase tracking-wider mb-2">
-              <i class="fas fa-lock text-[10px]"></i> Paid Student VIP Feature
-            </span>
-            <h3 class="font-display font-bold text-lg sm:text-xl text-white mb-1.5">
-              Unlock the Comprehensive Quiz Arena
-            </h3>
-            <p class="text-purple-200 text-xs sm:text-[13px] leading-relaxed mb-3">
-              Enrolled students get unlimited access to <strong>23 comprehensive quizzes</strong> covering all 12 course topics and 11 core CS programming question topics (C, C++, JS, Python, Java, SQL, DSA, Algorithms, OS, Networks, Git) with interactive timers, score reports, and answer rationales.
+      <!-- Founders & CEO Quotes Wall Sticker Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-[var(--line)]">
+        <div class="text-center max-w-xl mx-auto mb-8">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 uppercase tracking-wider mb-2 border border-amber-200/80">
+            <i class="fas fa-quote-left text-[10px]"></i> Leadership & Vision
+          </span>
+          <h2 class="font-display font-800 text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
+            Words from Our Founders & CEO
+          </h2>
+          <p class="text-[var(--ink-soft)] text-sm mt-1.5">
+            The core philosophy and values driving our curriculum, mentorship, and student community.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto pt-2">
+          
+          <!-- Wall Sticker 1: Founder & CEO -->
+          <div class="wall-sticker rotate-[-0.6deg]">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                📌 Founder &amp; CEO's Note
+              </span>
+              <i class="fas fa-quote-right text-amber-300 text-xl"></i>
+            </div>
+            <p class="wall-sticker-quote">
+              &ldquo;At AGS Academys, our philosophy is anchored in one truth: <mark>Quality Education gives Peace of mind.</mark> When students master real engineering fundamentals and build genuine practical competence, career anxiety turns into unshakable confidence.&rdquo;
             </p>
-            <div class="flex items-center gap-3 text-[11px] text-purple-300 font-medium flex-wrap">
-              <span><i class="fas fa-check text-emerald-400 mr-1"></i> 115+ Interview Questions</span>
-              <span><i class="fas fa-check text-emerald-400 mr-1"></i> Instant Feedback</span>
-              <span><i class="fas fa-check text-emerald-400 mr-1"></i> Detailed Solution Explanations</span>
+            <div class="wall-sticker-author">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 text-white font-bold flex items-center justify-center text-sm shadow-sm shrink-0">
+                GK
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-[var(--ink)]">Gokulesh Kumar</h4>
+                <p class="text-xs text-[var(--ink-soft)] font-medium">Founder &amp; Chief Executive Officer, AGS Academys</p>
+              </div>
             </div>
           </div>
-          <div class="shrink-0 flex flex-col sm:flex-row gap-2.5 w-full md:w-auto relative z-10">
-            <button onclick="handleQuizNavClick()" class="px-5 py-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-purple-950 font-bold rounded-xl shadow transition text-center text-xs flex items-center justify-center gap-1.5">
-              <i class="fas fa-unlock-alt text-xs"></i> Unlock All Quizzes
-            </button>
+
+          <!-- Wall Sticker 2: Founding Academic Board -->
+          <div class="wall-sticker sticker-lavender rotate-[0.8deg]">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200">
+                💡 Founding Academic Vision
+              </span>
+              <i class="fas fa-quote-right text-purple-300 text-xl"></i>
+            </div>
+            <p class="wall-sticker-quote">
+              &ldquo;Education must be an empowering lifelong foundation, never a gamble. <mark>Quality Education gives Peace of mind</mark> to both students and parents — because proven skills and direct placement guidance ensure career success regardless of market shifts.&rdquo;
+            </p>
+            <div class="wall-sticker-author">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-bold flex items-center justify-center text-sm shadow-sm shrink-0">
+                AGS
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-[var(--ink)]">Founding Leadership Board</h4>
+                <p class="text-xs text-[var(--ink-soft)] font-medium">Training &amp; Placement Council, AGS Academys</p>
+              </div>
+            </div>
           </div>
+
         </div>
       </section>
     `;
