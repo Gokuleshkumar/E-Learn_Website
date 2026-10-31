@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,16 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="shortcut icon" href="favicon.ico">
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <style>
     :root {
       --ink: #141417;
@@ -30,34 +33,75 @@
       --gold: #B4690E;
       --green: #0F7B4F;
     }
+
     html {
       scroll-behavior: smooth;
       overflow-x: clip;
     }
-    body { 
+
+    body {
       font-family: 'Inter', sans-serif;
       overflow-x: clip;
       max-width: 100%;
     }
-    h1, h2, h3, h4, .font-display { font-family: 'Sora', sans-serif; }
-    .font-800 { font-weight: 800; }
-    .bg-udemy-dark { background-color: #1c1d1f; }
-    .text-udemy-purple { color: #7C3AED; }
-    .bg-udemy-purple { background-color: #7C3AED; }
-    .hover-bg-udemy-purple:hover { background-color: #5B21B6; }
-    
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .font-display {
+      font-family: 'Sora', sans-serif;
     }
+
+    .font-800 {
+      font-weight: 800;
+    }
+
+    .bg-udemy-dark {
+      background-color: #1c1d1f;
+    }
+
+    .text-udemy-purple {
+      color: #7C3AED;
+    }
+
+    .bg-udemy-purple {
+      background-color: #7C3AED;
+    }
+
+    .hover-bg-udemy-purple:hover {
+      background-color: #5B21B6;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .animate-fade-up {
       animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
     }
-    .delay-100 { animation-delay: 100ms; }
-    .delay-200 { animation-delay: 200ms; }
-    .delay-300 { animation-delay: 300ms; }
-  
+
+    .delay-100 {
+      animation-delay: 100ms;
+    }
+
+    .delay-200 {
+      animation-delay: 200ms;
+    }
+
+    .delay-300 {
+      animation-delay: 300ms;
+    }
+
     /* Hide default browser password reveal icon */
     input[type="password"]::-ms-reveal,
     input[type="password"]::-ms-clear {
@@ -66,26 +110,34 @@
 
     /* Automatic Horizontal Marquee Scrolling */
     @keyframes marqueeScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
+
     .company-marquee-wrap {
       overflow: hidden;
       position: relative;
       width: 100%;
     }
+
     .company-marquee-track {
       display: flex;
       width: max-content;
       animation: marqueeScroll 30s linear infinite;
       will-change: transform;
     }
+
     .company-marquee-wrap:hover .company-marquee-track {
       animation-play-state: paused;
     }
-
   </style>
 </head>
+
 <body class="bg-gray-50 text-gray-900 antialiased flex flex-col min-h-screen">
 
   <!-- Header / Navbar matching dash.html -->
@@ -99,7 +151,8 @@
               <stop offset="100%" stop-color="#1d4ed8" />
             </linearGradient>
           </defs>
-          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#grad1)" stroke-width="12" stroke-linecap="round"
+            stroke-linejoin="round" fill="none" />
           <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
           <circle cx="20" cy="70" r="8" fill="#3b82f6" />
           <circle cx="70" cy="70" r="8" fill="#3b82f6" />
@@ -112,12 +165,14 @@
 
       <nav class="flex items-center gap-5 sm:gap-6 text-[15px] font-semibold">
         <a href="dash.html" class="text-white hover:text-gray-300 transition">Dashboard</a>
-        <a href="Aboutus.html" class="text-white hover:text-gray-300 transition border-b-2 border-[var(--purple)] pb-0.5">About Us</a>
+        <a href="Aboutus.html"
+          class="text-white hover:text-gray-300 transition border-b-2 border-[var(--purple)] pb-0.5">About Us</a>
         <a href="contactus.html" class="text-white hover:text-gray-300 transition">Contact Us</a>
       </nav>
 
       <div class="hidden sm:flex items-center gap-3">
-        <a href="dash.html" class="px-4 py-2 text-sm font-semibold text-white bg-[#232327] hover:bg-[#2e2e33] border border-[#3c3d42] rounded-full transition flex items-center gap-2">
+        <a href="dash.html"
+          class="px-4 py-2 text-sm font-semibold text-white bg-[#232327] hover:bg-[#2e2e33] border border-[#3c3d42] rounded-full transition flex items-center gap-2">
           <i class="fas fa-th-large text-[var(--purple)]"></i> All Courses
         </a>
       </div>
@@ -128,19 +183,23 @@
   <section class="bg-udemy-dark text-white py-20 px-6">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
       <div class="md:w-1/2 md:pr-12 animate-fade-up">
-        <h1 class="text-5xl font-black mb-6 leading-tight">Improving lives through <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">learning.</span></h1>
-        <p class="text-xl text-gray-300 mb-8 font-medium">Whether you want to learn or to share what you know, you’ve come to the right place. As a global destination for online learning, we connect people through knowledge.</p>
+        <h1 class="text-5xl font-black mb-6 leading-tight">Improving lives through <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">learning.</span></h1>
+        <p class="text-xl text-gray-300 mb-8 font-medium">Whether you want to learn or to share what you know, you’ve
+          come to the right place. As a global destination for online learning, we connect people through knowledge.</p>
       </div>
       <div class="md:w-1/2 mt-10 md:mt-0 animate-fade-up delay-100 relative">
-         <div class="absolute inset-0 bg-udemy-purple rounded-3xl transform rotate-3 scale-105 opacity-20"></div>
-         <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" alt="Students Learning" class="rounded-3xl shadow-2xl relative z-10 w-full h-[400px] object-cover">
+        <div class="absolute inset-0 bg-udemy-purple rounded-3xl transform rotate-3 scale-105 opacity-20"></div>
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" alt="Students Learning"
+          class="rounded-3xl shadow-2xl relative z-10 w-full h-[400px] object-cover">
       </div>
     </div>
   </section>
 
   <!-- Stats Section -->
   <section class="border-b border-gray-200 bg-white">
-    <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center animate-fade-up delay-200">
+    <div
+      class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center animate-fade-up delay-200">
       <div>
         <div class="text-4xl font-black text-gray-900 mb-1">1k+</div>
         <div class="text-sm font-bold text-gray-500 uppercase tracking-widest">Learners</div>
@@ -156,273 +215,352 @@
     </div>
   </section>
 
-  
-      <!-- Collaborated Companies Section (Unpaid / Storefront Only) -->
-      <section id="collaborated-companies-section" class="py-12 bg-gradient-to-b from-white via-slate-50/60 to-white border-t border-[var(--line)] overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-7 text-center">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-800 uppercase tracking-wider mb-2 border border-purple-200/80 shadow-2xs">
-            <i class="fas fa-handshake text-[10px]"></i> Hiring &amp; Training Network
-          </span>
-          <h2 class="font-display font-800 text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
-            We Collaborated with Companies
-          </h2>
-          <p class="text-[var(--ink-soft)] text-xs sm:text-sm mt-1.5 max-w-xl mx-auto">
-            Top technology organizations and enterprise hiring partners where our alumni excel and build cutting-edge careers.
-          </p>
-        </div>
 
-        <div class="company-marquee-wrap relative w-full overflow-hidden">
-          <!-- Gradient Edge Fades -->
-          <div class="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-white via-white/80 to-transparent z-10"></div>
-          <div class="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-white via-white/80 to-transparent z-10"></div>
-          
-          <!-- Infinite Scrolling Track -->
-          <div class="company-marquee-track flex gap-4 sm:gap-6 py-2 select-none">
-            
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/zoho.svg" alt="Zoho Logo" class="w-full h-full object-contain" loading="lazy" />
+  <!-- Collaborated Companies Section (Unpaid / Storefront Only) -->
+  <section id="collaborated-companies-section"
+    class="py-12 bg-gradient-to-b from-white via-slate-50/60 to-white border-t border-[var(--line)] overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-7 text-center">
+      <span
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-800 uppercase tracking-wider mb-2 border border-purple-200/80 shadow-2xs">
+        <i class="fas fa-handshake text-[10px]"></i> Hiring &amp; Training Network
+      </span>
+      <h2 class="font-display font-800 text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
+        We Collaborated with Companies
+      </h2>
+      <p class="text-[var(--ink-soft)] text-xs sm:text-sm mt-1.5 max-w-xl mx-auto">
+        Top technology organizations and enterprise hiring partners where our alumni excel and build cutting-edge
+        careers.
+      </p>
     </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Zoho</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">SaaS & Cloud Suite</span>
-    </div>
-  </div>
 
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/ibm.svg" alt="IBM Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">IBM</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">AI & Hybrid Cloud</span>
-    </div>
-  </div>
+    <div class="company-marquee-wrap relative w-full overflow-hidden">
+      <!-- Gradient Edge Fades -->
+      <div
+        class="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-white via-white/80 to-transparent z-10">
+      </div>
+      <div
+        class="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-white via-white/80 to-transparent z-10">
+      </div>
 
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/tcs.svg" alt="TCS Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">TCS</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Tata Consultancy Services</span>
-    </div>
-  </div>
+      <!-- Infinite Scrolling Track -->
+      <div class="company-marquee-track flex gap-4 sm:gap-6 py-2 select-none">
 
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/infosys.svg" alt="Infosys Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Infosys</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Digital Transformation</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/wipro.svg" alt="Wipro Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Wipro</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise Engineering</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/accenture.svg" alt="Accenture Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Accenture</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Technology & Strategy</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/oracle.svg" alt="Oracle Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Oracle</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Database & Cloud</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/salesforce.svg" alt="Salesforce Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Salesforce</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">CRM & Cloud Platform</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/cisco.svg" alt="Cisco Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Cisco</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Networking & Security</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/intel.svg" alt="Intel Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Intel</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Compute & Semiconductors</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/dell.svg" alt="Dell Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Dell</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise Infrastructure</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/sap.svg" alt="SAP Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">SAP</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise Software (ERP)</span>
-    </div>
-  </div>
-
-            
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/zoho.svg" alt="Zoho Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Zoho</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">SaaS & Cloud Suite</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/ibm.svg" alt="IBM Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">IBM</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">AI & Hybrid Cloud</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/tcs.svg" alt="TCS Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">TCS</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Tata Consultancy Services</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/infosys.svg" alt="Infosys Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Infosys</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Digital Transformation</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/wipro.svg" alt="Wipro Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Wipro</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise Engineering</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/accenture.svg" alt="Accenture Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Accenture</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Technology & Strategy</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/oracle.svg" alt="Oracle Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Oracle</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Database & Cloud</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/salesforce.svg" alt="Salesforce Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Salesforce</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">CRM & Cloud Platform</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/cisco.svg" alt="Cisco Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Cisco</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Networking & Security</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/intel.svg" alt="Intel Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Intel</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Compute & Semiconductors</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/dell.svg" alt="Dell Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Dell</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise Infrastructure</span>
-    </div>
-  </div>
-
-  <div class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
-    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
-      <img src="logos/sap.svg" alt="SAP Logo" class="w-full h-full object-contain" loading="lazy" />
-    </div>
-    <div>
-      <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">SAP</h4>
-      <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise Software (ERP)</span>
-    </div>
-  </div>
-
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/zoho.svg" alt="Zoho Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Zoho</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">SaaS & Cloud
+              Suite</span>
           </div>
         </div>
-      </section>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/ibm.svg" alt="IBM Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">IBM</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">AI & Hybrid
+              Cloud</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/tcs.svg" alt="TCS Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">TCS</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Tata
+              Consultancy Services</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/infosys.svg" alt="Infosys Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Infosys</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Digital
+              Transformation</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/wipro.svg" alt="Wipro Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Wipro</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise
+              Engineering</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/accenture.svg" alt="Accenture Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Accenture</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Technology &
+              Strategy</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/oracle.svg" alt="Oracle Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Oracle</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Database &
+              Cloud</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/salesforce.svg" alt="Salesforce Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Salesforce</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">CRM & Cloud
+              Platform</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/cisco.svg" alt="Cisco Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Cisco</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Networking &
+              Security</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/intel.svg" alt="Intel Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Intel</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Compute &
+              Semiconductors</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/dell.svg" alt="Dell Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Dell</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise
+              Infrastructure</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/sap.svg" alt="SAP Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">SAP</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise
+              Software (ERP)</span>
+          </div>
+        </div>
+
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/zoho.svg" alt="Zoho Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Zoho</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">SaaS & Cloud
+              Suite</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/ibm.svg" alt="IBM Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">IBM</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">AI & Hybrid
+              Cloud</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/tcs.svg" alt="TCS Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">TCS</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Tata
+              Consultancy Services</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/infosys.svg" alt="Infosys Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Infosys</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Digital
+              Transformation</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/wipro.svg" alt="Wipro Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Wipro</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise
+              Engineering</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/accenture.svg" alt="Accenture Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Accenture</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Technology &
+              Strategy</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/oracle.svg" alt="Oracle Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Oracle</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Database &
+              Cloud</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/salesforce.svg" alt="Salesforce Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Salesforce</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">CRM & Cloud
+              Platform</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/cisco.svg" alt="Cisco Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Cisco</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Networking &
+              Security</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/intel.svg" alt="Intel Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Intel</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Compute &
+              Semiconductors</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/dell.svg" alt="Dell Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">Dell</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise
+              Infrastructure</span>
+          </div>
+        </div>
+
+        <div
+          class="company-pill flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-purple-300 transition-all duration-200 shrink-0">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-50 border border-slate-100 p-1.5">
+            <img src="logos/sap.svg" alt="SAP Logo" class="w-full h-full object-contain" loading="lazy" />
+          </div>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900 leading-tight">SAP</h4>
+            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mt-0.5">Enterprise
+              Software (ERP)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
 
   <!-- Mission & Vision -->
@@ -431,20 +569,25 @@
       <div class="animate-fade-up delay-100">
         <h2 class="text-3xl font-black text-gray-900 mb-6">We just keep growing</h2>
         <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-          AGS Academys is a leading global marketplace for learning and instruction. By connecting students all over the world to the best instructors, we're helping individuals reach their goals and pursue their dreams.
+          AGS Academys is a leading global marketplace for learning and instruction. By connecting students all over the
+          world to the best instructors, we're helping individuals reach their goals and pursue their dreams.
         </p>
         <div class="bg-gray-100 p-6 rounded-xl border-l-4 border-udemy-purple mb-6">
           <h3 class="text-xl font-bold mb-2">🎯 Our Mission</h3>
-          <p class="text-gray-600">To make coding education accessible and job-oriented, equipping students with skills that employers truly value in the modern tech era.</p>
+          <p class="text-gray-600">To make coding education accessible and job-oriented, equipping students with skills
+            that employers truly value in the modern tech era.</p>
         </div>
         <div class="bg-gray-100 p-6 rounded-xl border-l-4 border-pink-500">
           <h3 class="text-xl font-bold mb-2">🌍 Our Vision</h3>
-          <p class="text-gray-600">To empower every student with industry-relevant skills and transform them into confident professionals ready to thrive in the global tech industry.</p>
+          <p class="text-gray-600">To empower every student with industry-relevant skills and transform them into
+            confident professionals ready to thrive in the global tech industry.</p>
         </div>
       </div>
       <div class="grid grid-cols-2 gap-4 animate-fade-up delay-200">
-         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&h=600&fit=crop" class="rounded-2xl shadow-lg w-full h-[300px] object-cover mt-12">
-         <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500&h=600&fit=crop" class="rounded-2xl shadow-lg w-full h-[300px] object-cover">
+        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&h=600&fit=crop"
+          class="rounded-2xl shadow-lg w-full h-[300px] object-cover mt-12">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500&h=600&fit=crop"
+          class="rounded-2xl shadow-lg w-full h-[300px] object-cover">
       </div>
     </div>
   </section>
@@ -454,56 +597,75 @@
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16 animate-fade-up">
         <h2 class="text-3xl font-black text-gray-900 mb-4">Why learn with AGS Academys?</h2>
-        <p class="text-xl text-gray-600">We offer a unique, engaging, and outcome-oriented approach to online education.</p>
+        <p class="text-xl text-gray-600">We offer a unique, engaging, and outcome-oriented approach to online education.
+        </p>
       </div>
-      
+
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up delay-100">
-          <div class="w-14 h-14 bg-purple-100 text-udemy-purple rounded-xl flex items-center justify-center text-2xl mb-6">
+        <div
+          class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up delay-100">
+          <div
+            class="w-14 h-14 bg-purple-100 text-udemy-purple rounded-xl flex items-center justify-center text-2xl mb-6">
             <i class="fa-solid fa-chalkboard-user"></i>
           </div>
           <h4 class="text-xl font-bold mb-3">Live Interactive Classes</h4>
-          <p class="text-gray-600">Learn directly from industry experts with real-time support. Ask questions and get feedback instantly.</p>
+          <p class="text-gray-600">Learn directly from industry experts with real-time support. Ask questions and get
+            feedback instantly.</p>
         </div>
-        
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up delay-200">
+
+        <div
+          class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up delay-200">
           <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-6">
             <i class="fa-solid fa-laptop-code"></i>
           </div>
           <h4 class="text-xl font-bold mb-3">Hands-on Projects</h4>
-          <p class="text-gray-600">Theory isn't enough. Build real-world applications that you can showcase in your professional portfolio.</p>
+          <p class="text-gray-600">Theory isn't enough. Build real-world applications that you can showcase in your
+            professional portfolio.</p>
         </div>
-        
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up delay-300">
+
+        <div
+          class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up delay-300">
           <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center text-2xl mb-6">
             <i class="fa-solid fa-certificate"></i>
           </div>
           <h4 class="text-xl font-bold mb-3">Recognized Certification</h4>
-          <p class="text-gray-600">Receive a verifiable certificate upon completion to boost your LinkedIn profile and resume.</p>
+          <p class="text-gray-600">Receive a verifiable certificate upon completion to boost your LinkedIn profile and
+            resume.</p>
         </div>
-        
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up" style="animation-delay: 400ms;">
+
+        <div
+          class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up"
+          style="animation-delay: 400ms;">
           <div class="w-14 h-14 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-2xl mb-6">
             <i class="fa-solid fa-globe"></i>
           </div>
           <h4 class="text-xl font-bold mb-3">Experienced Instructors</h4>
-          <p class="text-gray-600">Learn from highly experienced industry professionals who bring years of real-world expertise and practical knowledge to your learning journey.</p>
+          <p class="text-gray-600">Learn from highly experienced industry professionals who bring years of real-world
+            expertise and practical knowledge to your learning journey.</p>
         </div>
-        
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up" style="animation-delay: 500ms;">
-          <div class="w-14 h-14 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center text-2xl mb-6">
+
+        <div
+          class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up"
+          style="animation-delay: 500ms;">
+          <div
+            class="w-14 h-14 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center text-2xl mb-6">
             <i class="fa-solid fa-language"></i>
           </div>
           <h4 class="text-xl font-bold mb-3">Multiple Languages</h4>
-          <p class="text-gray-600">Courses are taught in multiple languages, making complex tech concepts easy to grasp in your native tongue.</p>
+          <p class="text-gray-600">Courses are taught in multiple languages, making complex tech concepts easy to grasp
+            in your native tongue.</p>
         </div>
-        
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up" style="animation-delay: 600ms;">
-          <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
+
+        <div
+          class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-200 animate-fade-up"
+          style="animation-delay: 600ms;">
+          <div
+            class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
             <i class="fa-solid fa-briefcase"></i>
           </div>
-          <h4 class="text-xl font-bold mb-3">100% Placement Guaranteed</h4>
-          <p class="text-gray-600">We don't just teach, we launch careers. Get guaranteed placement assistance and land your dream tech job.</p>
+          <h4 class="text-xl font-bold mb-3">100% Placement Support</h4>
+          <p class="text-gray-600">We don't just teach, we launch careers. Get placement assistance and land your dream
+            tech job.</p>
         </div>
       </div>
     </div>
@@ -512,8 +674,10 @@
   <!-- CTA -->
   <section class="max-w-7xl mx-auto py-20 px-6 text-center animate-fade-up">
     <h2 class="text-4xl font-black text-gray-900 mb-6">Ready to transform your career?</h2>
-    <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Join thousands of students who have advanced their careers and achieved their goals with AGS Academys.</p>
-    <a href="dash.html" class="bg-udemy-purple hover:bg-purple-800 text-white px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors">
+    <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Join thousands of students who have advanced their careers
+      and achieved their goals with AGS Academys.</p>
+    <a href="dash.html"
+      class="bg-udemy-purple hover:bg-purple-800 text-white px-10 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors">
       Start Learning Now
     </a>
   </section>
@@ -530,7 +694,8 @@
                 <stop offset="100%" stop-color="#1d4ed8" />
               </linearGradient>
             </defs>
-            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            <path d="M20 70 L45 20 L70 70 M32 45 L58 45" stroke="url(#gradFooter)" stroke-width="12"
+              stroke-linecap="round" stroke-linejoin="round" fill="none" />
             <circle cx="45" cy="20" r="8" fill="#1d4ed8" />
             <circle cx="20" cy="70" r="8" fill="#3b82f6" />
             <circle cx="70" cy="70" r="8" fill="#3b82f6" />
@@ -572,4 +737,5 @@
   </script>
 
 </body>
+
 </html>
