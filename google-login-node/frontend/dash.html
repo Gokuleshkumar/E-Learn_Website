@@ -170,6 +170,16 @@
       border-color: rgba(147, 51, 234, 0.45);
       transform: translateX(-50%) rotate(1.5deg);
     }
+    .wall-sticker.sticker-mint::before {
+      background: rgba(167, 243, 208, 0.85);
+      border-color: rgba(16, 185, 129, 0.45);
+      transform: translateX(-50%) rotate(-1.5deg);
+    }
+    .wall-sticker.sticker-sky::before {
+      background: rgba(186, 230, 253, 0.85);
+      border-color: rgba(14, 165, 233, 0.45);
+      transform: translateX(-50%) rotate(1.2deg);
+    }
     .wall-sticker:hover {
       transform: translateY(-4px) rotate(0.2deg);
       box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
@@ -889,67 +899,117 @@
       </section>
 
       <!-- Tech Founders & CEO Quotes Wall Sticker Section -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-[var(--line)]">
-        <div class="text-center max-w-2xl mx-auto mb-10">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 uppercase tracking-wider mb-2.5 border border-amber-200/80 shadow-2xs">
-            <i class="fas fa-quote-left text-[10px]"></i> Visionary Insights
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 border-t border-[var(--line)]">
+        <div class="text-center max-w-2xl mx-auto mb-8">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 uppercase tracking-wider mb-2 border border-amber-200/80 shadow-2xs">
+            <i class="fas fa-quote-left text-[10px]"></i> Two-Line Wisdom
           </span>
           <h2 class="font-display font-800 text-2xl sm:text-3xl text-[var(--ink)] tracking-tight">
-            Words from Global Tech Leaders &amp; Founders
+            Notes from Visionary Founders &amp; CEOs
           </h2>
-          <p class="text-[var(--ink-soft)] text-sm sm:text-base mt-2">
-            Timeless perspectives on curiosity, hands-on engineering, and why true learning transforms your future.
+          <p class="text-[var(--ink-soft)] text-xs sm:text-sm mt-1.5">
+            Two-line perspectives on why genuine learning and practical mastery create lasting confidence.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto pt-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto pt-1">
           
-          <!-- Wall Sticker 1: Sundar Pichai -->
-          <div class="wall-sticker rotate-[-0.6deg]">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-extrabold uppercase tracking-widest text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
-                <i class="fab fa-google text-amber-600 text-xs"></i> Sundar Pichai
-              </span>
-              <i class="fas fa-quote-right text-amber-300 text-xl"></i>
+          <!-- Note 1: Sundar Pichai (Google) -->
+          <div class="wall-sticker rotate-[-0.6deg] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
+                  <i class="fab fa-google text-amber-600 text-[11px]"></i> Sundar Pichai
+                </span>
+                <i class="fas fa-quote-right text-amber-300 text-base"></i>
+              </div>
+              <p class="wall-sticker-quote text-sm leading-relaxed text-slate-800">
+                &ldquo;Education is the greatest equalizer in human history.<br>
+                <mark>Quality Education gives Peace of mind</mark> by turning curiosity into real capability.&rdquo;
+              </p>
             </div>
-            <p class="wall-sticker-quote">
-              &ldquo;Education has always been the greatest equalizer in human history. It is never just about memorizing answers, but learning how to think, innovate, and solve real-world problems. <mark>Quality Education gives Peace of mind</mark> to every student and family, replacing career anxiety with authentic competence.&rdquo;
-            </p>
-            <div class="wall-sticker-author">
-              <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-blue-600 via-teal-500 to-amber-500 text-white font-bold flex items-center justify-center text-sm shadow-sm shrink-0 border-2 border-white ring-1 ring-amber-200">
+            <div class="wall-sticker-author mt-4 pt-3 flex items-center gap-2.5 border-t border-dashed border-slate-200">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 via-teal-500 to-amber-500 text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0 border border-white ring-1 ring-amber-200">
                 SP
               </div>
-              <div>
-                <h4 class="font-bold text-sm text-[var(--ink)] flex items-center gap-1.5">
-                  Sundar Pichai
-                  <span class="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded font-semibold border border-blue-200">CEO</span>
-                </h4>
-                <p class="text-xs text-[var(--ink-soft)] font-medium">Chief Executive Officer, Google &amp; Alphabet</p>
+              <div class="min-w-0">
+                <h4 class="font-bold text-xs text-[var(--ink)] truncate">Sundar Pichai</h4>
+                <p class="text-[11px] text-[var(--ink-soft)] truncate">CEO, Google &amp; Alphabet</p>
               </div>
             </div>
           </div>
 
-          <!-- Wall Sticker 2: Satya Nadella -->
-          <div class="wall-sticker sticker-lavender rotate-[0.8deg]">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-extrabold uppercase tracking-widest text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200 flex items-center gap-1">
-                <i class="fab fa-microsoft text-purple-600 text-xs"></i> Satya Nadella
-              </span>
-              <i class="fas fa-quote-right text-purple-300 text-xl"></i>
+          <!-- Note 2: Satya Nadella (Microsoft) -->
+          <div class="wall-sticker sticker-lavender rotate-[0.8deg] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200 flex items-center gap-1">
+                  <i class="fab fa-microsoft text-purple-600 text-[11px]"></i> Satya Nadella
+                </span>
+                <i class="fas fa-quote-right text-purple-300 text-base"></i>
+              </div>
+              <p class="wall-sticker-quote text-sm leading-relaxed text-slate-800">
+                &ldquo;Don&rsquo;t be a know-it-all; be a learn-it-all.<br>
+                <mark>Quality Education gives Peace of mind</mark> to build the future without fear.&rdquo;
+              </p>
             </div>
-            <p class="wall-sticker-quote">
-              &ldquo;Our industry does not respect tradition — it only respects innovation. Don’t be a know-it-all; be a learn-it-all. <mark>Quality Education gives Peace of mind</mark> because when you master true engineering fundamentals and practical skills, you never fear the future — you build it.&rdquo;
-            </p>
-            <div class="wall-sticker-author">
-              <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-500 text-white font-bold flex items-center justify-center text-sm shadow-sm shrink-0 border-2 border-white ring-1 ring-purple-200">
+            <div class="wall-sticker-author mt-4 pt-3 flex items-center gap-2.5 border-t border-dashed border-slate-200">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-500 text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0 border border-white ring-1 ring-purple-200">
                 SN
               </div>
-              <div>
-                <h4 class="font-bold text-sm text-[var(--ink)] flex items-center gap-1.5">
-                  Satya Nadella
-                  <span class="text-[10px] text-purple-600 bg-purple-50 px-1.5 py-0.2 rounded font-semibold border border-purple-200">Chairman &amp; CEO</span>
-                </h4>
-                <p class="text-xs text-[var(--ink-soft)] font-medium">Chairman &amp; Chief Executive Officer, Microsoft</p>
+              <div class="min-w-0">
+                <h4 class="font-bold text-xs text-[var(--ink)] truncate">Satya Nadella</h4>
+                <p class="text-[11px] text-[var(--ink-soft)] truncate">Chairman &amp; CEO, Microsoft</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Note 3: Steve Jobs (Apple) -->
+          <div class="wall-sticker sticker-mint rotate-[-0.8deg] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                  <i class="fab fa-apple text-emerald-600 text-[11px]"></i> Steve Jobs
+                </span>
+                <i class="fas fa-quote-right text-emerald-300 text-base"></i>
+              </div>
+              <p class="wall-sticker-quote text-sm leading-relaxed text-slate-800">
+                &ldquo;Technology is nothing without empowering people with tools.<br>
+                <mark>Quality Education gives Peace of mind</mark> to create what never existed.&rdquo;
+              </p>
+            </div>
+            <div class="wall-sticker-author mt-4 pt-3 flex items-center gap-2.5 border-t border-dashed border-slate-200">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0 border border-white ring-1 ring-emerald-200">
+                SJ
+              </div>
+              <div class="min-w-0">
+                <h4 class="font-bold text-xs text-[var(--ink)] truncate">Steve Jobs</h4>
+                <p class="text-[11px] text-[var(--ink-soft)] truncate">Co-Founder, Apple</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Note 4: Jensen Huang (NVIDIA) -->
+          <div class="wall-sticker sticker-sky rotate-[0.6deg] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200 flex items-center gap-1">
+                  <i class="fas fa-microchip text-sky-600 text-[11px]"></i> Jensen Huang
+                </span>
+                <i class="fas fa-quote-right text-sky-300 text-base"></i>
+              </div>
+              <p class="wall-sticker-quote text-sm leading-relaxed text-slate-800">
+                &ldquo;Mastering deep fundamentals is where real craft begins.<br>
+                <mark>Quality Education gives Peace of mind</mark> when engineering the modern world.&rdquo;
+              </p>
+            </div>
+            <div class="wall-sticker-author mt-4 pt-3 flex items-center gap-2.5 border-t border-dashed border-slate-200">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-600 to-blue-600 text-white font-bold flex items-center justify-center text-xs shadow-2xs shrink-0 border border-white ring-1 ring-sky-200">
+                JH
+              </div>
+              <div class="min-w-0">
+                <h4 class="font-bold text-xs text-[var(--ink)] truncate">Jensen Huang</h4>
+                <p class="text-[11px] text-[var(--ink-soft)] truncate">Founder &amp; CEO, NVIDIA</p>
               </div>
             </div>
           </div>
