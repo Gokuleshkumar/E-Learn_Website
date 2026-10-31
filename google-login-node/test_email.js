@@ -5,7 +5,7 @@ const emailUser = process.env.EMAIL_USER || '';
 const rawPass = process.env.EMAIL_PASS || '';
 const cleanPass = rawPass.replace(/\s+/g, '');
 
-console.log('--- AGS Academy SMTP Diagnostics ---');
+console.log('--- AGS Academys SMTP Diagnostics ---');
 console.log('Testing SMTP connection for:', emailUser);
 console.log('Configured Host:', process.env.EMAIL_HOST || 'smtp.gmail.com');
 console.log('Password length:', cleanPass.length, 'characters');
@@ -34,9 +34,9 @@ transporter.verify()
     console.log(`Sending sample verification test email to ${testRecipient}...`);
     try {
       const info = await transporter.sendMail({
-        from: `"AGS Academy" <${emailUser}>`,
+        from: `"AGS Academys" <${emailUser}>`,
         to: testRecipient,
-        subject: 'AGS Academy - SMTP Test Successful',
+        subject: 'AGS Academys - SMTP Test Successful',
         text: 'Hello! Your SMTP connection and credentials are fully working. Real OTPs can now be sent to any user.',
         html: '<div style="font-family:sans-serif;padding:20px;border:1px solid #e0e0e0;border-radius:8px;"><h2>✅ SMTP Test Successful</h2><p>Your Gmail credentials are properly authenticated. OTP emails will now be delivered to student inboxes!</p></div>'
       });
@@ -59,7 +59,7 @@ transporter.verify()
       console.log('   https://myaccount.google.com/security');
       console.log('3. Visit the Google App Passwords page:');
       console.log('   https://myaccount.google.com/apppasswords');
-      console.log('4. Enter an App Name (e.g. "AGS Academy") and click "Create"');
+      console.log('4. Enter an App Name (e.g. "AGS Academys") and click "Create"');
       console.log('5. Google will display a 16-character code (e.g. "abcd efgh ijkl mnop")');
       console.log('6. Open your .env file and set:');
       console.log('   EMAIL_PASS=abcd efgh ijkl mnop');

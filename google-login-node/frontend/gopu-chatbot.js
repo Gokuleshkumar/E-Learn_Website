@@ -80,13 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Greetings & Small Talk
         if (/(^|\s)(hi|hello|hey|greetings|morning|afternoon|evening|wassup|sup)($|\s)/.test(text)) {
-            return "Hey there! 👋 I'm Gopu, the AGS Academy assistant. How can I help you today?";
+            return "Hey there! 👋 I'm Gopu, the AGS Academys assistant. How can I help you today?";
         }
         if (/how are you|how do you do|how's it going/.test(text)) {
             return "I'm doing great, thanks for asking! 🤖 Just hanging out in the server, ready to help you learn. What's on your mind?";
         }
         if (/who are you|your name|what are you/.test(text)) {
-            return "I'm Gopu! A friendly virtual assistant built to help AGS Academy students find their way around. 🤖";
+            return "I'm Gopu! A friendly virtual assistant built to help AGS Academys students find their way around. 🤖";
         }
         if (/thank you|thanks|thx|appreciate it/.test(text)) {
             return "You're very welcome! Let me know if you need anything else. 😊";
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
              return "Our Training cum Placement program comes with 100% guaranteed placement support! 🎯 We provide intensive training and assure you get the right opportunities to land your dream role.";
         }
         if (/certificate|certification|proof/.test(text)) {
-             return "Yes! 🎓 You'll get a verified AGS Academy certificate upon completion of any course, which you can showcase on LinkedIn and your resume.";
+             return "Yes! 🎓 You'll get a verified AGS Academys certificate upon completion of any course, which you can showcase on LinkedIn and your resume.";
         }
 
         // 5. Help, Login, & Syllabus
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return "Our students love our courses! We've successfully trained over 1k+ learners with a fantastic track record. ⭐ Check out our homepage for success stories!";
         }
         if (/about|who are you|what is ags|stats/.test(text)) {
-            return "AGS Academy is a premium e-learning platform! 🚀 We have over 1k+ learners, 10+ expert instructors, and 10+ premium courses designed to get you hired.";
+            return "AGS Academys is a premium e-learning platform! 🚀 We have over 1k+ learners, 10+ expert instructors, and 10+ premium courses designed to get you hired.";
         }
 
         // 7. Pedagogy & Prerequisites

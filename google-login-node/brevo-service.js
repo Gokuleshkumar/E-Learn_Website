@@ -196,7 +196,7 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
             ✅ <strong>100% Placement Guidance:</strong> We 100% guide you through the placement process — from building production-grade projects and ATS-friendly resumes to technical mock interviews and HR rounds.
           </div>
           <div class="point-item">
-            🏢 <strong>Companies Visit Our AGS Academy:</strong> Reputed tech companies and startups visit our AGS Academy to recruit qualified candidates directly from our batches.
+            🏢 <strong>Companies Visit Our AGS Academys:</strong> Reputed tech companies and startups visit our AGS Academys to recruit qualified candidates directly from our batches.
           </div>
           <div class="point-item">
             🚀 <strong>1,000+ Students Placed:</strong> We have successfully placed over <strong>1,000+ students</strong> for high-impact <strong>Internships and Full-Time Offers (FTO)</strong> across the tech industry.
