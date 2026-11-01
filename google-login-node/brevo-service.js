@@ -218,23 +218,23 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
           <div class="course-item">🔹 <strong>Data Structures & Algorithms (DSA)</strong> (Coding Interview Prep)</div>
         </div>
 
-        <!-- 50% Special Offer Box -->
+        <!-- 50% Special Scholarship Grant Box -->
         <div class="offer-box">
-          <span class="offer-badge">Limited Time Opportunity</span>
-          <h2 class="offer-title">Grab 50% OFF on Courses & Training Program</h2>
+          <span class="offer-badge">Scholarship Grant</span>
+          <h2 class="offer-title">50% Academic Scholarship & Training Program</h2>
           <p class="offer-desc">
-            Here is your chance to enroll in our flagship courses and complete Training & Placement Program with a <strong>flat 50% scholarship discount</strong>.
+            As a newly registered student, you are eligible for an exclusive <strong>50% academic scholarship grant</strong> towards our complete Training & Placement Program.
           </p>
           <div class="validity-tag">
-            ⏳ Offer Validity: <strong>November 2, 2026 to November 8, 2026</strong>
+            📅 Enrollment Window: <strong>November 2, 2026 – November 8, 2026</strong>
           </div>
           <div>
             <a href="${GOOGLE_FORM_URL}" class="cta-btn" target="_blank">
-              👉 Fill Course Preference Form (Claim 50% OFF)
+              👉 Complete Course Preference Form (Claim Scholarship)
             </a>
           </div>
           <p style="margin: 12px 0 0 0; font-size: 12px; color: #64748B;">
-            Takes only 1 minute to select your preferred course track and secure your 50% discount slot.
+            Takes only 1 minute to submit your track preference and secure your scholarship seat.
           </p>
         </div>
 
@@ -283,10 +283,44 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
 </html>
     `;
 
+    const textContent = `Dear ${studentName},
+
+Welcome to AGS Academys! Your student account has been created successfully.
+
+Your Account Details:
+- Registered Email: ${cleanEmail}
+- Student Portal: https://www.agsacademys.online/login.html
+- Student Dashboard: ${personalizedDashboardUrl}
+
+Training & Placement Program at AGS Academys:
+- 100% Placement Guidance: Mock interviews, ATS resumes, and capstone projects.
+- Companies Visit AGS Academys: Direct campus recruitment drives from our batches.
+- 1,000+ Students Placed in internships and full-time engineering roles.
+
+50% Academic Scholarship Grant (Nov 2 – Nov 8, 2026):
+As a new student, complete your course preference form below to claim your 50% scholarship:
+${GOOGLE_FORM_URL}
+
+24/7 AI Discuss & Doubt Forum:
+${personalizedAiDiscussUrl}
+
+If you have questions, reply directly to this email or write to agsacademys@gmail.com.
+
+Warm regards,
+Academic & Placement Cell
+AGS Academys
+https://www.agsacademys.online`;
+
+    const emailSubject = `Welcome to AGS Academys, ${studentName} – Your Student Account & Access Details`;
+
     const payload = {
         sender: {
-            name: senderName,
+            name: 'AGS Academys Academic Cell',
             email: senderEmail
+        },
+        replyTo: {
+            name: 'AGS Academys Support',
+            email: 'agsacademys@gmail.com'
         },
         to: [
             {
@@ -294,8 +328,15 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
                 name: studentName
             }
         ],
-        subject: `Welcome to AGS Academys — 50% Off Courses & Training & Placement Program (Nov 2 - Nov 8)`,
-        htmlContent: htmlContent
+        subject: emailSubject,
+        htmlContent: htmlContent,
+        textContent: textContent,
+        headers: {
+            'X-Mailin-Tag': 'student-welcome',
+            'X-Auto-Response-Suppress': 'OOF, AutoReply',
+            'Importance': 'high',
+            'Priority': 'urgent'
+        }
     };
 
     // 1. Try Brevo HTTPS API first (port 443)
@@ -339,10 +380,16 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
             });
 
             const info = await transporter.sendMail({
-                from: `"AGS Academys" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
+                from: `"AGS Academys Academic Cell" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
+                replyTo: 'agsacademys@gmail.com',
                 to: cleanEmail,
-                subject: payload.subject,
-                html: htmlContent
+                subject: emailSubject,
+                text: textContent,
+                html: htmlContent,
+                headers: {
+                    'X-Auto-Response-Suppress': 'OOF, AutoReply',
+                    'Importance': 'high'
+                }
             });
 
             console.log(`✅ [SMTP Fallback] Automated welcome email delivered to ${cleanEmail} (MessageId: ${info.messageId})`);
