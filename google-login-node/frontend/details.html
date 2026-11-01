@@ -162,10 +162,20 @@
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 text-center">
       
-      <!-- Status Badge -->
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-4">
-        <span class="pulse-dot"></span>
-        Cohort Enrollment Open &bull; 4 Months Intensive
+      <!-- Status Badge & Visitor Counter -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 text-xs font-bold uppercase tracking-wider">
+          <span class="pulse-dot"></span>
+          Cohort Enrollment Open &bull; 4 Months Intensive
+        </div>
+
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-800/90 border border-emerald-500/30 text-slate-200 text-xs font-medium shadow-inner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span><strong id="visitorCountDisplay" class="font-bold text-emerald-400 text-sm">593</strong> aspiring engineers visited so far</span>
+        </div>
       </div>
 
       <!-- Main Headline: Direct & Problematic -->
@@ -207,7 +217,7 @@
       </div>
 
       <!-- Quick Metrics Ribbon -->
-      <div class="mt-10 pt-6 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-4 text-center max-w-3xl mx-auto">
+      <div class="mt-10 pt-6 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-center max-w-4xl mx-auto">
         <div>
           <div class="text-xl sm:text-2xl font-black text-white">4 Months</div>
           <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Structured Track</div>
@@ -223,6 +233,12 @@
         <div>
           <div class="text-xl sm:text-2xl font-black text-amber-400">100% Live</div>
           <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Mentors &amp; 24/7 Doubts</div>
+        </div>
+        <div class="col-span-2 sm:col-span-1">
+          <div class="text-xl sm:text-2xl font-black text-indigo-400 flex items-center justify-center gap-0.5">
+            <span id="metricVisitorCount">593</span>+
+          </div>
+          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">Program Visitors</div>
         </div>
       </div>
 
@@ -779,6 +795,33 @@
         }
       }
     }
+  </script>
+
+  <!-- Live Visitor Counter Script -->
+  <script>
+    (function initVisitorCounter() {
+      const hasCountedSession = sessionStorage.getItem('tp_details_counted');
+      const actionParam = hasCountedSession ? 'get' : 'visit';
+      const apiEndpoint = (window.location.origin.includes(':5500') ? 'http://localhost:5000' : '') + '/api/visitors/training-placement?action=' + actionParam;
+
+      fetch(apiEndpoint)
+        .then(res => res.json())
+        .then(data => {
+          if (data && typeof data.count === 'number') {
+            sessionStorage.setItem('tp_details_counted', 'true');
+            const formatted = data.count.toLocaleString();
+            
+            const badgeEl = document.getElementById('visitorCountDisplay');
+            if (badgeEl) badgeEl.textContent = formatted;
+            
+            const metricEl = document.getElementById('metricVisitorCount');
+            if (metricEl) metricEl.textContent = formatted;
+          }
+        })
+        .catch(err => {
+          console.warn('Visitor counter notice:', err.message);
+        });
+    })();
   </script>
 
 </body>

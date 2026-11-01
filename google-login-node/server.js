@@ -185,6 +185,7 @@ const User = require('./models/User');
 const Otp = require('./models/Otp');
 const LoginLog = require('./models/LoginLog');
 const Contact = require('./models/Contact');
+const PageStats = require('./models/PageStats');
 
 
 // ==========================================================
@@ -2254,6 +2255,54 @@ app.get('/api/contacts', async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Error retrieving contact inquiries.'
+        });
+    }
+});
+
+// ==========================================================
+// VISITOR COUNTER - TRAINING CUM PLACEMENT DETAILS PAGE
+// Baseline starts at 593 and updates with real visitors
+// ==========================================================
+
+const BASELINE_TP_VISITORS = 593;
+let inMemoryTpCount = BASELINE_TP_VISITORS;
+
+app.get('/api/visitors/training-placement', async (req, res) => {
+    const isVisit = req.query.action === 'visit';
+    try {
+        let stat = await PageStats.findOne({ pageKey: 'training-placement-details' });
+        if (!stat) {
+            stat = await PageStats.create({
+                pageKey: 'training-placement-details',
+                count: BASELINE_TP_VISITORS
+            });
+        }
+
+        if (stat.count < BASELINE_TP_VISITORS) {
+            stat.count = BASELINE_TP_VISITORS;
+            await stat.save();
+        }
+
+        if (isVisit) {
+            stat.count += 1;
+            await stat.save();
+        }
+
+        inMemoryTpCount = stat.count;
+        return res.json({
+            success: true,
+            count: stat.count,
+            pageKey: stat.pageKey
+        });
+    } catch (err) {
+        console.warn('⚠️ PageStats DB warning, using in-memory counter:', err.message);
+        if (isVisit) {
+            inMemoryTpCount += 1;
+        }
+        return res.json({
+            success: true,
+            count: inMemoryTpCount,
+            fallback: true
         });
     }
 });
