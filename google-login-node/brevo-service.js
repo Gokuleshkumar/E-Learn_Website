@@ -3,6 +3,8 @@
  * AGS Academys
  */
 
+const nodemailer = require('nodemailer');
+
 const BREVO_API_URL = 'https://api.brevo.com/v3';
 
 /**
@@ -14,11 +16,7 @@ const BREVO_API_URL = 'https://api.brevo.com/v3';
  * @returns {Promise<Object|null>}
  */
 async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
-    const apiKey = process.env.BREVO_API_KEY;
-    if (!apiKey) {
-        console.warn('⚠️ BREVO_API_KEY is not defined in environment variables. Skipping welcome email.');
-        return null;
-    }
+    const apiKey = (process.env.BREVO_API_KEY || '').trim();
 
     const cleanEmail = (email || '').trim().toLowerCase();
     const studentName = (name || 'Student').trim();
@@ -300,30 +298,61 @@ async function sendWelcomeEmailViaBrevo({ email, name, phone }) {
         htmlContent: htmlContent
     };
 
-    try {
-        const response = await fetch(`${BREVO_API_URL}/smtp/email`, {
-            method: 'POST',
-            headers: {
-                'api-key': apiKey,
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
+    // 1. Try Brevo HTTPS API first (port 443)
+    if (apiKey) {
+        try {
+            const response = await fetch(`${BREVO_API_URL}/smtp/email`, {
+                method: 'POST',
+                headers: {
+                    'api-key': apiKey,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            console.log(`✅ [Brevo] Automated welcome email delivered to ${cleanEmail} (MessageId: ${data.messageId})`);
-            return data;
-        } else {
-            console.warn(`⚠️ [Brevo] Failed to send welcome email to ${cleanEmail}:`, data);
-            return null;
+            if (response.ok) {
+                console.log(`✅ [Brevo] Automated welcome email delivered to ${cleanEmail} (MessageId: ${data.messageId})`);
+                return data;
+            } else {
+                console.warn(`⚠️ [Brevo] Failed to send welcome email to ${cleanEmail}:`, data);
+            }
+        } catch (err) {
+            console.error(`🔥 [Brevo] Network error sending welcome email to ${cleanEmail}:`, err.message);
         }
-    } catch (err) {
-        console.error(`🔥 [Brevo] Network error sending welcome email to ${cleanEmail}:`, err.message);
-        return null;
+    } else {
+        console.warn('⚠️ BREVO_API_KEY is not defined in environment variables. Falling back to SMTP.');
     }
+
+    // 2. Fallback to Gmail SMTP if Brevo is unavailable or failed
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        try {
+            const cleanPass = (process.env.EMAIL_PASS || '').replace(/\s+/g, '');
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: (process.env.EMAIL_USER || '').trim(),
+                    pass: cleanPass
+                }
+            });
+
+            const info = await transporter.sendMail({
+                from: `"AGS Academys" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'agsacademys@gmail.com'}>`,
+                to: cleanEmail,
+                subject: payload.subject,
+                html: htmlContent
+            });
+
+            console.log(`✅ [SMTP Fallback] Automated welcome email delivered to ${cleanEmail} (MessageId: ${info.messageId})`);
+            return { messageId: info.messageId, provider: 'smtp' };
+        } catch (smtpErr) {
+            console.error(`🔥 [SMTP Fallback] Error sending welcome email to ${cleanEmail}:`, smtpErr.message);
+        }
+    }
+
+    return null;
 }
 
 /**

@@ -402,20 +402,19 @@ if (
 
                     const googleName = profile.displayName || (profile.name && `${profile.name.givenName || ''} ${profile.name.familyName || ''}`.trim()) || email.split('@')[0];
 
+                    let isNewUser = false;
                     if (!user) {
+                        isNewUser = true;
                         user = await User.create({
                             name: googleName,
                             displayName: googleName,
                             email: email,
                             googleId: profile.id,
                             authProvider: 'google',
+                            welcomeEmailSent: false,
                             lastLogin: new Date()
                         });
                         console.log(`✅ New user registered via Google: ${email}`);
-
-                        // Send automated Brevo welcome email & sync contact
-                        sendWelcomeEmailViaBrevo({ email: user.email, name: user.displayName || user.name }).catch(e => console.error('Brevo welcome err:', e));
-                        syncContactToBrevo({ email: user.email, name: user.displayName || user.name }).catch(e => console.error('Brevo sync err:', e));
                     } else {
                         if (!user.googleId) {
                             user.googleId = profile.id;
@@ -427,6 +426,7 @@ if (
                         await user.save();
                         console.log(`✅ Existing user logged in via Google: ${email}`);
                     }
+                    user._wasJustCreated = isNewUser;
 
                     try {
                         await LoginLog.create({
@@ -511,15 +511,19 @@ passport.deserializeUser(
 app.get(
     '/auth/google',
 
-    passport.authenticate(
-        'google',
-        {
-            scope: [
-                'profile',
-                'email'
-            ]
-        }
-    )
+    (req, res, next) => {
+        const flow = req.query.flow === 'signup' ? 'signup' : (req.query.source || 'default');
+        passport.authenticate(
+            'google',
+            {
+                scope: [
+                    'profile',
+                    'email'
+                ],
+                state: flow
+            }
+        )(req, res, next);
+    }
 );
 
 
@@ -552,13 +556,37 @@ app.get(
 
                 req.login(
                     user,
-                    loginErr => {
+                    async loginErr => {
 
                         if (loginErr) {
                             console.error('🔥 Google req.login session error:', loginErr);
                             return res.redirect(
                                 '/login.html?error=Session login failed'
                             );
+                        }
+
+                        // Determine if automated welcome email should be sent
+                        const isSignupFlow = (req.query && req.query.state === 'signup');
+                        const isNewUser = !!user._wasJustCreated;
+
+                        if (isNewUser || isSignupFlow || !user.welcomeEmailSent) {
+                            try {
+                                console.log(`📧 Dispatching automated welcome email to ${user.email} (Google auth)...`);
+                                await sendWelcomeEmailViaBrevo({
+                                    email: user.email,
+                                    name: user.displayName || user.name
+                                });
+                                syncContactToBrevo({
+                                    email: user.email,
+                                    name: user.displayName || user.name
+                                }).catch(e => console.error('Brevo sync err:', e));
+
+                                user.welcomeEmailSent = true;
+                                await user.save();
+                                console.log(`✅ Welcome email recorded for ${user.email}`);
+                            } catch (emailErr) {
+                                console.error('⚠️ Failed to send Google auth welcome email:', emailErr.message);
+                            }
                         }
 
                         const userDisp = encodeURIComponent(user.displayName || user.name || user.email);
@@ -1036,11 +1064,17 @@ app.post(
             } catch (_) {}
 
             // Send automated Brevo welcome email & sync to Brevo CRM Contacts
-            sendWelcomeEmailViaBrevo({
-                email: newUser.email,
-                name: newUser.name || newUser.displayName,
-                phone: newUser.phone
-            }).catch(e => console.error('Brevo welcome err:', e));
+            try {
+                await sendWelcomeEmailViaBrevo({
+                    email: newUser.email,
+                    name: newUser.name || newUser.displayName,
+                    phone: newUser.phone
+                });
+                newUser.welcomeEmailSent = true;
+                await newUser.save();
+            } catch (e) {
+                console.error('Brevo welcome err:', e);
+            }
 
             syncContactToBrevo({
                 email: newUser.email,
