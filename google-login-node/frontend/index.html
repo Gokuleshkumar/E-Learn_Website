@@ -229,13 +229,148 @@
     .course-card {
       border: 1px solid var(--line);
       background: #fff;
-      transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+      transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease, opacity .5s ease;
     }
 
     .course-card:hover {
       box-shadow: 0 18px 34px -16px rgba(20, 20, 23, .35);
       transform: translateY(-4px);
       border-color: #D9CDF8;
+    }
+
+    /* ---------- 3D Course Carousel ---------- */
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 40px 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      perspective: 1200px;
+    }
+
+    .carousel-slide {
+      flex: 0 0 340px;
+      max-width: 340px;
+      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  filter 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change: transform, opacity;
+    }
+
+    .carousel-slide.slide-left {
+      transform: translateX(-40px) scale(0.85) rotateY(8deg);
+      opacity: 0.4;
+      filter: blur(1.5px);
+      z-index: 1;
+    }
+
+    .carousel-slide.slide-center {
+      transform: translateX(0) scale(1.05);
+      opacity: 1;
+      filter: none;
+      z-index: 10;
+      box-shadow: 0 25px 60px -15px rgba(124, 58, 237, 0.3);
+    }
+
+    .carousel-slide.slide-right {
+      transform: translateX(40px) scale(0.85) rotateY(-8deg);
+      opacity: 0.4;
+      filter: blur(1.5px);
+      z-index: 1;
+    }
+
+    .carousel-slide.slide-hidden {
+      transform: scale(0.7);
+      opacity: 0;
+      filter: blur(3px);
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .carousel-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      border: 2px solid rgba(124, 58, 237, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .carousel-nav-btn:hover {
+      background: var(--purple);
+      border-color: var(--purple);
+      box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-nav-btn.btn-prev {
+      left: max(1rem, calc(50% - 600px));
+    }
+
+    .carousel-nav-btn.btn-next {
+      right: max(1rem, calc(50% - 600px));
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--line);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .carousel-dot.active {
+      background: var(--purple);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .carousel-slide {
+        flex: 0 0 280px;
+        max-width: 280px;
+      }
+      .carousel-slide.slide-left,
+      .carousel-slide.slide-right {
+        transform: scale(0.8);
+        opacity: 0.3;
+      }
+      .carousel-slide.slide-center {
+        transform: scale(1);
+      }
+      .carousel-nav-btn.btn-prev {
+        left: 0.5rem;
+      }
+      .carousel-nav-btn.btn-next {
+        right: 0.5rem;
+      }
     }
 
     .stars {
@@ -446,13 +581,13 @@
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Backend</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Java</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Python</span>
-      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Web Development</span>
+      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Full Stack Development</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Cybersecurity</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">AI</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">UI/UX</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Data Science</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Machine Learning</span>
-      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Quantum Computing</span>
+
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Problem Solving Using DSA</span>
     </div>
   </div>
@@ -460,256 +595,203 @@
   <div class="flex-grow">
 
     <!-- ================= COURSES ================= -->
-    <section id="courses" class="max-w-7xl mx-auto px-4 lg:px-6 py-16">
-      <div class="flex items-end justify-between mb-8 flex-wrap gap-3">
-        <div>
+    <section id="courses" class="py-16" style="background: linear-gradient(180deg, var(--paper) 0%, #fff 100%);">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6">
+        <div class="text-center mb-10">
           <h2 class="font-display font-700 text-3xl text-[var(--ink)]">Explore our courses</h2>
           <p class="text-[var(--ink-soft)] mt-1">Hand-picked programs, taught live, backed by an internship track.</p>
         </div>
-      </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="carousel-wrapper" id="courseCarousel">
+          <!-- Left Arrow -->
+          <button class="carousel-nav-btn btn-prev" onclick="carouselPrev()" aria-label="Previous course">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-        <!-- Front End -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="./course_image/fr_banner.jpg" alt="Front End Development" class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Front End Development</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">HTML, CSS, JavaScript and React — build responsive,
-              modern websites.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+          <!-- Track -->
+          <div class="carousel-track" id="carouselTrack">
+
+            <!-- Front End -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="0">
+              <div class="relative">
+                <img src="./course_image/fr_banner.jpg" alt="Front End Development" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Front End Development</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">HTML, CSS, JavaScript and React — build responsive, modern websites.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Back End -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="./course_image/ba_banner.webp" alt="Back End Development" class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Back End Development</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Node.js, Express, MongoDB and APIs to power
-              server-side apps.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Back End -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="1">
+              <div class="relative">
+                <img src="./course_image/ba_banner.webp" alt="Back End Development" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Back End Development</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Node.js, Express, MongoDB and APIs to power server-side apps.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Java -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="./course_image/java_banner.jpg" alt="Java Programming" class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Java Programming</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">OOP, collections and multithreading for robust
-              applications.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Java -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="2">
+              <div class="relative">
+                <img src="./course_image/java_banner.jpg" alt="Java Programming" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Java Programming</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">OOP, collections and multithreading for robust applications.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Python -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="./course_image/python_banner.webp" alt="Python Programming" class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Python Programming</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Fundamentals, automation, data analysis and AI/ML
-              foundations.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Python -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="3">
+              <div class="relative">
+                <img src="./course_image/python_banner.webp" alt="Python Programming" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Python Programming</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Fundamentals, automation, data analysis and AI/ML foundations.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Web Development -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2000" alt="Web Development"
-              class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Web Development</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Full-stack track combining frontend and backend to
-              ship complete web apps.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Full Stack Development -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="4">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2000" alt="Full Stack Development" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Full Stack Development</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Full-stack track combining frontend and backend to ship complete web apps.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Cybersecurity -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2000" alt="Cybersecurity"
-              class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Cybersecurity</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Network security, ethical hacking and threat defense
-              fundamentals.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Cybersecurity -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="5">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2000" alt="Cybersecurity" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Cybersecurity</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Network security, ethical hacking and threat defense fundamentals.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- AI -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=2000"
-              alt="Artificial Intelligence" class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Artificial Intelligence</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Machine learning, neural networks and applied AI
-              project building.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- AI -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="6">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=2000" alt="Artificial Intelligence" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Artificial Intelligence</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Machine learning, neural networks and applied AI project building.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- UI/UX -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2000" alt="UI/UX Design"
-              class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">UI/UX Design</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Wireframing, prototyping and Figma workflows for
-              product design.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- UI/UX -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="7">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2000" alt="UI/UX Design" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">UI/UX Design</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Wireframing, prototyping and Figma workflows for product design.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Data Science -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2000" alt="Data Science"
-              class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Data Science</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Statistics, data visualization and predictive modeling
-              with Python.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Data Science -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="8">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2000" alt="Data Science" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Data Science</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Statistics, data visualization and predictive modeling with Python.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Machine Learning -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2000" alt="Machine Learning"
-              class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Machine Learning</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Supervised and unsupervised learning, algorithms and
-              model deployment.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Machine Learning -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="9">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2000" alt="Machine Learning" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Machine Learning</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Supervised and unsupervised learning, algorithms and model deployment.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Quantum Computing -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000" alt="Quantum Computing"
-              class="w-full h-36 object-cover">
-          </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Quantum Computing</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Qubits, quantum algorithms, and next-generation
-              computing basics.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+            <!-- Problem Solving Using DSA -->
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="10">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000" alt="Problem Solving Using DSA" class="w-full h-44 object-cover">
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="font-display font-700 text-lg mb-1">Problem Solving Using DSA</h3>
+                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Master Data Structures & Algorithms for top tech interviews.</p>
+                <div class="flex gap-2 mt-auto">
+                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
+                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Problem Solving Using DSA -->
-        <div class="reveal course-card rounded-xl overflow-hidden cursor-pointer flex flex-col">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000"
-              alt="Problem Solving Using DSA" class="w-full h-36 object-cover">
           </div>
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-display font-700 text-base mb-1">Problem Solving Using DSA</h3>
-            <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Master Data Structures & Algorithms for top tech
-              interviews.</p>
-            <div class="flex gap-2 mt-auto">
-              <a href="login.html"
-                class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2 rounded-lg transition">Enroll
-                now</a>
-              <a href="login.html"
-                class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2 rounded-lg hover:border-[var(--ink)] transition">Details</a>
-            </div>
-          </div>
+
+          <!-- Right Arrow -->
+          <button class="carousel-nav-btn btn-next" onclick="carouselNext()" aria-label="Next course">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Dots -->
+          <div class="carousel-dots" id="carouselDots"></div>
         </div>
       </div>
-
-
-  </div>
-  </section>
+    </section>
 
   <!-- ================= INTERNSHIP CUM PLACEMENT BANNER ================= -->
   <section class="py-16 bg-white">
@@ -847,10 +929,10 @@
 
         <div
           class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
-          <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2000" alt="Web Development"
+          <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2000" alt="Full Stack Development"
             class="w-full md:w-48 h-32 object-cover rounded-xl">
           <div class="flex-1">
-            <h3 class="font-display font-700 text-lg">Web Development</h3>
+            <h3 class="font-display font-700 text-lg">Full Stack Development</h3>
             <p class="text-[var(--ink-soft)] mt-1 text-sm">Full-stack skills combining frontend and backend into
               shippable products.</p>
           </div>
@@ -945,22 +1027,7 @@
           </div>
         </div>
 
-        <div
-          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000" alt="Quantum Computing"
-            class="w-full md:w-48 h-32 object-cover rounded-xl">
-          <div class="flex-1">
-            <h3 class="font-display font-700 text-lg">Quantum Computing</h3>
-            <p class="text-[var(--ink-soft)] mt-1 text-sm">Next-gen computation, qubits, and advanced quantum
-              algorithms.</p>
-          </div>
-          <div
-            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
-            <p class="text-sm">Demand: <span class="font-semibold text-[var(--purple)]">Emerging</span></p>
-            <p class="text-sm text-[var(--ink-soft)]">Roles: Quantum Researcher, Algorithm Dev</p>
-            <p class="text-sm text-[var(--ink-soft)]">₹10–25 LPA · $120k–200k</p>
-          </div>
-        </div>
+
 
         <div
           class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
@@ -1059,7 +1126,7 @@
           <p class="text-sm text-[var(--ink-soft)] mb-4">From zero coding knowledge to building a full-stack e-commerce
             app. The journey was tough but completely worth it.</p>
           <p class="font-semibold text-sm">Riya Singh</p>
-          <p class="text-xs text-[var(--ink-soft)]">Web Development</p>
+          <p class="text-xs text-[var(--ink-soft)]">Full Stack Development</p>
         </div>
 
         <!-- DUPLICATE LIST (For Seamless Loop) -->
@@ -1110,7 +1177,7 @@
           <p class="text-sm text-[var(--ink-soft)] mb-4">From zero coding knowledge to building a full-stack e-commerce
             app. The journey was tough but completely worth it.</p>
           <p class="font-semibold text-sm">Riya Singh</p>
-          <p class="text-xs text-[var(--ink-soft)]">Web Development</p>
+          <p class="text-xs text-[var(--ink-soft)]">Full Stack Development</p>
         </div>
 
       </div>
@@ -1347,6 +1414,114 @@
         }
       }
     }
+
+    // ========== 3D Course Carousel ==========
+    (function initCarousel() {
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dotsContainer = document.getElementById('carouselDots');
+      const totalSlides = slides.length;
+      let currentIndex = 0;
+      let autoPlayInterval;
+
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot');
+        dot.setAttribute('aria-label', 'Go to course ' + (i + 1));
+        dot.addEventListener('click', function() {
+          goToSlide(i);
+          resetAutoPlay();
+        });
+        dotsContainer.appendChild(dot);
+      }
+
+      function updateCarousel() {
+        slides.forEach(function(slide, index) {
+          slide.classList.remove('slide-left', 'slide-center', 'slide-right', 'slide-hidden');
+          slide.style.position = '';
+          slide.style.pointerEvents = '';
+
+          var diff = index - currentIndex;
+          // Wrap around
+          if (diff > totalSlides / 2) diff -= totalSlides;
+          if (diff < -totalSlides / 2) diff += totalSlides;
+
+          if (diff === 0) {
+            slide.classList.add('slide-center');
+          } else if (diff === -1) {
+            slide.classList.add('slide-left');
+          } else if (diff === 1) {
+            slide.classList.add('slide-right');
+          } else {
+            slide.classList.add('slide-hidden');
+          }
+        });
+
+        // Update dots
+        var dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      function goToSlide(index) {
+        currentIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+        updateCarousel();
+      }
+
+      window.carouselNext = function() {
+        goToSlide(currentIndex + 1);
+        resetAutoPlay();
+      };
+
+      window.carouselPrev = function() {
+        goToSlide(currentIndex - 1);
+        resetAutoPlay();
+      };
+
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(function() {
+          goToSlide(currentIndex + 1);
+        }, 4000);
+      }
+
+      function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+      }
+
+      // Touch / swipe support
+      var touchStartX = 0;
+      var touchEndX = 0;
+      var carouselEl = document.getElementById('courseCarousel');
+
+      carouselEl.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      carouselEl.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        var diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            window.carouselNext();
+          } else {
+            window.carouselPrev();
+          }
+        }
+      }, { passive: true });
+
+      // Keyboard support
+      carouselEl.setAttribute('tabindex', '0');
+      carouselEl.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') { window.carouselNext(); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { window.carouselPrev(); e.preventDefault(); }
+      });
+
+      // Initialize
+      updateCarousel();
+      startAutoPlay();
+    })();
 
     // Load Live Visitor Count for Training & Placement Program
     (function loadTpVisitorCount() {
