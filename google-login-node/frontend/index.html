@@ -14,7 +14,7 @@
   <meta name="description"
     content="AGS Academys offers live cohort-based tech training and a 4-Month Training cum Placement Program with direct on-campus company recruitment. Learn skills, build real projects, and land your dream tech job." />
   <meta name="keywords"
-    content="AGS Academys, AGS Academys, AGS Academys Online, Learning & Getting Job, Training cum Placement Program, Web Development, Python, Java, AI, Data Science, Cyber Security, Campus Placement, Online Learning" />
+    content="AGS Academys, AGS Academys, AGS Academys Online, Learning & Getting Job, Training cum Placement Program, Full Stack Development, Python, Java, AI, Data Science, Campus Placement, Online Learning" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://agsacademys.online/" />
   <meta property="og:title" content="AGS Academys - Learning & Getting Job" />
@@ -243,7 +243,7 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      padding: 40px 0;
+      padding: 30px 0 20px 0;
     }
 
     .carousel-track {
@@ -251,24 +251,44 @@
       align-items: center;
       justify-content: center;
       gap: 0;
-      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
       perspective: 1200px;
     }
 
     .carousel-slide {
+      position: relative;
       flex: 0 0 340px;
       max-width: 340px;
-      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
-                  opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
-                  filter 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  filter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  box-shadow 0.5s ease;
       will-change: transform, opacity;
+      cursor: pointer;
+    }
+
+    /* Subtle shade overlay for side cards */
+    .carousel-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: rgba(15, 23, 42, 0.22);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 5;
     }
 
     .carousel-slide.slide-left {
-      transform: translateX(-40px) scale(0.85) rotateY(8deg);
-      opacity: 0.4;
-      filter: blur(1.5px);
-      z-index: 1;
+      transform: translateX(-25px) scale(0.9) rotateY(6deg);
+      opacity: 0.95;
+      filter: brightness(0.92);
+      z-index: 2;
+      box-shadow: 0 10px 25px -10px rgba(20, 20, 23, 0.18);
+    }
+
+    .carousel-slide.slide-left::after {
+      opacity: 1;
     }
 
     .carousel-slide.slide-center {
@@ -276,20 +296,29 @@
       opacity: 1;
       filter: none;
       z-index: 10;
-      box-shadow: 0 25px 60px -15px rgba(124, 58, 237, 0.3);
+      cursor: default;
+      box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.32), 0 0 0 1px rgba(124, 58, 237, 0.15);
+    }
+
+    .carousel-slide.slide-center::after {
+      opacity: 0;
     }
 
     .carousel-slide.slide-right {
-      transform: translateX(40px) scale(0.85) rotateY(-8deg);
-      opacity: 0.4;
-      filter: blur(1.5px);
-      z-index: 1;
+      transform: translateX(25px) scale(0.9) rotateY(-6deg);
+      opacity: 0.95;
+      filter: brightness(0.92);
+      z-index: 2;
+      box-shadow: 0 10px 25px -10px rgba(20, 20, 23, 0.18);
+    }
+
+    .carousel-slide.slide-right::after {
+      opacity: 1;
     }
 
     .carousel-slide.slide-hidden {
       transform: scale(0.7);
       opacity: 0;
-      filter: blur(3px);
       position: absolute;
       pointer-events: none;
       z-index: 0;
@@ -359,8 +388,8 @@
       }
       .carousel-slide.slide-left,
       .carousel-slide.slide-right {
-        transform: scale(0.8);
-        opacity: 0.3;
+        transform: scale(0.88);
+        opacity: 0.95;
       }
       .carousel-slide.slide-center {
         transform: scale(1);
@@ -582,7 +611,6 @@
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Java</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Python</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Full Stack Development</span>
-      <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Cybersecurity</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">AI</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">UI/UX</span>
       <span class="chip px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer">Data Science</span>
@@ -688,23 +716,8 @@
               </div>
             </div>
 
-            <!-- Cybersecurity -->
-            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="5">
-              <div class="relative">
-                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2000" alt="Cybersecurity" class="w-full h-44 object-cover">
-              </div>
-              <div class="p-5 flex flex-col flex-1">
-                <h3 class="font-display font-700 text-lg mb-1">Cybersecurity</h3>
-                <p class="text-sm text-[var(--ink-soft)] mb-5 flex-1">Network security, ethical hacking and threat defense fundamentals.</p>
-                <div class="flex gap-2 mt-auto">
-                  <a href="login.html" class="block text-center flex-1 bg-[var(--purple)] hover:bg-[var(--purple-deep)] text-white text-sm font-semibold py-2.5 rounded-lg transition">Enroll now</a>
-                  <a href="login.html" class="flex-1 text-center border border-[var(--line)] text-sm font-semibold py-2.5 rounded-lg hover:border-[var(--ink)] transition">Details</a>
-                </div>
-              </div>
-            </div>
-
             <!-- AI -->
-            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="6">
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="5">
               <div class="relative">
                 <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=2000" alt="Artificial Intelligence" class="w-full h-44 object-cover">
               </div>
@@ -719,7 +732,7 @@
             </div>
 
             <!-- UI/UX -->
-            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="7">
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="6">
               <div class="relative">
                 <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2000" alt="UI/UX Design" class="w-full h-44 object-cover">
               </div>
@@ -734,7 +747,7 @@
             </div>
 
             <!-- Data Science -->
-            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="8">
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="7">
               <div class="relative">
                 <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2000" alt="Data Science" class="w-full h-44 object-cover">
               </div>
@@ -749,7 +762,7 @@
             </div>
 
             <!-- Machine Learning -->
-            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="9">
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="8">
               <div class="relative">
                 <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2000" alt="Machine Learning" class="w-full h-44 object-cover">
               </div>
@@ -764,7 +777,7 @@
             </div>
 
             <!-- Problem Solving Using DSA -->
-            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="10">
+            <div class="carousel-slide course-card rounded-xl overflow-hidden flex flex-col" data-index="9">
               <div class="relative">
                 <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2000" alt="Problem Solving Using DSA" class="w-full h-44 object-cover">
               </div>
@@ -946,22 +959,6 @@
 
         <div
           class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
-          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2000" alt="Cybersecurity"
-            class="w-full md:w-48 h-32 object-cover rounded-xl">
-          <div class="flex-1">
-            <h3 class="font-display font-700 text-lg">Cybersecurity</h3>
-            <p class="text-[var(--ink-soft)] mt-1 text-sm">Network defense, ethical hacking and security operations.</p>
-          </div>
-          <div
-            class="w-full md:w-64 border-t md:border-t-0 md:border-l border-[var(--line)] pt-4 md:pt-0 md:pl-6 space-y-1">
-            <p class="text-sm">Demand: <span class="font-semibold text-[var(--green)]">High</span></p>
-            <p class="text-sm text-[var(--ink-soft)]">Roles: Security Analyst, SOC Engineer</p>
-            <p class="text-sm text-[var(--ink-soft)]">₹6–13 LPA · $90k–135k</p>
-          </div>
-        </div>
-
-        <div
-          class="reveal bg-[var(--paper)] border border-[var(--line)] rounded-2xl flex flex-col md:flex-row items-center p-5 md:p-6 gap-6">
           <img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=2000" alt="Artificial Intelligence"
             class="w-full md:w-48 h-32 object-cover rounded-xl">
           <div class="flex-1">
@@ -1116,13 +1113,6 @@
         </div>
         <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
           <div class="stars mb-2 text-yellow-500">★★★★★</div>
-          <p class="text-sm text-[var(--ink-soft)] mb-4">The ethical hacking modules are eye-opening. The practical labs
-            really solidify the network security concepts.</p>
-          <p class="font-semibold text-sm">Manoj Kumar</p>
-          <p class="text-xs text-[var(--ink-soft)]">Cybersecurity</p>
-        </div>
-        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
-          <div class="stars mb-2 text-yellow-500">★★★★★</div>
           <p class="text-sm text-[var(--ink-soft)] mb-4">From zero coding knowledge to building a full-stack e-commerce
             app. The journey was tough but completely worth it.</p>
           <p class="font-semibold text-sm">Riya Singh</p>
@@ -1164,13 +1154,6 @@
             land a job as a Junior Product Designer.</p>
           <p class="font-semibold text-sm">Kavya Iyer</p>
           <p class="text-xs text-[var(--ink-soft)]">UI/UX Design</p>
-        </div>
-        <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
-          <div class="stars mb-2 text-yellow-500">★★★★★</div>
-          <p class="text-sm text-[var(--ink-soft)] mb-4">The ethical hacking modules are eye-opening. The practical labs
-            really solidify the network security concepts.</p>
-          <p class="font-semibold text-sm">Manoj Kumar</p>
-          <p class="text-xs text-[var(--ink-soft)]">Cybersecurity</p>
         </div>
         <div class="border border-[var(--line)] rounded-xl p-5 bg-white w-80 flex-shrink-0 whitespace-normal shadow-sm">
           <div class="stars mb-2 text-yellow-500">★★★★★</div>
@@ -1421,7 +1404,7 @@
       const dotsContainer = document.getElementById('carouselDots');
       const totalSlides = slides.length;
       let currentIndex = 0;
-      let autoPlayInterval;
+      let isAnimating = false;
 
       // Create dots
       for (let i = 0; i < totalSlides; i++) {
@@ -1430,7 +1413,6 @@
         dot.setAttribute('aria-label', 'Go to course ' + (i + 1));
         dot.addEventListener('click', function() {
           goToSlide(i);
-          resetAutoPlay();
         });
         dotsContainer.appendChild(dot);
       }
@@ -1442,18 +1424,22 @@
           slide.style.pointerEvents = '';
 
           var diff = index - currentIndex;
-          // Wrap around
+          // Wrap around for circular track
           if (diff > totalSlides / 2) diff -= totalSlides;
           if (diff < -totalSlides / 2) diff += totalSlides;
 
           if (diff === 0) {
             slide.classList.add('slide-center');
+            slide.style.order = '2';
           } else if (diff === -1) {
             slide.classList.add('slide-left');
+            slide.style.order = '1';
           } else if (diff === 1) {
             slide.classList.add('slide-right');
+            slide.style.order = '3';
           } else {
             slide.classList.add('slide-hidden');
+            slide.style.order = '4';
           }
         });
 
@@ -1465,30 +1451,38 @@
       }
 
       function goToSlide(index) {
+        if (isAnimating) return;
+        isAnimating = true;
         currentIndex = ((index % totalSlides) + totalSlides) % totalSlides;
         updateCarousel();
+        setTimeout(function() {
+          isAnimating = false;
+        }, 400);
       }
 
       window.carouselNext = function() {
         goToSlide(currentIndex + 1);
-        resetAutoPlay();
       };
 
       window.carouselPrev = function() {
         goToSlide(currentIndex - 1);
-        resetAutoPlay();
       };
 
-      function startAutoPlay() {
-        autoPlayInterval = setInterval(function() {
-          goToSlide(currentIndex + 1);
-        }, 4000);
-      }
-
-      function resetAutoPlay() {
-        clearInterval(autoPlayInterval);
-        startAutoPlay();
-      }
+      // Allow clicking side cards to slide smoothly to them
+      slides.forEach(function(slide) {
+        slide.addEventListener('click', function(e) {
+          if (e.target.closest('a') || e.target.closest('button')) {
+            if (slide.classList.contains('slide-center')) return;
+          }
+          if (slide.classList.contains('slide-left')) {
+            e.preventDefault();
+            carouselPrev();
+          } else if (slide.classList.contains('slide-right')) {
+            e.preventDefault();
+            carouselNext();
+          }
+        });
+      });
 
       // Touch / swipe support
       var touchStartX = 0;
@@ -1518,9 +1512,8 @@
         if (e.key === 'ArrowLeft') { window.carouselPrev(); e.preventDefault(); }
       });
 
-      // Initialize
+      // Initial render (no timer set)
       updateCarousel();
-      startAutoPlay();
     })();
 
     // Load Live Visitor Count for Training & Placement Program
